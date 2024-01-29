@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <RecoilRoot>
       <Routes>
