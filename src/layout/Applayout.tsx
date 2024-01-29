@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Outlet } from 'react-router-dom';
 
-function Applayout() {
+const Applayout = () => {
   return (
     <div>
       <Navbar bg="dark" data-bs-theme="dark">
