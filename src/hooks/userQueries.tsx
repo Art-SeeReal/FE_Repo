@@ -5,7 +5,7 @@ import { UserData } from '../model/UserTypes';
 const login = async ({ id, pw }: UserData): Promise<UserData> => {
   console.log(id, pw);
   const response = await api.get('/login', { params: { id, pw } });
-  console.log(response);
+  console.log(response.data);
   return response.data;
 };
 

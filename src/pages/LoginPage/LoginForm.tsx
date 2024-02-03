@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLoginQuery } from '../../hooks/userQueries';
 import { UserState } from '../../recoil/atoms/userState';
 
@@ -57,6 +57,7 @@ const LoginForm = () => {
   const [pw, setPw] = useState('');
   const { isSuccess, refetch } = useLoginQuery({ id, pw });
   const setUserState = useSetRecoilState(UserState);
+  const userState = useRecoilValue(UserState);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -75,6 +76,10 @@ const LoginForm = () => {
       setUserState(true);
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    console.log(userState);
+  }, [userState]);
 
   return (
     <LoginPageWrapper>

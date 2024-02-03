@@ -3,7 +3,7 @@ import { RecoilRoot } from 'recoil';
 import { Route, Routes } from 'react-router-dom';
 import Applayout from './layout/Applayout';
 import HomePage from './pages/HomePage/HomePage';
-import LoginPage from './pages/LoginPage/LoginPage';
+import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 const App = () => {
