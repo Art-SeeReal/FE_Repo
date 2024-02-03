@@ -54,7 +54,7 @@ const Field = styled.input<Props>`
     if (size === SIZES.medium)
       return `
         max-width: 30rem;
-        font-size: var(--text-body);
+        font-size: var(--text-body-1);
       `;
     if (size === SIZES.large)
       return `
