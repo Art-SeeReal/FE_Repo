@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Logo = styled.img<Props>`
-  width: ${({ $width }) => ($width ? `${$width}` : `12rem`)};
+  width: ${({ $width }) => ($width ? `${$width}` : `8rem`)};
   height: auto;
 
   ${({ $grayscale }) => $grayscale && `filter: grayscale(100%)`};
