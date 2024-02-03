@@ -1,4 +1,5 @@
 import { createGlobalStyle, css } from 'styled-components';
+import { NanumSquare } from './FontStyles';
 
 const ResetStyles = css`
   * {
@@ -49,11 +50,16 @@ const ResetStyles = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
+  ul,
+  ol {
+    list-style: none;
+  }
 `;
 
 const DefaultStyles = css`
   :root {
     --x-spacing: 0 2rem;
+    --spacing: 2rem;
     --content-width: 1320px;
 
     --title-1: 3.4rem;
@@ -64,7 +70,8 @@ const DefaultStyles = css`
     --sub-title-2: 2.6rem;
     --sub-title-3: 2.2rem;
 
-    --text-body: 1.6rem;
+    --text-body-1: 1.6rem;
+    --text-body-2: 1.4rem;
     --text-caption: 1.2rem;
 
     --color-primary: #000;
@@ -87,6 +94,7 @@ const DefaultStyles = css`
 
 const GlobalStyles = createGlobalStyle`
   ${ResetStyles}
+  ${NanumSquare}
   ${DefaultStyles}
 `;
 
