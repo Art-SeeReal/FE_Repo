@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSetRecoilState } from 'recoil';
-import { useLoginQuery } from '../hooks/userQueries';
-import { UserState } from '../recoil/atoms/userState';
+import { useLoginQuery } from '../../hooks/userQueries';
+import { UserState } from '../../recoil/atoms/userState';
 
 const LoginPageWrapper = styled.div`
   display: flex;
