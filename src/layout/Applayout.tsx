@@ -1,12 +1,16 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import GlobalStyles from './GlobalStyles';
+import GlobalStyles from './styles/GlobalStyles';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
 
 const Applayout = () => {
   return (
     <>
       <GlobalStyles />
+      <Header />
       <Outlet />
+      <Footer />
     </>
   );
 };
