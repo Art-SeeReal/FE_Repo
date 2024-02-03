@@ -11,7 +11,8 @@ const STYLES = {
   primary: 'primary',
   secondary: 'secondary',
   border: 'border',
-};
+  link: 'link',
+} as const;
 
 type SIZES = (typeof SIZES)[keyof typeof SIZES];
 type STYLES = (typeof STYLES)[keyof typeof STYLES];
@@ -46,17 +47,17 @@ const Button = styled.button<Props>`
     if ($size === SIZES.small)
       return `
         max-width: 10rem;
-        font-$size: var(--text-caption);
+        font-size: var(--text-body-2);
       `;
     if ($size === SIZES.medium)
       return `
         max-width: 16rem;
-        font-$size: var(--text-body);
+        font-size: var(--text-body-1);
       `;
     if ($size === SIZES.large)
       return `
         max-width: 20rem;
-        font-$size: var(--sub-title-3);
+        font-size: var(--sub-title-3);
       `;
 
     return null;
@@ -98,6 +99,16 @@ const Button = styled.button<Props>`
           background-position: right center;
         }
     `;
+
+    if ($style === STYLES.link)
+      return `
+        max-width: none;
+        transition: background 0.4s ease;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, .1)
+        }
+      `;
 
     return null;
   }};
