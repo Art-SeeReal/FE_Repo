@@ -20,6 +20,6 @@ const Applayout = () => {
       <Outlet />
     </div>
   );
-}
+};
 
 export default Applayout;
