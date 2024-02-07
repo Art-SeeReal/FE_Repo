@@ -5,6 +5,7 @@ import Applayout from './layout/Applayout';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import FindIdPwPage from './pages/FindIdPwPage/FindIdPwPage';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/" element={<Applayout />}>
           <Route index element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/findIdPw" element={<FindIdPwPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
