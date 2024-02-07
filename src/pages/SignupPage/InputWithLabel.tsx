@@ -2,9 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface InputWithLabelProps {
+  id: string;
   label: string;
   placeholder: string;
   type: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  text: string;
+  inputRef?: React.RefObject<HTMLInputElement> | null;
 }
 
 const InputWrapper = styled.div`
@@ -35,15 +39,22 @@ const StyledDivider = styled.div`
   margin: 10px 0;
 `;
 
-const InputWithLabel = ({ label, placeholder, type }: InputWithLabelProps) => {
+const InputWithLabel = ({ id, label, placeholder, type, onChange, text, inputRef }: InputWithLabelProps) => {
   return (
     <InputWrapper>
-      <StyledLabel>{label}</StyledLabel>
+      <StyledLabel>
+        {label}
+        {text}
+      </StyledLabel>
       <StyledDivider />
-      <StyledInput type={type} placeholder={placeholder} />
+      <StyledInput id={id} type={type} placeholder={placeholder} onChange={onChange} ref={inputRef} />
       <StyledDivider />
     </InputWrapper>
   );
+};
+
+InputWithLabel.defaultProps = {
+  inputRef: null,
 };
 
 export default InputWithLabel;
