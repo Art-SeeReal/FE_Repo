@@ -65,13 +65,14 @@ const ConsentPage = () => {
   };
 
   const handleButtonClick = () => {
-    if (!allChecked) {
-      // 만약 모두 동의가 아니라면, 체크되지 않은 체크박스에 포커스를 줌
-      if (!term1Checked && term1CheckboxRef.current) term1CheckboxRef.current.focus();
-      else if (!term2Checked && term2CheckboxRef.current) term2CheckboxRef.current.focus();
-      else if (!term3Checked && term3CheckboxRef.current) term3CheckboxRef.current.focus();
-    } else {
+    if (term1Checked && term2Checked && term3Checked) {
       navigate('/signUp');
+    } else if (!term1Checked && term1CheckboxRef.current) {
+      term1CheckboxRef.current.focus();
+    } else if (!term2Checked && term2CheckboxRef.current) {
+      term2CheckboxRef.current.focus();
+    } else if (!term3Checked && term3CheckboxRef.current) {
+      term3CheckboxRef.current.focus();
     }
   };
 
