@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import SignupPage from './pages/SignupPage';
+import ConsentPage from './pages/ConsentPage';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route index element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signUp" element={<SignupPage />} />
+          <Route path="/agree" element={<ConsentPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
