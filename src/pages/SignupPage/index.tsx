@@ -14,7 +14,7 @@ import {
   isValidPassWord,
   isValidPhoneNum,
 } from '../../utils/Validation';
-import { registerUser } from '../../hooks/userQueries';
+import { fetchRegisterUser } from '../../hooks/userQueries';
 
 interface DividerProps {
   height?: string;
@@ -135,7 +135,7 @@ const SignupPage = () => {
     setLocation(e.target.value);
   };
 
-  const { mutate: register } = useMutation(registerUser, {
+  const { mutate: register } = useMutation(fetchRegisterUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('user');
       alert('회원가입 성공');
