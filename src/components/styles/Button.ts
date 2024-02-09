@@ -17,7 +17,7 @@ const STYLES = {
 type SIZES = (typeof SIZES)[keyof typeof SIZES];
 type STYLES = (typeof STYLES)[keyof typeof STYLES];
 
-interface Props {
+export interface Props {
   children: ReactNode;
   $size?: SIZES;
   $style?: STYLES;
@@ -32,7 +32,6 @@ const Button = styled.button<Props>`
   width: 100%;
   padding: 0.75em 1em;
   border-radius: 0.8rem;
-  color: #fff;
 
   ${({ disabled }) =>
     disabled &&
@@ -66,24 +65,26 @@ const Button = styled.button<Props>`
   ${({ $style }) => {
     if ($style === STYLES.primary)
       return `
-      background-image: linear-gradient(120deg, #fa9ee9, #b87eea 70%, #81fee9);
-      background-size: 200% auto;
-      transition: background 0.4s ease;
+        color: #000;
+        background-image: linear-gradient(120deg, #fa9ee9, #b87eea 70%, #81fee9);
+        background-size: 200% auto;
+        transition: background 0.4s ease;
 
-      &:hover {
-        background-position: right center;
-      }
-    `;
+        &:hover {
+          background-position: right center;
+        }
+      `;
 
     if ($style === STYLES.secondary)
       return `
-      background: rgba(0, 0, 0);
-      transition: background 0.4s ease;
+        color: #000;
+        background: rgba(0, 0, 0);
+        transition: background 0.4s ease;
 
-      &:hover {
-        background: rgba(0, 0, 0, .8);
-      }
-    `;
+        &:hover {
+          background: rgba(0, 0, 0, .8);
+        }
+      `;
 
     if ($style === STYLES.border)
       return `
@@ -114,9 +115,11 @@ const Button = styled.button<Props>`
   }};
 `;
 
-Button.defaultProps = {
+export const defaultProps = {
   $size: SIZES.medium,
   $style: STYLES.primary,
 };
+
+Button.defaultProps = defaultProps;
 
 export default Button;
