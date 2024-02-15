@@ -12,6 +12,7 @@ const STYLES = {
   secondary: 'secondary',
   border: 'border',
   link: 'link',
+  linkWhite: 'linkWhite',
 } as const;
 
 type SIZES = (typeof SIZES)[keyof typeof SIZES];
@@ -25,13 +26,14 @@ export interface Props {
   disabled?: boolean;
 }
 
-const Button = styled.button<Props>`
+export const Button = styled.button<Props>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 0.75em 1em;
+  padding: 1em;
   border-radius: 0.8rem;
+  line-height: 1;
 
   ${({ disabled }) =>
     disabled &&
@@ -39,8 +41,6 @@ const Button = styled.button<Props>`
       opacity: .5;
       cursor: no-drop;
   `};
-
-  ${({ $block }) => $block && `max-width: none`};
 
   ${({ $size }) => {
     if ($size === SIZES.small)
@@ -62,10 +62,12 @@ const Button = styled.button<Props>`
     return null;
   }};
 
+  ${({ $block }) => $block && `max-width: none`};
+
   ${({ $style }) => {
     if ($style === STYLES.primary)
       return `
-        color: #000;
+        color: #fff;
         background-image: linear-gradient(120deg, #fa9ee9, #b87eea 70%, #81fee9);
         background-size: 200% auto;
         transition: background 0.4s ease;
@@ -77,7 +79,7 @@ const Button = styled.button<Props>`
 
     if ($style === STYLES.secondary)
       return `
-        color: #000;
+        color: #fff;
         background: rgba(0, 0, 0);
         transition: background 0.4s ease;
 
@@ -103,11 +105,25 @@ const Button = styled.button<Props>`
 
     if ($style === STYLES.link)
       return `
+        width: auto;
         max-width: none;
+        color: #000;
         transition: background 0.4s ease;
 
         &:hover {
-          background-color: rgba(255, 255, 255, .1)
+          background: rgba(0, 0, 0, .1);
+        }
+      `;
+
+    if ($style === STYLES.linkWhite)
+      return `
+        width: auto;
+        max-width: none;
+        color: #fff;
+        transition: background 0.4s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, .1);
         }
       `;
 
@@ -121,5 +137,3 @@ export const defaultProps = {
 };
 
 Button.defaultProps = defaultProps;
-
-export default Button;

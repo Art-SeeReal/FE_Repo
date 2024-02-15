@@ -3,15 +3,13 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { RiMoreLine } from '@remixicon/react';
 import Slider from '../../components/Slider';
-import StyledTitle from '../../components/styles/Title';
-import StyledButtonRouter from '../../components/styles/ButtonRouter';
-import StyledRoundBox from '../../components/styles/RoundBox';
+import * as S from '../../components/styles';
 
 const StyledSection = styled.section`
   padding: 6rem 0;
 `;
 
-const StyledThumb = styled(StyledRoundBox)`
+const StyledThumb = styled(S.RoundBox)`
   position: relative;
   padding-top: 100%;
 
@@ -54,7 +52,7 @@ interface Props {
 
 const SectionCarousel = ({ title, data, routerPath }: Props) => (
   <StyledSection>
-    <StyledTitle $size="large">{title}</StyledTitle>
+    <S.Title $size="large">{title}</S.Title>
     <Slider
       options={{
         slidesPerView: 3,
@@ -77,9 +75,9 @@ const SectionCarousel = ({ title, data, routerPath }: Props) => (
       ))}
     </Slider>
     <div className="mt-5 text-right">
-      <StyledButtonRouter $style="border" to={routerPath}>
+      <S.ButtonRouter $style="border" to={routerPath}>
         View more <RiMoreLine />
-      </StyledButtonRouter>
+      </S.ButtonRouter>
     </div>
   </StyledSection>
 );

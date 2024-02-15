@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Container from '../styles/Container';
-import StyeldLogo from '../styles/Logo';
 import FooterPolicy from './FooterPolicy';
+import * as S from '../styles';
 
 const StyeldFooter = styled.footer`
   display: flex;
@@ -11,7 +10,7 @@ const StyeldFooter = styled.footer`
   color: #fff;
 `;
 
-const StyledFooterContainer = styled(Container)`
+const StyledFooterContainer = styled(S.Container)`
   display: flex;
   align-items: flex-start;
   gap: 4rem;
@@ -31,7 +30,7 @@ const StyledCopyright = styled.p`
 const Footer = () => (
   <StyeldFooter>
     <StyledFooterContainer>
-      <StyeldLogo $grayscale />
+      <S.Logo $grayscale />
 
       <div>
         <StyledAddress>

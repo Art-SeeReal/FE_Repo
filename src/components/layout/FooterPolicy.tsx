@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import StyleButton from '../styles/Button';
+import * as S from '../styles';
 
 const StyledPolicyWrapper = styled.div`
   margin-left: auto;
@@ -8,7 +8,7 @@ const StyledPolicyWrapper = styled.div`
 
 const FooterPolicy = () => (
   <StyledPolicyWrapper>
-    <StyleButton $style="link">개인정보처리방침</StyleButton>
+    <S.Button $style="linkWhite">개인정보처리방침</S.Button>
   </StyledPolicyWrapper>
 );
 

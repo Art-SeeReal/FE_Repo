@@ -12,7 +12,7 @@ interface Props {
   $size?: keyof typeof SIZES;
 }
 
-const Title = styled.h1<Props>`
+export const Title = styled.h1<Props>`
   margin-bottom: 1em;
 
   ${({ $center }) => $center && `text-align: center`};
@@ -37,5 +37,3 @@ Title.defaultProps = {
   $size: SIZES.medium,
   $bold: true,
 };
-
-export default Title;

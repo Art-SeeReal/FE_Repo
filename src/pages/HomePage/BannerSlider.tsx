@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Slider from '../../components/Slider';
-import StyledContainer from '../../components/styles/Container';
-import { useFetchBanners } from '../../hooks/bannerQueries';
+import * as S from '../../components/styles';
+import { useFetchBanners } from '../../hooks/useBannerQuery';
 
 const StyledBanner = styled.div`
   position: relative;
@@ -22,7 +22,7 @@ const BannerSlider = () => {
   const { data } = useFetchBanners();
 
   return (
-    <StyledContainer $paddingBottom="6rem">
+    <S.Container $paddingBottom="6rem">
       <Slider
         options={{
           effect: 'fade',
@@ -36,7 +36,7 @@ const BannerSlider = () => {
           </StyledBanner>
         ))}
       </Slider>
-    </StyledContainer>
+    </S.Container>
   );
 };
 

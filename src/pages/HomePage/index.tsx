@@ -1,61 +1,23 @@
-import React, { ChangeEvent } from 'react';
-import StyledButton from '../../components/styles/Button';
-import StyledField from '../../components/styles/Field';
-import FormControl from '../../components/FormControl';
-import StyeldLogo from '../../components/styles/Logo';
+import React from 'react';
+import BannerSlider from './BannerSlider';
+import * as S from '../../components/styles';
+import SectionCarousel from './SectionCarousel';
+import { useFetchLatestPortfolios } from '../../hooks/usePortfolioQuery';
+import { useFetchLatestRecruits } from '../../hooks/useRecruitQuery';
 
 const HomePage = () => {
+  const { data: latestPortfolios } = useFetchLatestPortfolios();
+  const { data: latestRecruits } = useFetchLatestRecruits();
+
   return (
     <>
-      <StyeldLogo />
-      <StyeldLogo $width="90px" $grayscale />
-
-      <FormControl label="아이디" htmlFor="userid" required error>
-        <StyledField id="userid" />
-      </FormControl>
-      <FormControl label="비밀번호" htmlFor="userpassword" required>
-        <StyledField id="userpassword" />
-      </FormControl>
-
-      <div>
-        <StyledButton $size="large">1</StyledButton>
-        <StyledButton $size="large" $style="border">
-          2
-        </StyledButton>
-        <StyledButton $size="large" $style="secondary">
-          3
-        </StyledButton>
-        <StyledButton $size="large" disabled>
-          1
-        </StyledButton>
-        <StyledButton $size="large" $style="border" disabled>
-          2
-        </StyledButton>
-        <StyledButton $size="large" $style="secondary" disabled>
-          3
-        </StyledButton>
-      </div>
-
-      <div>
-        <StyledField
-          size="small"
-          placeholder="핸드폰번호 입력"
-          onChange={(e: ChangeEvent) => console.log(e.target)}
-          $block={false}
-          $error
-        />
-        <StyledField
-          placeholder="핸드폰번호 입력"
-          onChange={(e: ChangeEvent) => console.log(e.target)}
-          $block={false}
-        />
-        <StyledField as="textarea" defaultValue="Textarea^^" />
-        <StyledField as="select" $error defaultValue="2">
-          <option value="">선택하세요</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-        </StyledField>
-      </div>
+      <BannerSlider />
+      <S.Container $paddingBottom>
+        {latestPortfolios && (
+          <SectionCarousel title="예술가 포트폴리오" data={latestPortfolios} routerPath="/portfolios" />
+        )}
+        {latestRecruits && <SectionCarousel title="기획자 공고" data={latestRecruits} routerPath="/recruits" />}
+      </S.Container>
     </>
   );
 };

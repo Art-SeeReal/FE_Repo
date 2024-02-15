@@ -1,12 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
-import Label from './styles/Label';
+import * as S from './styles';
 
 interface Props {
   label: string;
   htmlFor: string;
   required?: boolean;
-  error?: boolean;
+  error?: ReactElement;
   children: ReactNode;
 }
 
@@ -22,7 +22,7 @@ const StyledFormControl = styled.div`
 const FormControl = ({ label, htmlFor, required, error, children }: Props) => {
   return (
     <StyledFormControl>
-      <Label htmlFor={htmlFor}>{label}</Label>
+      <S.Label htmlFor={htmlFor}>{label}</S.Label>
       {required && <sup className="required">*</sup>}
       {children}
       {error && error}

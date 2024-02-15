@@ -6,7 +6,7 @@ interface Props {
   $grayscale?: boolean;
 }
 
-const Logo = styled.img<Props>`
+export const Logo = styled.img<Props>`
   width: ${({ $width }) => ($width ? `${$width}` : `8rem`)};
   height: auto;
 
@@ -17,5 +17,3 @@ Logo.defaultProps = {
   src: logoImg,
   alt: 'Art-SeeReal Logo',
 };
-
-export default Logo;

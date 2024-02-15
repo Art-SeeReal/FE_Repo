@@ -5,7 +5,7 @@ interface Props {
   $paddingBottom?: boolean | string;
 }
 
-const Container = styeld.div<Props>`
+export const Container = styeld.div<Props>`
     max-width: var(--content-width);
     margin: 0 auto;
     ${({ $paddingTop }) => {
@@ -33,5 +33,3 @@ const Container = styeld.div<Props>`
       return null;
     }};
 `;
-
-export default Container;

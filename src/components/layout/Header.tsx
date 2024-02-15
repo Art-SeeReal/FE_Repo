@@ -2,7 +2,7 @@ import React from 'react';
 import styeld from 'styled-components';
 import { Link } from 'react-router-dom';
 import HeaderNav from './HeaderNav';
-import StyledLogo from '../styles/Logo';
+import * as S from '../styles';
 
 const StyeldHeader = styeld.header`
     display: flex;
@@ -17,7 +17,7 @@ const Header = () => (
   <StyeldHeader>
     <h1>
       <Link to="/">
-        <StyledLogo />
+        <S.Logo />
       </Link>
     </h1>
     <HeaderNav />
