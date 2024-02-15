@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { useLoginQuery } from '../../hooks/userQueries';
 import { UserState } from '../../recoil/atoms/userState';
 
@@ -58,6 +59,7 @@ const LoginForm = () => {
   const { isSuccess, refetch } = useLoginQuery({ id, pw });
   const setUserState = useSetRecoilState(UserState);
   const userState = useRecoilValue(UserState);
+  const navigate = useNavigate();
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -74,8 +76,9 @@ const LoginForm = () => {
   useEffect(() => {
     if (isSuccess) {
       setUserState(true);
+      navigate('/private');
     }
-  }, [isSuccess]);
+  }, [isSuccess, setUserState]);
 
   useEffect(() => {
     console.log(userState);
