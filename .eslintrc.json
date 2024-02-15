@@ -23,7 +23,7 @@
     "no-unused-vars": ["off"],
     "no-console": ["off"],
     "import/prefer-default-export": ["off"],
-    "react-hooks/exhaustive-deps": ["warn"],
+    "react-hooks/exhaustive-deps": ["off"],
     "react/function-component-definition": "off",
     "react/jsx-filename-extension": "off",
     "import/extensions": [
@@ -35,10 +35,16 @@
           "ts": "never",
           "tsx": "never"
         }
-      ]
+      ],
+    "react/button-has-type": "off",
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-promise-executor-return": "off"
   },
   "settings": {
     "import/resolver": {
+      "typescript": {},
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
