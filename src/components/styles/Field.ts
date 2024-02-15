@@ -10,13 +10,14 @@ const SIZES = {
 type SIZES = (typeof SIZES)[keyof typeof SIZES];
 
 interface Props {
+  as: 'input' | 'textarea' | 'select';
   children?: ReactNode;
-  size?: SIZES;
+  $size?: SIZES;
   $block?: boolean;
   $error?: boolean;
 }
 
-const Field = styled.input<Props>`
+export const Field = styled.input<Props>`
   display: inline-flex;
   align-items: center;
   width: 100%;
@@ -45,21 +46,21 @@ const Field = styled.input<Props>`
     `;
   }}
 
-  ${({ size }) => {
-    if (size === SIZES.small)
+  ${({ $size }) => {
+    if ($size === SIZES.small)
       return `
         max-width: 20rem;
-        font-size: var(--text-caption);
+        font-$size: var(--text-caption);
       `;
-    if (size === SIZES.medium)
+    if ($size === SIZES.medium)
       return `
         max-width: 30rem;
-        font-size: var(--text-body-1);
+        font-$size: var(--text-body-1);
       `;
-    if (size === SIZES.large)
+    if ($size === SIZES.large)
       return `
         max-width: 60rem;
-        font-size: var(--sub-title-3);
+        font-$size: var(--sub-title-3);
       `;
 
     return null;
@@ -69,8 +70,6 @@ const Field = styled.input<Props>`
 `;
 
 Field.defaultProps = {
-  size: SIZES.medium,
+  $size: SIZES.medium,
   $block: true,
 };
-
-export default Field;
