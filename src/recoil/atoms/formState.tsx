@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atomFamily } from 'recoil';
 
 const STATE_KEY = {
   form: 'form',
@@ -8,17 +8,11 @@ interface IData<T> {
   [key: string]: T;
 }
 
-interface Form {
-  values: IData<string>;
-  errors: IData<string>;
-  touched: IData<boolean>;
-}
-
-export const formState = atom<Form>({
+export const formState = atomFamily({
   key: STATE_KEY.form,
-  default: {
-    values: {},
+  default: (initialValue: IData<string>) => ({
+    values: initialValue,
     errors: {},
     touched: {},
-  },
+  }),
 });
