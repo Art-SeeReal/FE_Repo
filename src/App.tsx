@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RecoilRoot } from 'recoil';
 import { Route, Routes } from 'react-router-dom';
-import AppLayout from './layout/AppLayout';
+import AppLayout from './layout/Applayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
