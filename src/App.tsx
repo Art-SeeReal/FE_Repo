@@ -1,24 +1,34 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RecoilRoot } from 'recoil';
 import { Route, Routes } from 'react-router-dom';
-import Applayout from './layout/Applayout';
-import HomePage from './pages/HomePage/HomePage';
+import AppLayout from './layout/Applayout';
+import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import TestPage from './pages/TestPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
+
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <RecoilRoot>
-      <Routes>
-        <Route path="/" element={<Applayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/private" element={<PrivatePage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/test" element={<TestPage />} />
+            <Route path="/private" element={<PrivatePage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </RecoilRoot>
+
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 

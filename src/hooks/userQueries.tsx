@@ -1,17 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
-import api from '../utils/api';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { UserData } from '../model/UserTypes';
+import { fetchLogIn } from '../api/login';
 
-const fetchLogIn = async ({ id, pw }: UserData): Promise<UserData> => {
-  console.log(id, pw);
-  const response = await api.get('/login', { params: { id, pw } });
-  console.log(response.data);
-  return response.data;
-};
+const QUERY_KEY = {
+  logIn: 'logIn',
+} as const;
 
-export const useLoginQuery = ({ id, pw }: UserData) => {
+export const useLogInQuery: (data: UserData) => UseQueryResult<UserData> = ({ id, pw }: UserData) => {
   return useQuery({
-    queryKey: ['LOG_IN', id, pw],
+    queryKey: [QUERY_KEY.logIn, id, pw],
     queryFn: () => fetchLogIn({ id, pw }),
     enabled: false,
   });
