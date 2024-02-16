@@ -25,7 +25,7 @@ const SecondPage = () => {
   return (
     <>
       <S.Title>로그인</S.Title>
-      <Form id="login-form" initialValue={{ userId: '123', userPw: '123' }} validate={validate} onSubmit={handleSubmit}>
+      <Form id="login-form" initialValue={{ userId: '', userPw: '' }} validate={validate} onSubmit={handleSubmit}>
         <FormControl label="아이디" htmlFor="userId" required error={<ErrorMessage name="userId" />}>
           <Field id="userId" name="userId" type="text" placeholder="아이디" />
         </FormControl>
