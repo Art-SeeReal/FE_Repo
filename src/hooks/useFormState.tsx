@@ -16,7 +16,7 @@ interface FormHookArgs {
 }
 
 export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
-  const [form, setForm] = useRecoilState(formState);
+  const [form, setForm] = useRecoilState(formState(initialValue));
 
   const handleChange = (e: ChangeEvent<FormTypes>) => {
     setForm(() => ({ ...form, values: { ...form.values, [e.target.name]: e.target.value } }));
@@ -34,10 +34,8 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
       touched: Object.keys(form.values).reduce((touched, field) => {
         return { ...touched, [field]: true };
       }, {}),
+      errors: validate(form.values),
     }));
-
-    // Issue 2. setForm이 비동기로 동작해서 errors를 확인하는 if구문이 이전 값을 비교하는 이슈
-    setForm(() => ({ ...form, errors: validate(form.values) }));
 
     // 만약 errors의 값이 하나라도 있다면 Submit 막음.
     if (Object.values(form.errors).some(Boolean)) {
@@ -58,20 +56,12 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     return { name, value, onBlur, onChange };
   };
 
-  // Issue 1. useEffect 훅 에서 recoil State의 기본값을 지정해주는 것 말고, 다른 방법은 없는지
-  // 아래 주석처리 된 hook과 함께 실행 돼서 initialValue값 덮어씌워지는 이슈
   React.useEffect(() => {
-    console.log('effect1', form.values);
-    setForm(() => ({ ...form, values: initialValue }));
-  }, []);
-
-  // React.useEffect(() => {
-  //   console.log('effect2', form.values);
-  //   setForm(() => ({
-  //     ...form,
-  //     errors: validate(form.values),
-  //   }));
-  // }, [form.values]);
+    setForm(() => ({
+      ...form,
+      errors: validate(form.values),
+    }));
+  }, [form.values]);
 
   return {
     ...form,
