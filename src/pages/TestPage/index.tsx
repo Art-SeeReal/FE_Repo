@@ -1,11 +1,11 @@
 import React from 'react';
-import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormQuery';
+import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 
 const SecondPage = () => {
   const handleSubmit = (values: IData<string>) => {
-    console.log('## secondPage', values);
+    console.log('## Submit Query', values);
   };
 
   const validate = (values: IData<string>) => {
