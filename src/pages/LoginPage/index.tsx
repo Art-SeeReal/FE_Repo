@@ -6,7 +6,7 @@ import { useLogInQuery } from '../../hooks/userQueries';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
-import { UserState } from '../../recoil/atoms/userState';
+import { userState } from '../../recoil/atoms/userState';
 
 const LoginPageWrapper = styled.div`
   width: 800px;
@@ -19,7 +19,7 @@ const LoginPage = () => {
   const [pw, setPw] = useState<string>('');
   const navigate = useNavigate();
   const { isSuccess, refetch, data } = useLogInQuery({ id, pw });
-  const setUserState = useSetRecoilState(UserState);
+  const setUserState = useSetRecoilState(userState);
 
   const handleSubmit = async (values: IData<string>) => {
     await setId(values.userId);
