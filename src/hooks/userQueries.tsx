@@ -1,14 +1,14 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { userData, logInResponse } from '../model/UserTypes';
+import { userData, loginResponse } from '../model/UserTypes';
 import { fetchLogin } from '../api/login';
 
 const QUERY_KEY = {
-  logIn: 'logIn',
+  login: 'login',
 } as const;
 
-export const useLogInQuery: (data: userData) => UseQueryResult<logInResponse> = ({ id, pw }: userData) => {
+export const useLoginQuery: (data: userData) => UseQueryResult<loginResponse> = ({ id, pw }: userData) => {
   return useQuery({
-    queryKey: [QUERY_KEY.logIn],
+    queryKey: [QUERY_KEY.login],
     queryFn: () => fetchLogin({ id, pw }),
     enabled: false,
   });

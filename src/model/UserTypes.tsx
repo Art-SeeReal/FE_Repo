@@ -3,6 +3,6 @@ export interface userData {
   pw: string;
 }
 
-export interface logInResponse {
+export interface loginResponse {
   success: boolean;
 }

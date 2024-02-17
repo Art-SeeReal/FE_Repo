@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { useLogInQuery } from '../../hooks/userQueries';
+import { useLoginQuery } from '../../hooks/userQueries';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
@@ -18,7 +18,7 @@ const LoginPage = () => {
   const [id, setId] = useState<string>('');
   const [pw, setPw] = useState<string>('');
   const navigate = useNavigate();
-  const { isSuccess, refetch, data } = useLogInQuery({ id, pw });
+  const { isSuccess, refetch, data } = useLoginQuery({ id, pw });
   const setUserState = useSetRecoilState(userState);
 
   const handleSubmit = async (values: IData<string>) => {
