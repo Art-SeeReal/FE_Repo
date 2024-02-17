@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useLogInQuery } from '../../hooks/userQueries';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
@@ -18,9 +18,8 @@ const LoginPage = () => {
   const [id, setId] = useState<string>('');
   const [pw, setPw] = useState<string>('');
   const navigate = useNavigate();
-  const { isSuccess, refetch } = useLogInQuery({ id, pw });
+  const { isSuccess, refetch, data } = useLogInQuery({ id, pw });
   const setUserState = useSetRecoilState(UserState);
-  const userState = useRecoilValue(UserState);
 
   const handleSubmit = async (values: IData<string>) => {
     await setId(values.userId);
@@ -44,18 +43,14 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setUserState(true);
-      navigate('/private');
+      if (data.success) {
+        setUserState(true);
+        navigate('/private');
+      } else {
+        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+      }
     }
-  }, [isSuccess, setUserState]);
-
-  useEffect(() => {
-    console.log(id);
-  }, [id]);
-
-  useEffect(() => {
-    console.log(userState);
-  }, [userState]);
+  }, [isSuccess, data]);
 
   return (
     <LoginPageWrapper>
