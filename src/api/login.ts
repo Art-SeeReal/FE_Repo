@@ -1,7 +1,7 @@
 import api from '../utils/api';
-import { logInResponse, userData } from '../model/UserTypes';
+import { loginResponse, userData } from '../model/UserTypes';
 
-export const fetchLogin = async ({ id, pw }: userData): Promise<logInResponse> => {
+export const fetchLogin = async ({ id, pw }: userData): Promise<loginResponse> => {
   const response = await api.get('/login', { params: { id, pw } });
   return response.data;
 };
