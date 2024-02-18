@@ -1,19 +1,5 @@
-const isValidName = (name: string) => {
-  if (name.trim().length === 0) {
-    return false;
-  }
-  return true;
-};
-
-const isValidNickName = (nickname: string) => {
-  if (nickname.trim().length === 0) {
-    return false;
-  }
-  return true;
-};
-
 const isValidId = (id: string) => {
-  if (id.length < 4 || id.length > 15) {
+  if (id.length < 5 || id.length > 15) {
     return false;
   }
   if (!/^[A-Za-z0-9][A-Za-z0-9]*$/.test(id)) {
@@ -23,10 +9,7 @@ const isValidId = (id: string) => {
 };
 
 const isValidPassWord = (pw: string) => {
-  if (!/^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,}$/.test(pw)) {
-    return false;
-  }
-  return true;
+  return /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{8,}$/.test(pw);
 };
 
 const arePasswordsEqual = (pw: string, pwCheck: string): boolean => {
@@ -34,36 +17,11 @@ const arePasswordsEqual = (pw: string, pwCheck: string): boolean => {
 };
 
 const isValidEmail = (email: string) => {
-  if (email.trim().length === 0) {
-    return false;
-  }
-  if (!/^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*(\.[A-Za-z]{1,})+$/.test(email)) {
-    return false;
-  }
-  return true;
+  return /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*(\.[A-Za-z]{1,})+$/.test(email);
 };
 
 const isValidPhoneNum = (phoneNumber: string) => {
-  if (!/^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/.test(phoneNumber)) {
-    return false;
-  }
-  return true;
+  return /^01[0-9]{9}$/.test(phoneNumber);
 };
 
-const isValidCheckBox = (check1: boolean, check2: boolean) => {
-  if (!check1 && !check2) {
-    return false;
-  }
-  return true;
-};
-
-export {
-  isValidName,
-  isValidNickName,
-  isValidId,
-  isValidPassWord,
-  arePasswordsEqual,
-  isValidEmail,
-  isValidPhoneNum,
-  isValidCheckBox,
-};
+export { isValidId, isValidPassWord, arePasswordsEqual, isValidEmail, isValidPhoneNum };

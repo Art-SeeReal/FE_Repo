@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import ScrollContainer from './ScrollContainer';
+import * as S from '../../components/styles';
+import ConsentText from './ConsentText';
 
 const ConsentPageContainer = styled.div`
   display: flex;
@@ -12,27 +13,10 @@ const ConsentPageContainer = styled.div`
   padding: 20px;
 `;
 
-const Title = styled.h2`
-  margin-bottom: 20px;
-`;
-
 const CheckboxLabel = styled.label`
   display: flex;
   align-self: flex-start;
   margin-bottom: 10px;
-`;
-
-const Checkbox = styled.input`
-  margin-right: 10px;
-`;
-
-const Button = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 `;
 
 const ConsentPage = () => {
@@ -78,27 +62,33 @@ const ConsentPage = () => {
 
   return (
     <ConsentPageContainer>
-      <Title>약관동의</Title>
+      <S.Title>약관동의</S.Title>
       <CheckboxLabel>
-        <Checkbox type="checkbox" checked={allChecked} onChange={handleAllCheckedChange} />
+        <S.Checkbox checked={allChecked} onChange={handleAllCheckedChange} />
         전체 약관 동의
       </CheckboxLabel>
       <CheckboxLabel>
-        <Checkbox type="checkbox" checked={term1Checked} onChange={handleTerm1Change} ref={term1CheckboxRef} />
+        <S.Checkbox checked={term1Checked} onChange={handleTerm1Change} ref={term1CheckboxRef} />
         약관 1 동의
       </CheckboxLabel>
-      <ScrollContainer />
+      <S.ScrollableContainer>
+        <ConsentText />
+      </S.ScrollableContainer>
       <CheckboxLabel>
-        <Checkbox type="checkbox" checked={term2Checked} onChange={handleTerm2Change} ref={term2CheckboxRef} />
+        <S.Checkbox checked={term2Checked} onChange={handleTerm2Change} ref={term2CheckboxRef} />
         약관 2 동의
       </CheckboxLabel>
-      <ScrollContainer />
+      <S.ScrollableContainer>
+        <ConsentText />
+      </S.ScrollableContainer>
       <CheckboxLabel>
-        <Checkbox type="checkbox" checked={term3Checked} onChange={handleTerm3Change} ref={term3CheckboxRef} />
+        <S.Checkbox checked={term3Checked} onChange={handleTerm3Change} ref={term3CheckboxRef} />
         약관 3 동의
       </CheckboxLabel>
-      <ScrollContainer />
-      <Button onClick={handleButtonClick}>동의 완료</Button>
+      <S.ScrollableContainer>
+        <ConsentText />
+      </S.ScrollableContainer>
+      <S.Button onClick={handleButtonClick}>동의 완료</S.Button>
     </ConsentPageContainer>
   );
 };
