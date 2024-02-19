@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import TestPage from './pages/TestPage';
+import { DialogContainer } from './hooks/useDialogState';
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,8 @@ const App = () => {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
+
+        <DialogContainer />
       </RecoilRoot>
 
       <ReactQueryDevtools initialIsOpen={false} />
