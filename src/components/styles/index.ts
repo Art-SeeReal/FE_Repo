@@ -5,6 +5,7 @@ export * from './Container';
 export { Button } from './Button';
 export { ButtonRouter } from './ButtonRouter';
 export * from './RoundBox';
+export * from './Backdrop';
 
 // Form UI
 export * from './Label';
