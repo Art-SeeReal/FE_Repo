@@ -7,12 +7,12 @@ export const useDialog = () => {
   const [dialog, setDialog] = useRecoilState(dialogState);
 
   const openDialog = (element: ReactElement) => setDialog(element);
-  const removeDialog = () => setDialog(null);
+  const closeDialog = () => setDialog(null);
 
   return {
     dialog,
     openDialog,
-    removeDialog,
+    closeDialog,
   };
 };
 
