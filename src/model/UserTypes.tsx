@@ -1,9 +1,9 @@
-export interface FindIdTypes {
+export interface RequestFindIdTypes {
   name: string;
   email: string;
 }
-export interface FindPwTypes {
+export interface RequestFindPwTypes {
   name: string;
-  email: string;
   id: string;
+  email: string;
 }

@@ -1,29 +1,29 @@
-import { useQuery } from '@tanstack/react-query';
-import api from '../utils/api';
-import { FindIdTypes, FindPwTypes } from '../model/UserTypes';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { fetchFindId, fetchFindPw } from '../api/findIdPw';
+import { RequestFindIdTypes, RequestFindPwTypes } from '../model/UserTypes';
 
-const fetchFindId = async ({ name, email }: FindIdTypes): Promise<{ id: string }> => {
-  const response = await api.get('/findId', { params: { name, email } });
-  return response.data;
-};
+const QUERY_KEY_FIND_ID = 'findId' as const;
+const QUERY_KEY_FIND_PW = 'findPw' as const;
 
-export const useFindIdQuery = ({ name, email }: FindIdTypes) => {
+export const useFindIdQuery: (data: RequestFindIdTypes) => UseQueryResult<{ success: boolean }> = ({
+  name,
+  email,
+}: RequestFindIdTypes) => {
   return useQuery({
-    queryKey: ['FIND_ID', name, email],
+    queryKey: [QUERY_KEY_FIND_ID],
     queryFn: () => fetchFindId({ name, email }),
     enabled: false,
   });
 };
 
-const fetchFindPw = async ({ name, email, id }: FindPwTypes): Promise<{ password: string }> => {
-  const response = await api.get('/findPw', { params: { name, email, id } });
-  return response.data;
-};
-
-export const useFindPwQuery = ({ name, email, id }: FindPwTypes) => {
+export const useFindPwQuery: (data: RequestFindPwTypes) => UseQueryResult<{ success: boolean }> = ({
+  name,
+  id,
+  email,
+}: RequestFindPwTypes) => {
   return useQuery({
-    queryKey: ['FIND_PW', name, email, id],
-    queryFn: () => fetchFindPw({ name, email, id }),
+    queryKey: [QUERY_KEY_FIND_PW],
+    queryFn: () => fetchFindPw({ name, id, email }),
     enabled: false,
   });
 };
