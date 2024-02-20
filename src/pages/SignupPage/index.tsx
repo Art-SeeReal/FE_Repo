@@ -58,33 +58,25 @@ const SignupPage = () => {
 
     if (!values.userEmail) {
       errors.userEmail = '이메일을 입력하세요.';
-    }
-
-    if (!isValidEmail(values.userEmail)) {
+    } else if (!isValidEmail(values.userEmail)) {
       errors.userEmail = '유효한 이메일 형식이 아닙니다. ex) artseereal@naver.com';
     }
 
     if (!values.userPw) {
       errors.userPw = '패스워드를 입력하세요.';
-    }
-
-    if (!isValidPassWord(values.userPw)) {
+    } else if (!isValidPassWord(values.userPw)) {
       errors.userPw = '영문, 숫자, 특수문자로 구성한 8자 이상의 비밀번호를 입력하세요.';
     }
 
     if (!values.userPwCheck) {
       errors.userPwCheck = '패스워드를 입력하세요.';
-    }
-
-    if (!arePasswordsEqual(values.userPw, values.userPwCheck)) {
+    } else if (!arePasswordsEqual(values.userPw, values.userPwCheck)) {
       errors.userPwCheck = '비밀번호가 일치하지 않습니다.';
     }
 
     if (!values.userPhoneNum) {
       errors.userPhoneNum = '핸드폰번호를 입력하세요.';
-    }
-
-    if (!isValidPhoneNum(values.userPhoneNum)) {
+    } else if (!isValidPhoneNum(values.userPhoneNum)) {
       errors.userPhoneNum = '유효한 핸드폰 번호 형식이 아닙니다. ex) 01012341234';
     }
 

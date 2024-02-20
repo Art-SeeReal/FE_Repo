@@ -50,7 +50,7 @@ const ConsentPage = () => {
 
   const handleButtonClick = () => {
     if (term1Checked && term2Checked && term3Checked) {
-      navigate('/signUp');
+      navigate('/join');
     } else if (!term1Checked && term1CheckboxRef.current) {
       term1CheckboxRef.current.focus();
     } else if (!term2Checked && term2CheckboxRef.current) {

@@ -5,11 +5,13 @@ import { RecoilRoot } from 'recoil';
 import { Route, Routes } from 'react-router-dom';
 import Applayout from './layout/Applayout';
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage/LoginPage';
+import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import SignupPage from './pages/SignupPage';
 import ConsentPage from './pages/ConsentPage';
 import TestPage from './pages/TestPage';
+import PrivatePage from './pages/LoginPage/PrivatePage';
+import { DialogContainer } from './hooks/useDialogState';
 
 const queryClient = new QueryClient();
 
@@ -21,12 +23,15 @@ const App = () => {
           <Route path="/" element={<Applayout />}>
             <Route index element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/signUp" element={<SignupPage />} />
+            <Route path="/join" element={<SignupPage />} />
             <Route path="/agree" element={<ConsentPage />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/private" element={<PrivatePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
+
+        <DialogContainer />
       </RecoilRoot>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
