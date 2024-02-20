@@ -7,6 +7,8 @@ import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import { userState } from '../../recoil/atoms/userState';
+import { useDialog } from '../../hooks/useDialogState';
+import Dialog from '../../components/Dialog';
 
 const LoginPageWrapper = styled.div`
   width: 800px;
@@ -15,15 +17,15 @@ const LoginPageWrapper = styled.div`
 `;
 
 const LoginPage = () => {
-  const [id, setId] = useState<string>('');
-  const [pw, setPw] = useState<string>('');
+  const [formLoginData, setFormLoginData] = useState({ id: '', pw: '' });
   const navigate = useNavigate();
-  const { isSuccess, refetch, data } = useLoginQuery({ id, pw });
+  const { isSuccess, refetch, data } = useLoginQuery({ id: formLoginData.id, pw: formLoginData.pw });
   const setUserState = useSetRecoilState(userState);
+  const { openDialog, closeDialog } = useDialog();
 
+  // issue 비동기 버그
   const handleSubmit = async (values: IData<string>) => {
-    await setId(values.userId);
-    await setPw(values.userPw);
+    await setFormLoginData({ id: values.userId, pw: values.userPw });
     refetch();
   };
 
@@ -47,7 +49,11 @@ const LoginPage = () => {
         setUserState(true);
         navigate('/private');
       } else {
-        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+        openDialog(
+          <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
+            올바른 아이디와 비밀번호가 아닙니다.
+          </Dialog>,
+        );
       }
     }
   }, [isSuccess, data]);

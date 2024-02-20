@@ -23,7 +23,7 @@ export const Field = styled.input<Props>`
   width: 100%;
   padding: 0.75em 1em;
   border-radius: 0.8rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-1);
   outline: 0;
 
   &::placeholder {

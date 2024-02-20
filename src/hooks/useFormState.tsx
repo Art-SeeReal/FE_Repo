@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, FormEvent, ReactNode } from 'react';
+import React, { ChangeEvent, FocusEvent, FormEvent, ReactNode, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { formState } from '../recoil/atoms/formState';
 import * as S from '../components/styles';
@@ -17,32 +17,28 @@ interface FormHookArgs {
 
 export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
   const [form, setForm] = useRecoilState(formState(initialValue));
+  const [isTriedSubmit, setIsTriedSubmit] = useState(false);
 
   const handleChange = (e: ChangeEvent<FormTypes>) => {
-    setForm(() => ({ ...form, values: { ...form.values, [e.target.name]: e.target.value } }));
+    setForm((prev) => ({ ...prev, values: { ...prev.values, [e.target.name]: e.target.value } }));
   };
 
   const handleBlur = (e: FocusEvent<FormTypes>) => {
-    setForm(() => ({ ...form, touched: { ...form.touched, [e.target.name]: true } }));
+    setForm((prev) => ({ ...prev, touched: { ...prev.touched, [e.target.name]: true } }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    setForm(() => ({
-      ...form,
-      touched: Object.keys(form.values).reduce((touched, field) => {
+    setForm((prev) => ({
+      ...prev,
+      touched: Object.keys(prev.values).reduce((touched, field) => {
         return { ...touched, [field]: true };
       }, {}),
-      errors: validate(form.values),
+      errors: validate(prev.values),
     }));
 
-    // 만약 errors의 값이 하나라도 있다면 Submit 막음.
-    if (Object.values(form.errors).some(Boolean)) {
-      return;
-    }
-
-    onSubmit(form.values);
+    setIsTriedSubmit(true);
   };
 
   const getFieldProps = (name: string) => {
@@ -57,9 +53,19 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
   };
 
   React.useEffect(() => {
-    setForm(() => ({
-      ...form,
-      errors: validate(form.values),
+    if (!isTriedSubmit) return;
+
+    if (Object.values(form.errors).some(Boolean)) {
+      setIsTriedSubmit(false);
+    } else {
+      onSubmit(form.values);
+    }
+  }, [isTriedSubmit]);
+
+  React.useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      errors: validate(prev.values),
     }));
   }, [form.values]);
 

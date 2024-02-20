@@ -4,7 +4,7 @@ import GlobalStyles from './styles';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 
-const Applayout = () => {
+const AppLayout = () => {
   return (
     <>
       <GlobalStyles />
@@ -15,4 +15,4 @@ const Applayout = () => {
   );
 };
 
-export default Applayout;
+export default AppLayout;
