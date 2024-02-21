@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { loginData, loginResponse } from '../model/UserTypes';
 import { fetchLogin } from '../api/login';
 

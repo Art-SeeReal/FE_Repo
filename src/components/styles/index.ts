@@ -4,6 +4,8 @@ export * from './Container';
 // UI
 export { Button } from './Button';
 export { ButtonRouter } from './ButtonRouter';
+export { Checkbox } from './CheckBox';
+export { ScrollableContainer } from './ScrollableContainer';
 export * from './RoundBox';
 export * from './Backdrop';
 
