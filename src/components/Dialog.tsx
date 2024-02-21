@@ -1,6 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
-import * as S from './styles';
 
 interface Props {
   header?: string;
@@ -49,15 +48,13 @@ const StyledDialog = styled.div<{ $width?: number }>`
 
 const Dialog = ({ header, footer, children, width }: Props) => {
   return (
-    <S.Backdrop>
-      <StyledDialog $width={width}>
-        <div className="inner">
-          {header && <footer className="header">{header}</footer>}
-          <article className="content">{children}</article>
-          {footer && <footer className="footer">{footer}</footer>}
-        </div>
-      </StyledDialog>
-    </S.Backdrop>
+    <StyledDialog $width={width}>
+      <div className="inner">
+        {header && <footer className="header">{header}</footer>}
+        <article className="content">{children}</article>
+        {footer && <footer className="footer">{footer}</footer>}
+      </div>
+    </StyledDialog>
   );
 };
 
