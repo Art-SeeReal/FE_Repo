@@ -5,7 +5,15 @@ import styled from 'styled-components';
 import * as S from '../../components/styles';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import FormControl from '../../components/FormControl';
-import { arePasswordsEqual, isValidEmail, isValidPassWord, isValidPhoneNum } from '../../utils/Validation';
+import {
+  isValidName,
+  isValidNickname,
+  arePasswordsEqual,
+  isValidEmail,
+  isValidPassWord,
+  isValidPhoneNum,
+  isValidLocation,
+} from '../../utils/Validation';
 import { fetchRegisterUser } from '../../api/signup';
 
 interface DividerProps {
@@ -50,10 +58,14 @@ const SignupPage = () => {
 
     if (!values.userName) {
       errors.userName = '이름을 입력하세요.';
+    } else if (!isValidName(values.userName)) {
+      errors.userName = '한글만 입력해주세요.';
     }
 
     if (!values.userNickName) {
       errors.userNickName = '닉네임을 입력하세요.';
+    } else if (!isValidNickname(values.userNickName)) {
+      errors.userName = '닉네임은 한글, 영문, 숫자만 가능하며 2-12자리 가능합니다.';
     }
 
     if (!values.userEmail) {
@@ -82,6 +94,8 @@ const SignupPage = () => {
 
     if (!values.userLocation) {
       errors.userLocation = '지역을 입력하세요.';
+    } else if (!isValidLocation(values.userLocation)) {
+      errors.userLocation = '한글만 입력해주세요.';
     }
 
     return errors;
