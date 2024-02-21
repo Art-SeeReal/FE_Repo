@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
+import { useDialog } from '../../hooks/useDialogState';
+import Dialog from '../../components/Dialog';
 
 const SecondPage = () => {
   const handleSubmit = (values: IData<string>) => {
@@ -21,6 +23,18 @@ const SecondPage = () => {
 
     return errors;
   };
+
+  const { openDialog, closeDialog } = useDialog();
+
+  useEffect(() => {
+    openDialog(
+      <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus illum sapiente ab distinctio laudantium
+        adipisci pariatur? Incidunt molestiae magnam officiis dolores ex doloribus, ut, minima dolor error maiores
+        repellat reprehenderit.
+      </Dialog>,
+    );
+  }, []);
 
   return (
     <>

@@ -1,7 +1,9 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { fetchFindId, fetchFindPw } from '../api/findIdPw';
-import { RequestFindIdTypes, RequestFindPwTypes } from '../model/UserTypes';
+import { RequestFindIdTypes, RequestFindPwTypes, loginData, loginResponse } from '../model/UserTypes';
+import { fetchLogin } from '../api/login';
 
+const QUERY_KEY_LOGIN = 'login' as const;
 const QUERY_KEY_FIND_ID = 'findId' as const;
 const QUERY_KEY_FIND_PW = 'findPw' as const;
 
@@ -24,6 +26,14 @@ export const useFindPwQuery: (data: RequestFindPwTypes) => UseQueryResult<{ succ
   return useQuery({
     queryKey: [QUERY_KEY_FIND_PW],
     queryFn: () => fetchFindPw({ name, id, email }),
+    enabled: false,
+  });
+};
+
+export const useLoginQuery: (data: loginData) => UseQueryResult<loginResponse> = ({ id, pw }: loginData) => {
+  return useQuery({
+    queryKey: [QUERY_KEY_LOGIN],
+    queryFn: () => fetchLogin({ id, pw }),
     enabled: false,
   });
 };

@@ -7,3 +7,11 @@ export interface RequestFindPwTypes {
   id: string;
   email: string;
 }
+export interface loginData {
+  id: string;
+  pw: string;
+}
+
+export interface loginResponse {
+  success: boolean;
+}

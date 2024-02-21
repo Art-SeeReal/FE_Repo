@@ -28,7 +28,7 @@ const GnbItemsForMembership = [
   },
   {
     id: 2,
-    to: '/join',
+    to: '/agree',
     name: '회원가입',
   },
 ];

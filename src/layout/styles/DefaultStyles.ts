@@ -22,7 +22,8 @@ const DefaultStyles = css`
     --color-primary: #000;
     --color-secondary: #767676;
     --color-placeholder: #999;
-    --color-border: #777;
+    --color-border-1: #777;
+    --color-border-2: #ccc;
     --color-error: #ff3838;
   }
   html {
