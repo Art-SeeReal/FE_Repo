@@ -65,7 +65,7 @@ const SignupPage = () => {
     if (!values.userNickName) {
       errors.userNickName = '닉네임을 입력하세요.';
     } else if (!isValidNickname(values.userNickName)) {
-      errors.userName = '닉네임은 한글, 영문, 숫자만 가능하며 2-12자리 가능합니다.';
+      errors.userNickName = '닉네임은 한글, 영문, 숫자만 가능하며 2-12자리 가능합니다.';
     }
 
     if (!values.userEmail) {
