@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { useLoginQuery } from '../../hooks/userQueries';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
@@ -11,9 +11,25 @@ import { useDialog } from '../../hooks/useDialogState';
 import Dialog from '../../components/Dialog';
 
 const LoginPageWrapper = styled.div`
-  width: 800px;
+  width: 400px;
   margin: auto;
   padding: 150px 0;
+`;
+
+const StyledLinksWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const LoginPage = () => {
@@ -69,6 +85,10 @@ const LoginPage = () => {
           <Field id="userPw" name="userPw" type="password" placeholder="비밀번호" />
         </FormControl>
         <S.Button type="submit">제출</S.Button>
+        <StyledLinksWrapper>
+          <StyledLink to="/find-id-pw">ID/PW 찾기</StyledLink>
+          <StyledLink to="/signup">회원가입</StyledLink>
+        </StyledLinksWrapper>
       </Form>
     </LoginPageWrapper>
   );
