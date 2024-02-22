@@ -7,6 +7,7 @@ import Applayout from './layout/Applayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import FindIdPwPage from './pages/FindIdPwPage';
 import SignupPage from './pages/SignupPage';
 import ConsentPage from './pages/ConsentPage';
 import TestPage from './pages/TestPage';
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/join" element={<SignupPage />} />
             <Route path="/agree" element={<ConsentPage />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/findIdPw" element={<FindIdPwPage />} />
             <Route path="/private" element={<PrivatePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
