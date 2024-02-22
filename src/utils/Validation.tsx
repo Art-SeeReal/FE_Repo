@@ -1,3 +1,7 @@
+const isValidValue = (value: string) => {
+  return value;
+};
+
 const isValidName = (name: string) => {
   return /^[가-힣]+$/.test(name);
 };
@@ -37,6 +41,7 @@ const isValidLocation = (location: string) => {
 };
 
 export {
+  isValidValue,
   isValidName,
   isValidNickname,
   isValidId,

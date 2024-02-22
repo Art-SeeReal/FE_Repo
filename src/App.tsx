@@ -7,7 +7,7 @@ import Applayout from './layout/Applayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
-import FindIdPwPage from './pages/FindIdPwPage/FindIdPwPage';
+import FindIdPwPage from './pages/FindIdPwPage';
 import SignupPage from './pages/SignupPage';
 import ConsentPage from './pages/ConsentPage';
 import TestPage from './pages/TestPage';

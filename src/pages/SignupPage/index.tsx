@@ -13,6 +13,7 @@ import {
   isValidPassWord,
   isValidPhoneNum,
   isValidLocation,
+  isValidValue,
 } from '../../utils/Validation';
 import { fetchRegisterUser } from '../../api/signup';
 
@@ -56,43 +57,43 @@ const SignupPage = () => {
   const validate = (values: IData<string>) => {
     const errors: IData<string> = {};
 
-    if (!values.userName) {
+    if (!isValidValue(values.userName)) {
       errors.userName = '이름을 입력하세요.';
     } else if (!isValidName(values.userName)) {
       errors.userName = '한글만 입력해주세요.';
     }
 
-    if (!values.userNickName) {
+    if (!isValidValue(values.userNickName)) {
       errors.userNickName = '닉네임을 입력하세요.';
     } else if (!isValidNickname(values.userNickName)) {
       errors.userNickName = '닉네임은 한글, 영문, 숫자만 가능하며 2-12자리 가능합니다.';
     }
 
-    if (!values.userEmail) {
+    if (!isValidValue(values.userEmail)) {
       errors.userEmail = '이메일을 입력하세요.';
     } else if (!isValidEmail(values.userEmail)) {
       errors.userEmail = '유효한 이메일 형식이 아닙니다. ex) artseereal@naver.com';
     }
 
-    if (!values.userPw) {
+    if (!isValidValue(values.userPw)) {
       errors.userPw = '패스워드를 입력하세요.';
     } else if (!isValidPassWord(values.userPw)) {
       errors.userPw = '영문, 숫자, 특수문자로 구성한 8자 이상의 비밀번호를 입력하세요.';
     }
 
-    if (!values.userPwCheck) {
+    if (!isValidValue(values.userPwCheck)) {
       errors.userPwCheck = '패스워드를 입력하세요.';
     } else if (!arePasswordsEqual(values.userPw, values.userPwCheck)) {
       errors.userPwCheck = '비밀번호가 일치하지 않습니다.';
     }
 
-    if (!values.userPhoneNum) {
+    if (!isValidValue(values.userPhoneNum)) {
       errors.userPhoneNum = '핸드폰번호를 입력하세요.';
     } else if (!isValidPhoneNum(values.userPhoneNum)) {
       errors.userPhoneNum = '유효한 핸드폰 번호 형식이 아닙니다. ex) 01012341234';
     }
 
-    if (!values.userLocation) {
+    if (!isValidValue(values.userLocation)) {
       errors.userLocation = '지역을 입력하세요.';
     } else if (!isValidLocation(values.userLocation)) {
       errors.userLocation = '한글만 입력해주세요.';
