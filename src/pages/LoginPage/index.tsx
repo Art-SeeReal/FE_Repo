@@ -9,6 +9,7 @@ import FormControl from '../../components/FormControl';
 import { userState } from '../../recoil/atoms/userState';
 import { useDialog } from '../../hooks/useDialogState';
 import Dialog from '../../components/Dialog';
+import { isValidValue } from '../../utils/Validation';
 
 const LoginPageWrapper = styled.div`
   width: 400px;
@@ -48,11 +49,11 @@ const LoginPage = () => {
   const validate = (values: IData<string>) => {
     const errors: IData<string> = {};
 
-    if (!values.userId) {
+    if (!isValidValue(values.userId)) {
       errors.userId = '아이디를 입력하세요.';
     }
 
-    if (!values.userPw) {
+    if (!isValidValue(values.userPw)) {
       errors.userPw = '패스워드를 입력하세요.';
     }
 
