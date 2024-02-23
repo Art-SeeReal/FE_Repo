@@ -46,7 +46,7 @@ const ReactQuillForm: React.FC<ReactQuillFormProps> = ({ width, height, content,
 
   return (
     <ReactQuill
-      style={{ width, height }}
+      style={{ width, height, marginTop: '50px', marginBottom: '80px' }}
       modules={modules}
       formats={formats}
       theme="snow"
