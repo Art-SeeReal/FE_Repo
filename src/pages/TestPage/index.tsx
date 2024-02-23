@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import { useDialog } from '../../hooks/useDialogState';
 import Dialog from '../../components/Dialog';
+import ReactQuillForm from '../../components/ReactQuillForm';
 
 const SecondPage = () => {
+  const [content, setContent] = useState('');
+
   const handleSubmit = (values: IData<string>) => {
     console.log('## Submit Query', values);
   };
@@ -46,6 +49,7 @@ const SecondPage = () => {
         <FormControl label="비밀번호" htmlFor="userPw" required error={<ErrorMessage name="userPw" />}>
           <Field id="userPw" name="userPw" type="password" placeholder="비밀번호" />
         </FormControl>
+        <ReactQuillForm width="800px" height="400px" content={content} setContent={setContent} />
         <S.Button type="submit">제출</S.Button>
       </Form>
     </>
