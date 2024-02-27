@@ -4,8 +4,7 @@ const DefaultStyles = css`
   :root {
     --x-spacing: 0 2rem;
     --spacing: 2rem;
-    // --content-width: 1320px;
-    --content-width: 1600px;
+    --content-width: 1320px;
 
     --title-1: 3.4rem;
     --title-2: 3rem;
