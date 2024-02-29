@@ -11,6 +11,7 @@ import FindIdPwPage from './pages/FindIdPwPage';
 import SignupPage from './pages/SignupPage';
 import ConsentPage from './pages/ConsentPage';
 import TestPage from './pages/TestPage';
+import SecondPage from './pages/SecondPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
 import { DialogContainer } from './hooks/useDialogState';
 import RegisterArtistPage from './pages/RegisterArtistPage';
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/join" element={<SignupPage />} />
             <Route path="/agree" element={<ConsentPage />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/second" element={<SecondPage />} />
             <Route path="/findIdPw" element={<FindIdPwPage />} />
             <Route path="/registerArtist" element={<RegisterArtistPage />} />
             <Route path="/private" element={<PrivatePage />} />

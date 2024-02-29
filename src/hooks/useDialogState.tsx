@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, MouseEvent } from 'react';
 import { useRecoilState } from 'recoil';
 import { dialogState } from '../recoil/atoms/dialogState';
 import * as S from '../components/styles';
@@ -17,9 +17,16 @@ export const useDialog = () => {
 };
 
 export const DialogContainer = () => {
-  const { dialog } = useDialog();
+  const { dialog, closeDialog } = useDialog();
 
   if (!dialog) return null;
 
-  return <S.Backdrop>{dialog}</S.Backdrop>;
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    if (target.parentElement === e.currentTarget) {
+      closeDialog();
+    }
+  };
+
+  return <S.Backdrop onClick={handleClick}>{dialog}</S.Backdrop>;
 };

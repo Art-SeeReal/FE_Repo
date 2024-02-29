@@ -9,15 +9,16 @@ const SIZES = {
 
 type SIZES = (typeof SIZES)[keyof typeof SIZES];
 
-interface Props {
-  as: 'input' | 'textarea' | 'select';
+export interface FieldProps {
+  as?: 'input' | 'textarea';
   children?: ReactNode;
   $size?: SIZES;
   $block?: boolean;
+  $inline?: boolean;
   $error?: boolean;
 }
 
-export const Field = styled.input<Props>`
+export const Field = styled.input<FieldProps>`
   display: inline-flex;
   align-items: center;
   width: 100%;
@@ -25,6 +26,8 @@ export const Field = styled.input<Props>`
   border-radius: 0.8rem;
   border: 1px solid var(--color-border-1);
   outline: 0;
+  -webkit-appearance: none;
+  appearance: none;
 
   &::placeholder {
     color: var(--color-placeholder);
@@ -50,26 +53,40 @@ export const Field = styled.input<Props>`
     if ($size === SIZES.small)
       return `
         max-width: 20rem;
-        font-$size: var(--text-caption);
+        font-size: var(--text-caption);
       `;
     if ($size === SIZES.medium)
       return `
         max-width: 30rem;
-        font-$size: var(--text-body-1);
+        font-size: var(--text-body-1);
       `;
-    if ($size === SIZES.large)
+    if ($size === SIZES.large) {
       return `
         max-width: 60rem;
-        font-$size: var(--sub-title-3);
+        font-size: var(--sub-title-3);
       `;
+    }
 
     return null;
   }};
 
   ${({ $block }) => $block && `max-width: none`};
+
+  ${({ $inline }) => $inline && `width: auto; max-width: none;`}
+
+  ${({ as }) => {
+    if (as === 'textarea') {
+      return `
+        resize: none;
+      `;
+    }
+
+    return null;
+  }}
 `;
 
 Field.defaultProps = {
   $size: SIZES.medium,
   $block: true,
+  $inline: false,
 };
