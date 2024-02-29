@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { getAreas } from '../api/utils';
 
 const QUERY_KEY = {
