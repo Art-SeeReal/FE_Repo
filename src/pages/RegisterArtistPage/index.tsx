@@ -23,12 +23,12 @@ const RegisterArtistPage = () => {
   const validate = (values: IData<string>) => {
     const errors: IData<string> = {};
 
-    if (!values.userId) {
-      errors.userId = '아이디를 입력하세요.';
+    if (!values.title) {
+      errors.title = '아이디를 입력하세요.';
     }
 
-    if (!values.userPw) {
-      errors.userPw = '패스워드를 입력하세요.';
+    if (!values.thumbnail) {
+      errors.thumbnail = '패스워드를 입력하세요.';
     }
 
     return errors;
@@ -49,12 +49,12 @@ const RegisterArtistPage = () => {
   return (
     <CenteredContainer>
       <S.Title>등록</S.Title>
-      <Form id="login-form" initialValue={{ userId: '', userPw: '' }} validate={validate} onSubmit={handleSubmit}>
-        <FormControl label="제목" htmlFor="userId" required error={<ErrorMessage name="userId" />}>
-          <Field id="userId" name="userId" type="text" placeholder="제목" />
+      <Form id="register-form" initialValue={{ title: '', thumbnail: '' }} validate={validate} onSubmit={handleSubmit}>
+        <FormControl label="제목" htmlFor="title" required error={<ErrorMessage name="title" />}>
+          <Field id="title" name="title" type="text" placeholder="제목" />
         </FormControl>
-        <FormControl label="비밀번호" htmlFor="userPw" required error={<ErrorMessage name="userPw" />}>
-          <Field id="userPw" name="userPw" type="password" placeholder="비밀번호" />
+        <FormControl label="썸네일" htmlFor="thumbnail" required error={<ErrorMessage name="thumbnail" />}>
+          <Field id="thumbnail" name="thumbnail" type="password" placeholder="썸네일" />
         </FormControl>
         <ReactQuillForm width="800px" height="400px" content={content} setContent={setContent} />
         <S.Button type="submit">제출</S.Button>
