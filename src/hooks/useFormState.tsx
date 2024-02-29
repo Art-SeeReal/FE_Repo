@@ -2,6 +2,7 @@ import React, { ChangeEvent, FocusEvent, FormEvent, ReactNode, useState } from '
 import { useRecoilState } from 'recoil';
 import { formState } from '../recoil/atoms/formState';
 import * as S from '../components/styles';
+import type { FieldProps } from '../components/styles/Field';
 
 type FormTypes = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
@@ -98,14 +99,14 @@ export const Form = ({ id, children, initialValue, validate, onSubmit }: FormArg
   );
 };
 
-interface FieldArgs {
-  as?: 'input' | 'textarea' | 'select';
+interface FieldArgs extends FieldProps {
   type?: 'text' | 'password' | 'email' | 'url';
-  children?: ReactNode;
   id?: string;
   name: string;
   placeholder?: string;
   value?: string;
+  rows?: number;
+  maxLength?: number;
   onChange?: (e: ChangeEvent) => void;
 }
 
@@ -121,9 +122,17 @@ interface FormValues {
 }
 
 export const Field = ({ as = 'input', type = 'text', children, ...rest }: FieldArgs) => {
-  const { getFieldProps } = React.useContext(formContext) as FormValues;
+  const { getFieldProps, touched, errors } = React.useContext(formContext) as FormValues;
   const { name, value, onBlur, onChange } = getFieldProps(rest.name);
-  return React.createElement(S.Field, { as, type, ...rest, name, value, onBlur, onChange }, children);
+
+  let $error = false;
+  if (touched[name] && errors[name]) $error = true;
+
+  return (
+    <S.Field as={as} type={type} value={value} onBlur={onBlur} onChange={onChange} $error={$error} {...rest}>
+      {children}
+    </S.Field>
+  );
 };
 
 export const ErrorMessage = ({ name }: { name: string }) => {

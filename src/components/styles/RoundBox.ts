@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
 export const RoundBox = styled.div`
-  border-radius: 10rem;
+  border-radius: 4rem;
   overflow: hidden;
 `;
