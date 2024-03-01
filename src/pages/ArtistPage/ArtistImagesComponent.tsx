@@ -21,17 +21,17 @@ interface ArtistImagesComponentProps {
 
 const ImageContainer = styled.div`
   width: 100%;
-  padding-bottom: 100%; /* 1:1 ratio, creating a square box */
+  padding-bottom: 100%;
   position: relative;
   overflow: hidden;
-  margin-bottom: 10px; /* Add margin between images */
+  margin-bottom: 10px;
 
   @media (min-width: 768px) {
-    margin-right: 10px; /* Adjust margin for larger screens */
+    margin-right: 10px;
   }
 
   @media (min-width: 1024px) {
-    margin-right: 20px; /* Adjust margin for even larger screens */
+    margin-right: 20px;
   }
 `;
 
