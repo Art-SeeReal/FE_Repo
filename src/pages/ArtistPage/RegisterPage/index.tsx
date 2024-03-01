@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
-import * as S from '../../components/styles';
-import FormControl from '../../components/FormControl';
-import { useDialog } from '../../hooks/useDialogState';
-import Dialog from '../../components/Dialog';
-import ReactQuillForm from '../../components/ReactQuillForm';
+import { Form, Field, IData, ErrorMessage } from '../../../hooks/useFormState';
+import * as S from '../../../components/styles';
+import FormControl from '../../../components/FormControl';
+import { useDialog } from '../../../hooks/useDialogState';
+import Dialog from '../../../components/Dialog';
+import ReactQuillForm from '../../../components/ReactQuillForm';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -15,6 +17,15 @@ const CenteredContainer = styled.div`
 
 const RegisterArtistPage = () => {
   const [content, setContent] = useState('');
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutate: register } = useMutation(, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+      navigate('/artist');
+    },
+  });
 
   const handleSubmit = (values: IData<string>) => {
     console.log('## Submit Query', values);
