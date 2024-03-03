@@ -5,26 +5,21 @@ import Stack from '@mui/material/Stack';
 import ArtistImagesComponent from './ArtistImagesComponent';
 import * as S from '../../components/styles';
 import { useFetchArtist } from '../../hooks/useArtistQuery';
+import HeaderContainer from './HeaderContainer';
 
-const HeaderContainer = styled.div`
+const HeaderContainerStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-`;
-
-const DropdownMenu = styled.div`
-  position: relative;
-`;
-
-const SearchBox = styled.input`
-  margin-left: 10px;
-  padding: 5px;
-`;
-
-const RegisterButton = styled.button`
-  margin-left: 10px;
-  padding: 5px 10px;
+  padding: 10px 50px;
+  margin: 0 auto; /* 가운데 정렬을 위해 추가 */
+  max-width: 1200px; /* 원하는 최대 너비 설정 */
+  @media (max-width: 760px) {
+    padding: 30px;
+  }
+  @media (max-width: 560px) {
+    padding: 10px;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -34,9 +29,17 @@ const ImageContainer = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 48%;
+  width: calc((100% - 20px) / 2);
   margin-bottom: 10px;
   padding: 50px;
+
+  @media (max-width: 760px) {
+    padding: 30px;
+  }
+
+  @media (max-width: 560px) {
+    padding: 10px;
+  }
 `;
 
 interface ImageData {
@@ -67,22 +70,9 @@ const IndexPage = () => {
 
   return (
     <div>
-      <HeaderContainer>
-        <DropdownMenu>
-          <select>
-            <option value="area1">지역1</option>
-            <option value="area2">지역2</option>
-          </select>
-          <select>
-            <option value="field1">분야1</option>
-            <option value="field2">분야2</option>
-          </select>
-        </DropdownMenu>
-
-        <SearchBox type="text" placeholder="검색" />
-
-        <RegisterButton>등록하기</RegisterButton>
-      </HeaderContainer>
+      <HeaderContainerStyle>
+        <HeaderContainer />
+      </HeaderContainerStyle>
       <S.Container $paddingBottom>
         {data && (
           <>
