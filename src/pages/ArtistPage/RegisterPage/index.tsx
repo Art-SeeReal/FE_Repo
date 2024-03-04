@@ -8,6 +8,7 @@ import FormControl from '../../../components/FormControl';
 import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
+import { fetchRegisterArtist } from '../../../api/artist';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -17,10 +18,11 @@ const CenteredContainer = styled.div`
 
 const RegisterArtistPage = () => {
   const [content, setContent] = useState('');
+  const [form, setForm] = useState({ title: '', content: '' });
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate: register } = useMutation(, {
+  const { mutate: register } = useMutation(fetchRegisterArtist, {
     onSuccess: () => {
       queryClient.invalidateQueries('user');
       navigate('/artist');
@@ -28,7 +30,7 @@ const RegisterArtistPage = () => {
   });
 
   const handleSubmit = (values: IData<string>) => {
-    console.log('## Submit Query', values);
+    setForm({ title: values.title, content });
   };
 
   const validate = (values: IData<string>) => {
@@ -46,6 +48,12 @@ const RegisterArtistPage = () => {
   };
 
   const { openDialog, closeDialog } = useDialog();
+
+  useEffect(() => {
+    if (form.title && form.content) {
+      register(form);
+    }
+  }, [form]);
 
   useEffect(() => {
     openDialog(
