@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const artistBoardState = atom({
-  key: 'artistBoardState',
-  default: {},
+export const artistDataState = atom({
+  key: 'artistDataState',
+  default: null,
 });

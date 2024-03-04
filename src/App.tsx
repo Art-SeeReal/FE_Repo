@@ -16,7 +16,6 @@ import PrivatePage from './pages/LoginPage/PrivatePage';
 import { DialogContainer } from './hooks/useDialogState';
 import ArtistPage from './pages/ArtistPage';
 import RegisterArtistPage from './pages/ArtistPage';
-import TestArtistPage from './pages/ArtistPage/test';
 
 const queryClient = new QueryClient();
 
@@ -34,7 +33,6 @@ const App = () => {
             <Route path="/artist">
               <Route index element={<ArtistPage />} />
               <Route path="register" element={<RegisterArtistPage />} />
-              <Route path="test" element={<TestArtistPage />} />
             </Route>
             <Route path="/test">
               <Route index element={<TestPage />} />
