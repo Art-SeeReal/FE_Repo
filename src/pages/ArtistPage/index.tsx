@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { ImageData } from '../../model/ArtistTypes';
 import ArtistImagesComponent from './ArtistImagesComponent';
 import * as S from '../../components/styles';
 import { useFetchArtist } from '../../hooks/useArtistQuery';
 import HeaderContainer from './HeaderContainer';
+import { artistState } from '../../recoil/atoms/artistBoardState';
+import { artistDataSelector } from '../../recoil/selectors/artistBoardSelectors';
 
 const HeaderContainerStyle = styled.div`
   display: flex;
@@ -42,21 +46,11 @@ const ImageWrapper = styled.div`
   }
 `;
 
-interface ImageData {
-  id: number;
-  imageUrl: string;
-  title: string;
-  artist: string;
-  location: string;
-  field: string;
-  like: number;
-  view: number;
-  RegDate: string;
-}
-
 const ITEMS_PER_PAGE = 10;
 
 const IndexPage = () => {
+  const setArtistDataState = useSetRecoilState(artistState);
+  const artistDataSelectorState = useRecoilValue(artistDataSelector);
   const { data } = useFetchArtist();
   const [page, setPage] = useState(1);
 
@@ -64,6 +58,12 @@ const IndexPage = () => {
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    if (data) {
+      setArtistDataState(data.results);
+    }
+  }, [data]);
 
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -74,10 +74,10 @@ const IndexPage = () => {
         <HeaderContainer />
       </HeaderContainerStyle>
       <S.Container $paddingBottom>
-        {data && (
+        {artistDataSelectorState && (
           <>
             <ImageContainer>
-              {data?.results.slice(startIndex, endIndex).map((image: ImageData) => (
+              {artistDataSelectorState.slice(startIndex, endIndex).map((image: ImageData) => (
                 <ImageWrapper key={image.id}>
                   <ArtistImagesComponent image={image} />
                 </ImageWrapper>
@@ -85,7 +85,7 @@ const IndexPage = () => {
             </ImageContainer>
             <Stack spacing={2} direction="row" justifyContent="center">
               <Pagination
-                count={Math.ceil(data.results.length / ITEMS_PER_PAGE)}
+                count={Math.ceil(artistDataSelectorState.length / ITEMS_PER_PAGE)}
                 page={page}
                 onChange={handleChangePage}
                 color="secondary"
