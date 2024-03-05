@@ -1,5 +1,7 @@
 import { useQuery, UseQueryResult } from 'react-query';
+import { useSetRecoilState } from 'recoil';
 import { getArtist } from '../api/artist';
+import { artistState } from '../recoil/atoms/artistBoardState';
 
 const QUERY_KEY = {
   artist: 'artist',
@@ -20,8 +22,13 @@ interface ResponseData {
 }
 
 export const useFetchArtist: () => UseQueryResult<ResponseData> = () => {
+  const setArtistDataState = useSetRecoilState(artistState);
+
   return useQuery({
     queryKey: [QUERY_KEY.artist],
     queryFn: getArtist,
+    onSuccess: (data: ResponseData) => {
+      setArtistDataState(data.results);
+    },
   });
 };

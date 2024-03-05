@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { CircleLoader } from 'react-spinners';
 import { ImageData } from '../../model/ArtistTypes';
 import ArtistImagesComponent from './ArtistImagesComponent';
 import * as S from '../../components/styles';
 import { useFetchArtist } from '../../hooks/useArtistQuery';
 import HeaderContainer from './HeaderContainer';
-import { artistState } from '../../recoil/atoms/artistBoardState';
 import { artistDataSelector } from '../../recoil/selectors/artistBoardSelectors';
 
 const HeaderContainerStyle = styled.div`
@@ -49,9 +49,8 @@ const ImageWrapper = styled.div`
 const ITEMS_PER_PAGE = 10;
 
 const IndexPage = () => {
-  const setArtistDataState = useSetRecoilState(artistState);
   const artistDataSelectorState = useRecoilValue(artistDataSelector);
-  const { data } = useFetchArtist();
+  const { isLoading, isError } = useFetchArtist();
   const [page, setPage] = useState(1);
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
@@ -59,22 +58,23 @@ const IndexPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  useEffect(() => {
-    if (data) {
-      setArtistDataState(data.results);
-    }
-  }, [data]);
-
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-
+  if (isError) {
+    <div>에러</div>;
+  }
   return (
     <div>
       <HeaderContainerStyle>
         <HeaderContainer />
       </HeaderContainerStyle>
       <S.Container $paddingBottom>
-        {artistDataSelectorState && (
+        {isLoading ? (
+          <S.Container>
+            <div>Loading...</div>
+            <CircleLoader color="#E58AE6" />
+          </S.Container>
+        ) : (
           <>
             <ImageContainer>
               {artistDataSelectorState.slice(startIndex, endIndex).map((image: ImageData) => (
