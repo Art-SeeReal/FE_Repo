@@ -9,6 +9,7 @@ import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
 import { fetchRegisterArtist } from '../../../api/artist';
+import { isValidValue } from '../../../utils/Validation';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -30,18 +31,19 @@ const RegisterArtistPage = () => {
   });
 
   const handleSubmit = (values: IData<string>) => {
+    if (!isValidValue(content)) return;
     setForm({ title: values.title, content });
   };
 
   const validate = (values: IData<string>) => {
     const errors: IData<string> = {};
 
-    if (!values.title) {
-      errors.title = '아이디를 입력하세요.';
+    if (!isValidValue(values.title)) {
+      errors.title = '제목을 입력하세요.';
     }
 
-    if (!values.thumbnail) {
-      errors.thumbnail = '패스워드를 입력하세요.';
+    if (!isValidValue(values.thumbnail)) {
+      errors.thumbnail = '썸네일 사진을 추가해주세요.';
     }
 
     return errors;
@@ -58,9 +60,8 @@ const RegisterArtistPage = () => {
   useEffect(() => {
     openDialog(
       <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus illum sapiente ab distinctio laudantium
-        adipisci pariatur? Incidunt molestiae magnam officiis dolores ex doloribus, ut, minima dolor error maiores
-        repellat reprehenderit.
+        이 페이지는 예술적 표현을 위한 공간입니다. 음란물이나 욕설 등 부적절한 콘텐츠는 엄격히 금지되어 있습니다.
+        부적절한 콘텐츠를 게시할 경우 서비스 이용이 제한될 수 있습니다.
       </Dialog>,
     );
   }, []);
