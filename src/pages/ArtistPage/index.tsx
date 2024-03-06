@@ -12,12 +12,9 @@ import { artistDataSelector } from '../../recoil/selectors/artistBoardSelectors'
 import Loading from '../../components/Loading';
 
 const HeaderContainerStyle = styled.div`
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px 50px;
-  margin: 0 auto; /* 가운데 정렬을 위해 추가 */
-  max-width: 1200px; /* 원하는 최대 너비 설정 */
+  margin: 0 auto;
   @media (max-width: 760px) {
     padding: 30px;
   }

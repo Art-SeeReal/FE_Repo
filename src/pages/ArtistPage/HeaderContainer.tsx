@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useFetchAreas } from '../../hooks/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/useDropdown';
 import { selectedAreasState } from '../../recoil/atoms/artistBoardState';
@@ -9,13 +9,12 @@ const Multidown = () => {
   const { data } = useFetchAreas();
   const initialValue = 'Q000';
   const setSelectedAreasState = useSetRecoilState(selectedAreasState);
-  const test = useRecoilValue(selectedAreasState);
   const [selectedAreas, setSelectedAreas] = useState<string[]>([initialValue]);
 
   useEffect(() => {
     setSelectedAreasState(selectedAreas);
-    console.log(test);
   }, [selectedAreas]);
+
   return (
     <>
       <S.Container>
