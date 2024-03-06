@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useRecoilValue } from 'recoil';
-import { CircleLoader } from 'react-spinners';
 import { ImageData } from '../../model/ArtistTypes';
 import ArtistImagesComponent from './ArtistImagesComponent';
 import * as S from '../../components/styles';
 import { useFetchArtist } from '../../hooks/useArtistQuery';
 import HeaderContainer from './HeaderContainer';
 import { artistDataSelector } from '../../recoil/selectors/artistBoardSelectors';
+import Loading from '../../components/Loading';
 
 const HeaderContainerStyle = styled.div`
   display: flex;
@@ -70,10 +70,7 @@ const IndexPage = () => {
       </HeaderContainerStyle>
       <S.Container $paddingBottom>
         {isLoading ? (
-          <S.Container>
-            <div>Loading...</div>
-            <CircleLoader color="#E58AE6" />
-          </S.Container>
+          <Loading />
         ) : (
           <>
             <ImageContainer>
