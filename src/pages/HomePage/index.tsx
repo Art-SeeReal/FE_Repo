@@ -13,9 +13,7 @@ const HomePage = () => {
     <>
       <BannerSlider />
       <S.Container $paddingBottom>
-        {latestPortfolios && (
-          <SectionCarousel title="예술가 포트폴리오" data={latestPortfolios} routerPath="/portfolios" />
-        )}
+        {latestPortfolios && <SectionCarousel title="예술가 포트폴리오" data={latestPortfolios} routerPath="/artist" />}
         {latestRecruits && <SectionCarousel title="기획자 공고" data={latestRecruits} routerPath="/recruits" />}
       </S.Container>
     </>
