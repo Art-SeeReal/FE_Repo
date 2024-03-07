@@ -1,6 +1,12 @@
 import { atom } from 'recoil';
+import { ImageData } from '../../model/ArtistTypes';
 
-export const artistBoardState = atom({
-  key: 'artistBoardState',
-  default: {},
+export const artistState = atom<ImageData[]>({
+  key: 'artistState',
+  default: [],
+});
+
+export const selectedAreasState = atom<string[]>({
+  key: 'selectedAreasState',
+  default: [],
 });
