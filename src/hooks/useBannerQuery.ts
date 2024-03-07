@@ -15,5 +15,6 @@ export const useFetchBanners: () => UseQueryResult<ResponseData> = () => {
     queryKey: [QUERY_KEY.banners],
     queryFn: getBanners,
     staleTime: 60 * 1000 * 30,
+    select: (data) => data.data,
   });
 };
