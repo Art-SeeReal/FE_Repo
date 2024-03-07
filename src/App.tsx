@@ -8,8 +8,8 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import TestPage from './pages/TestPage';
-import SecondPage from './pages/SecondPage';
 import { DialogContainer } from './hooks/useDialogState';
+import ToastList from './components/ToastList';
 
 const queryClient = new QueryClient();
 
@@ -22,12 +22,12 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/test" element={<TestPage />} />
-            <Route path="/second" element={<SecondPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
 
         <DialogContainer />
+        <ToastList />
       </RecoilRoot>
 
       <ReactQueryDevtools initialIsOpen={false} />
