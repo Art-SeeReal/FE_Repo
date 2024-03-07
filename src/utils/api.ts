@@ -6,21 +6,21 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config): InternalAxiosRequestConfig => {
+  (config: InternalAxiosRequestConfig) => {
     return config;
   },
-  (error): Promise<AxiosError> => {
+  (error: Promise<AxiosError>) => {
     return Promise.reject(error);
   },
 );
 
 api.interceptors.response.use(
-  (response): AxiosResponse => {
-    return response.data;
+  (response: AxiosResponse) => {
+    return response;
   },
   (error: AxiosError) => {
-    console.error(error);
-    // return Promise.reject(error);
+    console.log('[api interceptor] error response: ', error);
+    return Promise.reject(error);
   },
 );
 
