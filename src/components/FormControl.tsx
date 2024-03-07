@@ -22,8 +22,10 @@ const StyledFormControl = styled.div`
 const FormControl = ({ label, htmlFor, required, error, children }: Props) => {
   return (
     <StyledFormControl>
-      <S.Label htmlFor={htmlFor}>{label}</S.Label>
-      {required && <sup className="required">*</sup>}
+      <S.Label htmlFor={htmlFor}>
+        {label}
+        {required && <sup className="required">*</sup>}
+      </S.Label>
       {children}
       {error && error}
     </StyledFormControl>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, FormEvent, ReactNode, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, FormEvent, ReactNode, useState, useEffect, useContext } from 'react';
 import { useRecoilState } from 'recoil';
 import { formState } from '../recoil/atoms/formState';
 import * as S from '../components/styles';
@@ -22,6 +22,10 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
 
   const handleChange = (e: ChangeEvent<FormTypes>) => {
     setForm((prev) => ({ ...prev, values: { ...prev.values, [e.target.name]: e.target.value } }));
+  };
+
+  const handleUploadSuccess = (name: string, value: string) => {
+    setForm((prev) => ({ ...prev, values: { ...prev.values, [name]: value } }));
   };
 
   const handleBlur = (e: FocusEvent<FormTypes>) => {
@@ -53,7 +57,7 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     return { name, value, onBlur, onChange };
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isTriedSubmit) return;
 
     if (Object.values(form.errors).some(Boolean)) {
@@ -61,9 +65,9 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     } else {
       onSubmit(form.values);
     }
-  }, [isTriedSubmit]);
+  }, [isTriedSubmit, form.errors]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setForm((prev) => ({
       ...prev,
       errors: validate(prev.values),
@@ -73,13 +77,30 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
   return {
     ...form,
     handleChange,
+    handleUploadSuccess,
     handleBlur,
     handleSubmit,
     getFieldProps,
   };
 };
 
-const formContext = React.createContext({});
+export interface FormHookReturns {
+  values: IData<string>;
+  errors: IData<string>;
+  touched: IData<boolean>;
+  handleChange: (e: ChangeEvent<FormTypes>) => void;
+  handleUploadSuccess: (name: string, value: string) => void;
+  handleBlur: (e: FocusEvent<FormTypes>) => void;
+  handleSubmit: (e: FormEvent) => void;
+  getFieldProps: (name: string) => {
+    name: string;
+    value: string;
+    onBlur: (e: FocusEvent<FormTypes>) => void;
+    onChange: (e: ChangeEvent<FormTypes>) => void;
+  };
+}
+
+export const formContext = React.createContext({});
 formContext.displayName = 'FormContext';
 
 interface FormArgs extends FormHookArgs {
@@ -110,23 +131,11 @@ interface FieldArgs extends FieldProps {
   onChange?: (e: ChangeEvent) => void;
 }
 
-interface FormValues {
-  getFieldProps: (name: string) => {
-    name: string;
-    value: string;
-    onBlur: (e: FocusEvent<FormTypes>) => void;
-    onChange: (e: ChangeEvent<FormTypes>) => void;
-  };
-  touched: IData<boolean>;
-  errors: IData<string>;
-}
-
 export const Field = ({ as = 'input', type = 'text', children, ...rest }: FieldArgs) => {
-  const { getFieldProps, touched, errors } = React.useContext(formContext) as FormValues;
+  const { getFieldProps, touched, errors } = useContext(formContext) as FormHookReturns;
   const { name, value, onBlur, onChange } = getFieldProps(rest.name);
 
-  let $error = false;
-  if (touched[name] && errors[name]) $error = true;
+  const $error = !!(touched[name] && errors[name]);
 
   return (
     <S.Field as={as} type={type} value={value} onBlur={onBlur} onChange={onChange} $error={$error} {...rest}>
@@ -136,7 +145,7 @@ export const Field = ({ as = 'input', type = 'text', children, ...rest }: FieldA
 };
 
 export const ErrorMessage = ({ name }: { name: string }) => {
-  const { touched, errors } = React.useContext(formContext) as FormValues;
+  const { touched, errors } = useContext(formContext) as FormHookReturns;
   if (!touched[name] || !errors[name]) return null;
   return <S.ErrorMessage>{errors[name]}</S.ErrorMessage>;
 };

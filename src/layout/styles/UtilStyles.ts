@@ -300,6 +300,48 @@ const UtilStyles = css`
   .text-center {
     text-align: center !important;
   }
+
+  .hidden {
+    overflow: hidden;
+    border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+  }
+
+  .color-primary {
+    color: var(--color-primary);
+  }
+
+  .color-secondary {
+    color: var(--color-secondary);
+  }
+
+  .color-placeholder {
+    color: var(--color-placeholder);
+  }
+
+  .color-border-1 {
+    color: var(--color-border-1);
+  }
+
+  .color-border-2 {
+    color: var(--color-border-2);
+  }
+
+  .color-success {
+    color: var(--color-success);
+  }
+
+  .color-error {
+    color: var(--color-error);
+  }
+
+  .color-info {
+    color: var(--color-info);
+  }
 `;
 
 export default UtilStyles;

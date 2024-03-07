@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 import { Route, Routes } from 'react-router-dom';
-import Applayout from './layout/Applayout';
+import AppLayout from './layout/Applayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
@@ -11,9 +11,9 @@ import FindIdPwPage from './pages/FindIdPwPage';
 import SignupPage from './pages/SignupPage';
 import ConsentPage from './pages/ConsentPage';
 import TestPage from './pages/TestPage';
-import SecondPage from './pages/SecondPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
 import { DialogContainer } from './hooks/useDialogState';
+import ToastList from './components/ToastList';
 import RegisterArtistPage from './pages/ArtistPage/RegisterPage';
 import ArtistPage from './pages/ArtistPage';
 
@@ -24,7 +24,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <Routes>
-          <Route path="/" element={<Applayout />}>
+          <Route path="/" element={<AppLayout />}>
             <Route index element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/join" element={<SignupPage />} />
@@ -36,7 +36,6 @@ const App = () => {
             </Route>
             <Route path="/test">
               <Route index element={<TestPage />} />
-              <Route path="second" element={<SecondPage />} />
               <Route path="private" element={<PrivatePage />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
@@ -44,6 +43,7 @@ const App = () => {
         </Routes>
 
         <DialogContainer />
+        <ToastList />
       </RecoilRoot>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

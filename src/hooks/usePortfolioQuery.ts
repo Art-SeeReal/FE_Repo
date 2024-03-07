@@ -14,5 +14,6 @@ export const useFetchLatestPortfolios: () => UseQueryResult<ResponseData> = () =
   return useQuery({
     queryKey: [QUERY_KEY.portfolios],
     queryFn: getLatestPortfolios,
+    select: (data) => data.data,
   });
 };

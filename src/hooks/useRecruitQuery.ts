@@ -14,5 +14,6 @@ export const useFetchLatestRecruits: () => UseQueryResult<ResponseData> = () => 
   return useQuery({
     queryKey: [QUERY_KEY.recruits],
     queryFn: getLatestRecruits,
+    select: (data) => data.data,
   });
 };

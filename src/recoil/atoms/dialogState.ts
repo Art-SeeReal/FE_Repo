@@ -1,11 +1,11 @@
 import { atom } from 'recoil';
 import { ReactElement } from 'react';
 
-const QUERY_KEY = {
+const STATE_KEY = {
   dialog: 'dialog',
 } as const;
 
 export const dialogState = atom<null | ReactElement>({
-  key: QUERY_KEY.dialog,
+  key: STATE_KEY.dialog,
   default: null,
 });

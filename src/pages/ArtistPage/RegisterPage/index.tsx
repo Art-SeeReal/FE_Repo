@@ -19,7 +19,6 @@ const CenteredContainer = styled.div`
 
 const RegisterArtistPage = () => {
   const [content, setContent] = useState('');
-  const [form, setForm] = useState({ title: '', content: '' });
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -32,7 +31,7 @@ const RegisterArtistPage = () => {
 
   const handleSubmit = (values: IData<string>) => {
     if (!isValidValue(content)) return;
-    setForm({ title: values.title, content });
+    register({ title: values.title, content });
   };
 
   const validate = (values: IData<string>) => {
@@ -50,12 +49,6 @@ const RegisterArtistPage = () => {
   };
 
   const { openDialog, closeDialog } = useDialog();
-
-  useEffect(() => {
-    if (form.title && form.content) {
-      register(form);
-    }
-  }, [form]);
 
   useEffect(() => {
     openDialog(
