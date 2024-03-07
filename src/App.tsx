@@ -15,6 +15,7 @@ import SecondPage from './pages/SecondPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
 import { DialogContainer } from './hooks/useDialogState';
 import RegisterArtistPage from './pages/ArtistPage/RegisterPage';
+import ArtistPage from './pages/ArtistPage';
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/agree" element={<ConsentPage />} />
             <Route path="/findIdPw" element={<FindIdPwPage />} />
             <Route path="/artist">
+              <Route index element={<ArtistPage />} />
               <Route path="register" element={<RegisterArtistPage />} />
             </Route>
             <Route path="/test">

@@ -10,3 +10,7 @@ export const fetchRegisterArtist = async (userData: IData<string>) => {
     throw error;
   }
 };
+
+export const getArtist = () => {
+  return api({ url: '/artist', method: 'get' });
+};
