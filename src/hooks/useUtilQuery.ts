@@ -1,4 +1,4 @@
-import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
+import { useQuery, useMutation, UseQueryResult, UseMutationResult } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getAreas, upload } from '../api/utils';
 
