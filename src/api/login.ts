@@ -3,7 +3,7 @@ import { loginResponse, loginData } from '../model/UserTypes';
 
 export const fetchLogin = async ({ id, pw }: loginData): Promise<loginResponse> => {
   try {
-    const response = await api.post('/login', { id, pw });
+    const response = await api.get('/login', { params: { id, pw } });
     return response.data;
   } catch (error) {
     console.error('API 호출 실패:', error);

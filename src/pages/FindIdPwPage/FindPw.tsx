@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import { useFindPwQuery } from '../../hooks/userQueries';
@@ -11,14 +11,15 @@ const FindPw = () => {
     id: '',
     email: '',
   });
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const { refetch } = useFindPwQuery({
     name: formPwData.name,
     id: formPwData.id,
     email: formPwData.email,
   });
-  const handleSubmit = async (values: IData<string>) => {
-    await setFormPwData({ name: values.userName, id: values.userId, email: values.userEmail });
-    await refetch();
+  const handleSubmit = (values: IData<string>) => {
+    setFormPwData({ name: values.userName, id: values.userId, email: values.userEmail });
+    setFormSubmitted(true);
   };
 
   const validate = (values: IData<string>) => {
@@ -38,6 +39,12 @@ const FindPw = () => {
 
     return errors;
   };
+
+  useEffect(() => {
+    if (formSubmitted && formPwData) {
+      refetch();
+    }
+  }, [formSubmitted, formPwData]);
 
   return (
     <>
