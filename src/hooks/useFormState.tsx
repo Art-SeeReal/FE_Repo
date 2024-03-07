@@ -32,7 +32,7 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     setForm((prev) => ({ ...prev, touched: { ...prev.touched, [e.target.name]: true } }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     setForm((prev) => ({
