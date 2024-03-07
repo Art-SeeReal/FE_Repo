@@ -14,8 +14,8 @@ import TestPage from './pages/TestPage';
 import SecondPage from './pages/SecondPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
 import { DialogContainer } from './hooks/useDialogState';
+import RegisterArtistPage from './pages/ArtistPage/RegisterPage';
 import ArtistPage from './pages/ArtistPage';
-import RegisterArtistPage from './pages/ArtistPage';
 
 const queryClient = new QueryClient();
 
