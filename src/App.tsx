@@ -29,7 +29,7 @@ const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/join" element={<SignupPage />} />
             <Route path="/agree" element={<ConsentPage />} />
-            <Route path="/findIdPw" element={<FindIdPwPage />} />
+            <Route path="/find-id-pw" element={<FindIdPwPage />} />
             <Route path="/artist">
               <Route index element={<ArtistPage />} />
               <Route path="register" element={<RegisterArtistPage />} />

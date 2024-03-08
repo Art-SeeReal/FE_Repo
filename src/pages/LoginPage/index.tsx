@@ -35,15 +35,15 @@ const StyledLink = styled(Link)`
 
 const LoginPage = () => {
   const [formLoginData, setFormLoginData] = useState({ id: '', pw: '' });
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const { isSuccess, refetch, data } = useLoginQuery({ id: formLoginData.id, pw: formLoginData.pw });
   const setUserState = useSetRecoilState(userState);
   const { openDialog, closeDialog } = useDialog();
 
-  // issue 비동기 버그
-  const handleSubmit = async (values: IData<string>) => {
-    await setFormLoginData({ id: values.userId, pw: values.userPw });
-    refetch();
+  const handleSubmit = (values: IData<string>) => {
+    setFormLoginData({ id: values.userId, pw: values.userPw });
+    setFormSubmitted(true);
   };
 
   const validate = (values: IData<string>) => {
@@ -74,6 +74,12 @@ const LoginPage = () => {
       }
     }
   }, [isSuccess, data]);
+
+  useEffect(() => {
+    if (formSubmitted && formLoginData) {
+      refetch();
+    }
+  }, [formSubmitted, formLoginData]);
 
   return (
     <LoginPageWrapper>
