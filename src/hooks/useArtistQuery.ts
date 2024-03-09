@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 import { getArtist } from '../api/artist';
 import { artistDataState } from '../recoil/atoms/artistBoardState';

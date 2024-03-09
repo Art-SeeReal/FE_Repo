@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as S from '../../components/styles';
@@ -40,12 +40,11 @@ const Divider = styled.div<DividerProps>`
 `;
 
 const SignupPage = () => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate: register } = useMutation(fetchRegisterUser, {
+  const { mutate: register } = useMutation({
+    mutationFn: fetchRegisterUser,
     onSuccess: () => {
-      queryClient.invalidateQueries('user');
       navigate('/');
     },
   });
