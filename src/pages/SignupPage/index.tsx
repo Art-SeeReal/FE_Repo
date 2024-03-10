@@ -1,5 +1,4 @@
-import React from 'react';
-import { useMutation } from '@tanstack/react-query';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as S from '../../components/styles';
@@ -15,7 +14,7 @@ import {
   isValidLocation,
   isValidValue,
 } from '../../utils/Validation';
-import { fetchRegisterUser } from '../../api/signup';
+import { useSignupQuery } from '../../hooks/userQueries';
 
 interface DividerProps {
   height?: string;
@@ -42,15 +41,20 @@ const Divider = styled.div<DividerProps>`
 const SignupPage = () => {
   const navigate = useNavigate();
 
-  const { mutate: register } = useMutation({
-    mutationFn: fetchRegisterUser,
-    onSuccess: () => {
-      navigate('/');
-    },
-  });
+  const { mutate: register, isSuccess } = useSignupQuery();
 
   const handleSubmit = (values: IData<string>) => {
-    register(values);
+    register({
+      signupData: {
+        name: values.userName,
+        nickName: values.userNickName,
+        pw: values.userPw,
+        pwCheck: values.userPwCheck,
+        email: values.userEmail,
+        phoneNum: values.userPhoneNum,
+        location: values.userLocation,
+      },
+    });
   };
 
   const validate = (values: IData<string>) => {
@@ -100,6 +104,12 @@ const SignupPage = () => {
 
     return errors;
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/');
+    }
+  }, [isSuccess]);
 
   return (
     <LoginPageWrapper>

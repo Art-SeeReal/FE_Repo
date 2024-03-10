@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form, Field, IData, ErrorMessage } from '../../../hooks/useFormState';
@@ -8,8 +7,8 @@ import FormControl from '../../../components/FormControl';
 import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
-import { fetchRegisterArtist } from '../../../api/artist';
 import { isValidValue } from '../../../utils/Validation';
+import { useRegisterArtist } from '../../../hooks/useArtistQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -21,12 +20,7 @@ const RegisterArtistPage = () => {
   const [content, setContent] = useState('');
   const navigate = useNavigate();
 
-  const { mutate: register } = useMutation({
-    mutationFn: fetchRegisterArtist,
-    onSuccess: () => {
-      navigate('/artist');
-    },
-  });
+  const { mutate: register, isSuccess } = useRegisterArtist();
 
   const handleSubmit = (values: IData<string>) => {
     if (!isValidValue(content)) return;
@@ -57,6 +51,13 @@ const RegisterArtistPage = () => {
       </Dialog>,
     );
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setContent('');
+      navigate('/artist');
+    }
+  }, [isSuccess]);
 
   return (
     <CenteredContainer>

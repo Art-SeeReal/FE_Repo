@@ -15,3 +15,13 @@ export interface loginData {
 export interface loginResponse {
   success: boolean;
 }
+
+export interface SignupData {
+  name: string;
+  nickName: string;
+  email: string;
+  pw: string;
+  pwCheck: string;
+  phoneNum: string;
+  location: string;
+}
