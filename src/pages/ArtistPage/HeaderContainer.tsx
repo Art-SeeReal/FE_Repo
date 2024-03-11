@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { useFetchAreas } from '../../hooks/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/useDropdown';
 import { selectedAreasState } from '../../recoil/atoms/artistBoardState';
@@ -7,9 +8,14 @@ import * as S from '../../components/styles';
 
 const Multidown = () => {
   const { data } = useFetchAreas();
+  const navigate = useNavigate();
   const initialValue = 'Q000';
   const setSelectedAreasState = useSetRecoilState(selectedAreasState);
   const [selectedAreas, setSelectedAreas] = useState<string[]>([initialValue]);
+
+  const goToRegisterPage = () => {
+    navigate('/register');
+  };
 
   useEffect(() => {
     setSelectedAreasState(selectedAreas);
@@ -30,7 +36,7 @@ const Multidown = () => {
         />
       </S.Container>
       <S.Container>
-        <S.Button>등록하기</S.Button>
+        <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
       </S.Container>
     </>
   );

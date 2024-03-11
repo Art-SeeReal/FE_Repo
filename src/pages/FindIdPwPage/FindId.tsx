@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
 import * as S from '../../components/styles';
 import { useFindIdQuery } from '../../hooks/userQueries';
@@ -10,10 +10,11 @@ const FindId = () => {
     name: '',
     email: '',
   });
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const { refetch } = useFindIdQuery({ name: formIdData.name, email: formIdData.email });
-  const handleSubmit = async (values: IData<string>) => {
-    await setFormIdData({ name: values.userName, email: values.userEmail });
-    await refetch();
+  const handleSubmit = (values: IData<string>) => {
+    setFormIdData({ name: values.userName, email: values.userEmail });
+    setFormSubmitted(true);
   };
 
   const validate = (values: IData<string>) => {
@@ -29,6 +30,12 @@ const FindId = () => {
 
     return errors;
   };
+
+  useEffect(() => {
+    if (formSubmitted && formIdData) {
+      refetch();
+    }
+  }, [formSubmitted, formIdData]);
 
   return (
     <>
