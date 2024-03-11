@@ -173,8 +173,8 @@ const ArtistImagesComponent = ({ image }: ArtistImagesComponentProps) => {
           <ArtistName>{image.artist}</ArtistName>
         </ArtistInfo>
         <LikeAndView style={{ opacity: isHovered ? 1 : 0 }}>
-          <LikeIcon src="/assets/images/like.png" alt="Like Icon" /> {image.like}
-          <ViewIcon src="/assets/images/view.png" alt="View Icon" /> {image.view}
+          <LikeIcon src="like.png" alt="Like Icon" /> {image.like}
+          <ViewIcon src="view.png" alt="View Icon" /> {image.view}
         </LikeAndView>
         <Title isVisible={isHovered}>{image.title}</Title>
         <LocationAndField isVisible={isHovered}>

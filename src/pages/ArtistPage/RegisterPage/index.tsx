@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useResetRecoilState } from 'recoil';
@@ -9,9 +8,9 @@ import FormControl from '../../../components/FormControl';
 import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
-import { fetchRegisterArtist } from '../../../api/artist';
 import { isValidValue } from '../../../utils/Validation';
 import { formState } from '../../../recoil/atoms/formState';
+import { useRegisterArtist } from '../../../hooks/useArtistQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -25,15 +24,7 @@ const RegisterArtistPage = () => {
 
   const formInitialValue = { title: '', thumbnail: '' };
   const resetForm = useResetRecoilState(formState(formInitialValue));
-
-  const { mutate: register } = useMutation({
-    mutationFn: fetchRegisterArtist,
-    onSuccess: () => {
-      resetForm();
-      setContent('');
-      navigate('/artist');
-    },
-  });
+  const { mutate: register, isSuccess } = useRegisterArtist();
 
   const handleSubmit = (values: IData<string>) => {
     if (!isValidValue(content)) return;
@@ -64,6 +55,14 @@ const RegisterArtistPage = () => {
       </Dialog>,
     );
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      resetForm();
+      setContent('');
+      navigate('/artist');
+    }
+  }, [isSuccess]);
 
   return (
     <CenteredContainer>

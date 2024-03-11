@@ -9,3 +9,8 @@ export interface ImageData {
   view: number;
   RegDate: string;
 }
+
+export interface RegisterArtistData {
+  title: string;
+  content: string;
+}
