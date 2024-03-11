@@ -14,7 +14,7 @@ const Multidown = () => {
   const [selectedAreas, setSelectedAreas] = useState<string[]>([initialValue]);
 
   const goToRegisterPage = () => {
-    navigate('/register');
+    navigate('/artist/register');
   };
 
   useEffect(() => {
