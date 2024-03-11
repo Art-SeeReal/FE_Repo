@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useResetRecoilState } from 'recoil';
 import { Form, Field, IData, ErrorMessage } from '../../../hooks/useFormState';
 import * as S from '../../../components/styles';
 import FormControl from '../../../components/FormControl';
@@ -10,6 +11,7 @@ import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
 import { fetchRegisterArtist } from '../../../api/artist';
 import { isValidValue } from '../../../utils/Validation';
+import { formState } from '../../../recoil/atoms/formState';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -21,9 +23,14 @@ const RegisterArtistPage = () => {
   const [content, setContent] = useState('');
   const navigate = useNavigate();
 
+  const formInitialValue = { title: '', thumbnail: '' };
+  const resetForm = useResetRecoilState(formState(formInitialValue));
+
   const { mutate: register } = useMutation({
     mutationFn: fetchRegisterArtist,
     onSuccess: () => {
+      resetForm();
+      setContent('');
       navigate('/artist');
     },
   });
@@ -61,7 +68,7 @@ const RegisterArtistPage = () => {
   return (
     <CenteredContainer>
       <S.Title>등록</S.Title>
-      <Form id="register-form" initialValue={{ title: '', thumbnail: '' }} validate={validate} onSubmit={handleSubmit}>
+      <Form id="register-form" initialValue={formInitialValue} validate={validate} onSubmit={handleSubmit}>
         <FormControl label="제목" htmlFor="title" required error={<ErrorMessage name="title" />}>
           <Field id="title" name="title" type="text" placeholder="제목" />
         </FormControl>
