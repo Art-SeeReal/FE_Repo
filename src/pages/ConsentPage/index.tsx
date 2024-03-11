@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import * as S from '../../components/styles';
+import Checkbox from '../../components/Checkbox';
 import ConsentText from './ConsentText';
 
 const ConsentPageContainer = styled.div`
@@ -25,9 +26,6 @@ const ConsentPage = () => {
   const [term2Checked, setTerm2Checked] = useState(false);
   const [term3Checked, setTerm3Checked] = useState(false);
   const navigate = useNavigate();
-  const term1CheckboxRef = useRef<HTMLInputElement>(null);
-  const term2CheckboxRef = useRef<HTMLInputElement>(null);
-  const term3CheckboxRef = useRef<HTMLInputElement>(null);
 
   const handleAllCheckedChange = () => {
     setAllChecked(!allChecked);
@@ -51,12 +49,6 @@ const ConsentPage = () => {
   const handleButtonClick = () => {
     if (term1Checked && term2Checked && term3Checked) {
       navigate('/join');
-    } else if (!term1Checked && term1CheckboxRef.current) {
-      term1CheckboxRef.current.focus();
-    } else if (!term2Checked && term2CheckboxRef.current) {
-      term2CheckboxRef.current.focus();
-    } else if (!term3Checked && term3CheckboxRef.current) {
-      term3CheckboxRef.current.focus();
     }
   };
 
@@ -64,26 +56,36 @@ const ConsentPage = () => {
     <ConsentPageContainer>
       <S.Title>약관동의</S.Title>
       <CheckboxLabel>
-        <S.Checkbox checked={allChecked} onChange={handleAllCheckedChange} />
-        전체 약관 동의
+        <Checkbox
+          id="allCheckbox"
+          name="allCheckbox"
+          value="allCheckbox"
+          checked={allChecked}
+          onChange={handleAllCheckedChange}
+        >
+          전체 약관 동의
+        </Checkbox>
       </CheckboxLabel>
       <CheckboxLabel>
-        <S.Checkbox checked={term1Checked} onChange={handleTerm1Change} ref={term1CheckboxRef} />
-        약관 1 동의
+        <Checkbox id="checkBox1" name="checkBox1" value="checkBox1" checked={term1Checked} onChange={handleTerm1Change}>
+          약관 1 동의
+        </Checkbox>
       </CheckboxLabel>
       <S.ScrollableContainer>
         <ConsentText />
       </S.ScrollableContainer>
       <CheckboxLabel>
-        <S.Checkbox checked={term2Checked} onChange={handleTerm2Change} ref={term2CheckboxRef} />
-        약관 2 동의
+        <Checkbox id="checkBox2" name="checkBox2" value="checkBox2" checked={term2Checked} onChange={handleTerm2Change}>
+          약관 2 동의
+        </Checkbox>
       </CheckboxLabel>
       <S.ScrollableContainer>
         <ConsentText />
       </S.ScrollableContainer>
       <CheckboxLabel>
-        <S.Checkbox checked={term3Checked} onChange={handleTerm3Change} ref={term3CheckboxRef} />
-        약관 3 동의
+        <Checkbox id="checkBox3" name="checkBox3" value="checkBox3" checked={term3Checked} onChange={handleTerm3Change}>
+          약관 3 동의
+        </Checkbox>
       </CheckboxLabel>
       <S.ScrollableContainer>
         <ConsentText />
