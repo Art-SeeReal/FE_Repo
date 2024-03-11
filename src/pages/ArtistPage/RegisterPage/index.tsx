@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form, Field, IData, ErrorMessage } from '../../../hooks/useFormState';
@@ -19,12 +19,11 @@ const CenteredContainer = styled.div`
 
 const RegisterArtistPage = () => {
   const [content, setContent] = useState('');
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate: register } = useMutation(fetchRegisterArtist, {
+  const { mutate: register } = useMutation({
+    mutationFn: fetchRegisterArtist,
     onSuccess: () => {
-      queryClient.invalidateQueries('user');
       navigate('/artist');
     },
   });
