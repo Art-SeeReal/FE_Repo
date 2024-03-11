@@ -24,7 +24,7 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     setForm((prev) => ({ ...prev, values: { ...prev.values, [e.target.name]: e.target.value } }));
   };
 
-  const handleUploadSuccess = (name: string, value: string) => {
+  const setFormValues = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, values: { ...prev.values, [name]: value } }));
   };
 
@@ -77,7 +77,7 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
   return {
     ...form,
     handleChange,
-    handleUploadSuccess,
+    setFormValues,
     handleBlur,
     handleSubmit,
     getFieldProps,
@@ -89,7 +89,7 @@ export interface FormHookReturns {
   errors: IData<string>;
   touched: IData<boolean>;
   handleChange: (e: ChangeEvent<FormTypes>) => void;
-  handleUploadSuccess: (name: string, value: string) => void;
+  setFormValues: (name: string, value: string) => void;
   handleBlur: (e: FocusEvent<FormTypes>) => void;
   handleSubmit: (e: FormEvent) => void;
   getFieldProps: (name: string) => {
@@ -101,7 +101,6 @@ export interface FormHookReturns {
 }
 
 export const formContext = React.createContext({});
-formContext.displayName = 'FormContext';
 
 interface FormArgs extends FormHookArgs {
   id: string;
