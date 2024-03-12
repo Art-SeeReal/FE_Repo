@@ -5,7 +5,8 @@ import { useSetRecoilState } from 'recoil';
 import { getArtist } from '../api/artist';
 import { artistDataState } from '../recoil/atoms/artistBoardState';
 import { fetchRegisterArtist } from '../api/artist';
-import { RegisterArtistData } from '../model/ArtistTypes';
+import { ImageData, RegisterArtistData } from '../model/ArtistTypes';
+import { getDetailArtist } from '../api/artist';
 
 const QUERY_KEY = {
   artist: 'artist',
@@ -52,3 +53,10 @@ export const useRegisterArtist: () => UseMutationResult<
   useMutation<AxiosResponse<RegisterArtistData>, AxiosError, { title: string; content: string }>({
     mutationFn: fetchRegisterArtist,
   });
+
+export const useFetchArtistDetails: (id: number) => UseQueryResult<ImageData> = (id) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.artist, id],
+    queryFn: () => getDetailArtist(id),
+  });
+};

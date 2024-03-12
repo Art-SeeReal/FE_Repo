@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RecoilRoot } from 'recoil';
 import { Route, Routes } from 'react-router-dom';
-import AppLayout from './layout/AppLayout';
+import AppLayout from './layout/Applayout';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
@@ -16,6 +16,7 @@ import { DialogContainer } from './hooks/useDialogState';
 import ToastList from './components/ToastList';
 import RegisterArtistPage from './pages/ArtistPage/RegisterPage';
 import ArtistPage from './pages/ArtistPage';
+import ArtistDetailPage from './pages/ArtistPage/DetialPage';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/artist">
               <Route index element={<ArtistPage />} />
               <Route path="register" element={<RegisterArtistPage />} />
+              <Route path="detail/:id" element={<ArtistDetailPage />} />
             </Route>
             <Route path="/test">
               <Route index element={<TestPage />} />

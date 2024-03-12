@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface ImageData {
@@ -164,10 +165,15 @@ const LocationAndField = styled.div<{ isVisible: boolean }>`
 
 const ArtistImagesComponent = ({ image }: ArtistImagesComponentProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const handleImageClick = () => {
+    navigate(`/artist/detail/${image.id}`);
+  };
 
   return (
     <ImageWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <ImageContainer>
+      <ImageContainer onClick={handleImageClick}>
         <Image id={image.id} src={image.imageUrl} alt={image.title} />
         <ArtistInfo style={{ opacity: isHovered ? 1 : 0 }}>
           <ArtistName>{image.artist}</ArtistName>

@@ -9,3 +9,7 @@ export const fetchRegisterArtist = async (userData: IData<string>) => {
 export const getArtist = () => {
   return api({ url: '/artist', method: 'get' });
 };
+
+export const getDetailArtist = (id: number) => {
+  return api({ url: `/artist/${id}`, method: 'get' });
+};
