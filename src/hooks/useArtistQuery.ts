@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { getArtist } from '../api/artist';
 import { artistDataState } from '../recoil/atoms/artistBoardState';
+import { fetchRegisterArtist } from '../api/artist';
+import { RegisterArtistData } from '../model/ArtistTypes';
 
 const QUERY_KEY = {
   artist: 'artist',
@@ -40,3 +43,12 @@ export const useFetchArtist: () => UseQueryResult<ResponseData> = () => {
 
   return query;
 };
+
+export const useRegisterArtist: () => UseMutationResult<
+  AxiosResponse<RegisterArtistData>,
+  AxiosError,
+  { title: string; content: string }
+> = () =>
+  useMutation<AxiosResponse<RegisterArtistData>, AxiosError, { title: string; content: string }>({
+    mutationFn: fetchRegisterArtist,
+  });

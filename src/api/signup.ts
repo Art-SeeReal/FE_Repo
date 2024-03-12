@@ -1,12 +1,12 @@
-import { IData } from '../hooks/useFormState';
+import { AxiosResponse } from 'axios';
 import api from '../utils/api';
+import { SignupData } from '../model/UserTypes';
 
-export const fetchRegisterUser = async (userData: IData<string>): Promise<void> => {
-  try {
-    const response = await api.post('/signup', userData);
-    return response.data;
-  } catch (error) {
-    alert(error);
-    throw error;
-  }
+export const fetchRegisterUser = async ({
+  signupData,
+}: {
+  signupData: SignupData;
+}): Promise<AxiosResponse<SignupData>> => {
+  const response = await api.post('/signup', signupData);
+  return response;
 };
