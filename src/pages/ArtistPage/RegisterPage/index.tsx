@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useResetRecoilState } from 'recoil';
@@ -9,8 +8,8 @@ import FormControl from '../../../components/FormControl';
 import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
-import { fetchRegisterArtist } from '../../../api/artist';
 import { isValidValue } from '../../../utils/Validation';
+import { useRegisterArtist } from '../../../hooks/useArtistQuery';
 import { formState } from '../../../recoil/atoms/formState';
 
 const CenteredContainer = styled.div`
@@ -23,17 +22,9 @@ const RegisterArtistPage = () => {
   const [content, setContent] = useState('');
   const navigate = useNavigate();
 
+  const { mutate: register, isSuccess } = useRegisterArtist();
   const formInitialValue = { title: '', thumbnail: '' };
   const resetForm = useResetRecoilState(formState(formInitialValue));
-
-  const { mutate: register } = useMutation({
-    mutationFn: fetchRegisterArtist,
-    onSuccess: () => {
-      resetForm();
-      setContent('');
-      navigate('/artist');
-    },
-  });
 
   const handleSubmit = (values: IData<string>) => {
     if (!isValidValue(content)) return;
@@ -63,6 +54,19 @@ const RegisterArtistPage = () => {
         부적절한 콘텐츠를 게시할 경우 서비스 이용이 제한될 수 있습니다.
       </Dialog>,
     );
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/artist');
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    return () => {
+      resetForm();
+      setContent('');
+    };
   }, []);
 
   return (
