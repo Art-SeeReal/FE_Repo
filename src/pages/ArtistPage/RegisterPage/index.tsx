@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useResetRecoilState } from 'recoil';
 import { Form, Field, IData, ErrorMessage } from '../../../hooks/useFormState';
 import * as S from '../../../components/styles';
 import FormControl from '../../../components/FormControl';
@@ -8,6 +9,7 @@ import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
 import { isValidValue } from '../../../utils/Validation';
+import { formState } from '../../../recoil/atoms/formState';
 import { useRegisterArtist } from '../../../hooks/useArtistQuery';
 
 const CenteredContainer = styled.div`
@@ -21,6 +23,8 @@ const RegisterArtistPage = () => {
   const navigate = useNavigate();
 
   const { mutate: register, isSuccess } = useRegisterArtist();
+  const formInitialValue = { title: '', thumbnail: '' };
+  const resetForm = useResetRecoilState(formState(formInitialValue));
 
   const handleSubmit = (values: IData<string>) => {
     if (!isValidValue(content)) return;
@@ -54,15 +58,21 @@ const RegisterArtistPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setContent('');
       navigate('/artist');
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    return () => {
+      resetForm();
+      setContent('');
+    };
+  }, []);
+
   return (
     <CenteredContainer>
       <S.Title>등록</S.Title>
-      <Form id="register-form" initialValue={{ title: '', thumbnail: '' }} validate={validate} onSubmit={handleSubmit}>
+      <Form id="register-form" initialValue={formInitialValue} validate={validate} onSubmit={handleSubmit}>
         <FormControl label="제목" htmlFor="title" required error={<ErrorMessage name="title" />}>
           <Field id="title" name="title" type="text" placeholder="제목" />
         </FormControl>

@@ -62,11 +62,11 @@ const Upload = ({ id, name, accept, useThumbnail, onSuccess }: Props) => {
 
     if (onSuccess) onSuccess(name, data.data.fileUrl);
 
-    if (hasFormValue) formValue.handleUploadSuccess(name, data.data.fileUrl);
+    if (hasFormValue) formValue.setFormValues(name, data.data.fileUrl);
   }, [isSuccess]);
 
   useEffect(() => {
-    if (hasFormValue && isSuccess) formValue.handleUploadSuccess(name, ''); // 리셋
+    if (hasFormValue && isSuccess) formValue.setFormValues(name, ''); // 리셋
   }, [file]);
 
   return (
