@@ -9,8 +9,8 @@ import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
 import { isValidValue } from '../../../utils/Validation';
-import { useRegisterArtist } from '../../../hooks/useArtistQuery';
 import { formState } from '../../../recoil/atoms/formState';
+import { useRegisterArtist } from '../../../hooks/useArtistQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
