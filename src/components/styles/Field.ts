@@ -24,7 +24,7 @@ export const Field = styled.input<FieldProps>`
   width: 100%;
   padding: 0.75em 1em;
   border-radius: 0.8rem;
-  border: 1px solid var(--color-border-1);
+  border: 1px solid var(--color-border-2);
   outline: 0;
   -webkit-appearance: none;
   appearance: none;

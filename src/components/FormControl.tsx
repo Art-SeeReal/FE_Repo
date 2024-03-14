@@ -6,7 +6,7 @@ interface Props {
   label: string;
   htmlFor: string;
   required?: boolean;
-  error?: ReactElement;
+  error?: ReactElement | null;
   children: ReactNode;
 }
 
