@@ -12,7 +12,7 @@ export const formState = atomFamily({
   key: STATE_KEY.form,
   default: (initialValue: IData<string>) => ({
     values: initialValue,
-    errors: {},
-    touched: {},
+    errors: {} as IData<string>,
+    touched: {} as IData<boolean>,
   }),
 });

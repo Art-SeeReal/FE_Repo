@@ -17,3 +17,7 @@ export const isEmptyObject = <T>(obj: T) => {
 
   return Object.keys(obj).length === 0;
 };
+
+export const removeHtmlTags = (htmlStr: string) => {
+  return htmlStr.replace(/<[^>]*>?/g, '');
+};

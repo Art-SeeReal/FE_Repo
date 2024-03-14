@@ -37,7 +37,6 @@ const StyledToastItem = styled.li<{ $isClosing: boolean; $type?: string }>`
 `;
 
 const ToastListItem = ({ type, content, duration }: Toast) => {
-  console.log(`type: ${type}`);
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {

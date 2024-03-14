@@ -25,7 +25,7 @@ const StyledDropdown = styled.div`
     margin-top: 1.6rem;
     padding: 1em;
     border-radius: 0.8rem;
-    border: 1px solid var(--color-border-1);
+    border: 1px solid var(--color-border-2);
     background-color: #fff;
     box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.1);
   }
