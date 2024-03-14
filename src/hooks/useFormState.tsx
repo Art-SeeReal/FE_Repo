@@ -18,18 +18,32 @@ interface FormHookArgs {
 
 export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
   const [form, setForm] = useRecoilState(formState(initialValue));
-  const [isTriedSubmit, setIsTriedSubmit] = useState(false);
+  const [triedSubmit, setTriedSubmit] = useState(0);
+
+  const resetForm = () => {
+    setForm((prev) => {
+      const values = Object.keys(prev.values).reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
+      const errors = Object.keys(prev.errors).reduce((acc, cur) => ({ ...acc, [cur]: '' }), {});
+      const touched = Object.keys(prev.touched).reduce((acc, cur) => ({ ...acc, [cur]: false }), {});
+
+      return { values, errors, touched };
+    });
+  };
 
   const handleChange = (e: ChangeEvent<FormTypes>) => {
     setForm((prev) => ({ ...prev, values: { ...prev.values, [e.target.name]: e.target.value } }));
   };
 
-  const setFormValues = (name: string, value: string) => {
+  const handleBlur = (e: FocusEvent<FormTypes>) => {
+    setForm((prev) => ({ ...prev, touched: { ...prev.touched, [e.target.name]: true } }));
+  };
+
+  const setFormValue = (name: string, value: string) => {
     setForm((prev) => ({ ...prev, values: { ...prev.values, [name]: value } }));
   };
 
-  const handleBlur = (e: FocusEvent<FormTypes>) => {
-    setForm((prev) => ({ ...prev, touched: { ...prev.touched, [e.target.name]: true } }));
+  const setFormTouched = (name: string) => {
+    setForm((prev) => ({ ...prev, touched: { ...prev.touched, [name]: true } }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -43,7 +57,7 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
       errors: validate(prev.values),
     }));
 
-    setIsTriedSubmit(true);
+    setTriedSubmit(+new Date());
   };
 
   const getFieldProps = (name: string) => {
@@ -57,15 +71,30 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     return { name, value, onBlur, onChange };
   };
 
+  const getQuillProps = (name: string) => {
+    const content = form.values[name] || '';
+    const onBlur = () => setFormTouched(name);
+    const onChange = (value: string) => setFormValue(name, value);
+
+    return { content, onBlur, onChange };
+  };
+
+  const getUploadProps = (name: string) => {
+    const onSuccess = (fileUrl: string) => setFormValue(name, fileUrl);
+    const onReset = () => setFormValue(name, '');
+
+    return { name, onSuccess, onReset };
+  };
+
   useEffect(() => {
-    if (!isTriedSubmit) return;
+    if (!triedSubmit) return;
 
     if (Object.values(form.errors).some(Boolean)) {
-      setIsTriedSubmit(false);
+      setTriedSubmit(0);
     } else {
       onSubmit(form.values);
     }
-  }, [isTriedSubmit, form.errors]);
+  }, [triedSubmit]);
 
   useEffect(() => {
     setForm((prev) => ({
@@ -76,11 +105,15 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
 
   return {
     ...form,
+    resetForm,
+    setFormValue,
+    setFormTouched,
+    getFieldProps,
+    getQuillProps,
+    getUploadProps,
     handleChange,
-    setFormValues,
     handleBlur,
     handleSubmit,
-    getFieldProps,
   };
 };
 
@@ -89,7 +122,8 @@ export interface FormHookReturns {
   errors: IData<string>;
   touched: IData<boolean>;
   handleChange: (e: ChangeEvent<FormTypes>) => void;
-  setFormValues: (name: string, value: string) => void;
+  setFormValue: (name: string, value: string) => void;
+  setFormTouched: (name: string) => void;
   handleBlur: (e: FocusEvent<FormTypes>) => void;
   handleSubmit: (e: FormEvent) => void;
   getFieldProps: (name: string) => {
