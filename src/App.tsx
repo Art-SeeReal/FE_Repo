@@ -17,6 +17,8 @@ import ToastList from './components/ToastList';
 import RegisterArtistPage from './pages/ArtistPage/RegisterPage';
 import ArtistPage from './pages/ArtistPage';
 import { Interceptor } from './utils/api';
+import ArtistDetailPage from './pages/ArtistPage/DetialPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,7 @@ const App = () => {
               <Route path="/artist">
                 <Route index element={<ArtistPage />} />
                 <Route path="register" element={<RegisterArtistPage />} />
+                <Route path=":id" element={<ArtistDetailPage />} />
               </Route>
               <Route path="/test">
                 <Route index element={<TestPage />} />
@@ -43,7 +46,6 @@ const App = () => {
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
-
           <DialogContainer />
           <ToastList />
         </Interceptor>
