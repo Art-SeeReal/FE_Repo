@@ -79,7 +79,7 @@ const RegisterArtistPage = () => {
         <FormControl label="썸네일" htmlFor="thumbnail" required error={<ErrorMessage name="thumbnail" />}>
           <Field id="thumbnail" name="thumbnail" type="password" placeholder="썸네일" />
         </FormControl>
-        <ReactQuillForm width="800px" height="400px" content={content} setContent={setContent} />
+        <ReactQuillForm width="800px" height="400px" content={content} onChange={setContent} />
         <S.Button type="submit">제출</S.Button>
       </Form>
     </CenteredContainer>
