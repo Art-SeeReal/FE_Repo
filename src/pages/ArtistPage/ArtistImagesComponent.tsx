@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { RiHeartFill, RiEyeLine } from '@remixicon/react';
 
 interface ImageData {
   id: number;
@@ -93,21 +95,13 @@ const LikeAndView = styled.div`
   color: white;
   z-index: 2;
 
+  & > * {
+    margin-right: 2px;
+  }
+
   @media (max-width: 560px) {
     display: none;
   }
-`;
-
-const LikeIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-`;
-
-const ViewIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
 `;
 
 const ImageWrapper = styled.div`
@@ -164,17 +158,23 @@ const LocationAndField = styled.div<{ isVisible: boolean }>`
 
 const ArtistImagesComponent = ({ image }: ArtistImagesComponentProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const handleImageClick = () => {
+    navigate(`/artist/${image.id}`);
+  };
 
   return (
     <ImageWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <ImageContainer>
+      <ImageContainer onClick={handleImageClick}>
         <Image id={image.id} src={image.imageUrl} alt={image.title} />
         <ArtistInfo style={{ opacity: isHovered ? 1 : 0 }}>
           <ArtistName>{image.artist}</ArtistName>
         </ArtistInfo>
         <LikeAndView style={{ opacity: isHovered ? 1 : 0 }}>
-          <LikeIcon src="like.png" alt="Like Icon" /> {image.like}
-          <ViewIcon src="view.png" alt="View Icon" /> {image.view}
+          <RiEyeLine />
+          {image.like}
+          <RiHeartFill /> {image.view}
         </LikeAndView>
         <Title isVisible={isHovered}>{image.title}</Title>
         <LocationAndField isVisible={isHovered}>

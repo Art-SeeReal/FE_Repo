@@ -6,10 +6,24 @@ import { getArtist } from '../api/artist';
 import { artistDataState } from '../recoil/atoms/artistBoardState';
 import { fetchRegisterArtist } from '../api/artist';
 import { RegisterArtistData } from '../model/ArtistTypes';
+import { getDetailArtist } from '../api/artist';
 
 const QUERY_KEY = {
   artist: 'artist',
 } as const;
+
+interface ArtistData {
+  id: number;
+  imageUrl: string;
+  title: string;
+  artist: string;
+  location: string;
+  field: string;
+  like: number;
+  view: number;
+  RegDate: string;
+  content: string;
+}
 
 interface ResponseData {
   data: {
@@ -23,6 +37,7 @@ interface ResponseData {
       like: number;
       view: number;
       RegDate: string;
+      content: string;
     }[];
   };
 }
@@ -52,3 +67,13 @@ export const useRegisterArtist: () => UseMutationResult<
   useMutation<AxiosResponse<RegisterArtistData>, AxiosError, { title: string; content: string }>({
     mutationFn: fetchRegisterArtist,
   });
+
+export const useFetchArtistDetails: (id: number) => UseQueryResult<ArtistData> = (id) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.artist, id],
+    queryFn: () => getDetailArtist(id),
+    select: (data) => {
+      return data.data;
+    },
+  });
+};

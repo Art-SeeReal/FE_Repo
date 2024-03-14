@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ReactNode } from 'react';
 
 const SIZES = {
+  xsmall: 'xsmall',
   small: 'small',
   medium: 'medium',
   large: 'large',
@@ -61,6 +62,12 @@ export const Button = styled.button<Props>`
   }
 
   ${({ $size }) => {
+    if ($size === SIZES.xsmall)
+      return `
+        height: 8px;
+        min-width: 6rem;
+        font-size: var(--text-body-2);
+      `;
     if ($size === SIZES.small)
       return `
         min-width: 10rem;
