@@ -1,11 +1,9 @@
-import React, { ChangeEvent, useState, useRef, useEffect, useContext } from 'react';
+import React, { ChangeEvent, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useUpload } from '../hooks/useUtilQuery';
 import Thumbnail from './Thumbnail';
 import FileInfo from './FileInfo';
 import * as S from './styles';
-import { formContext, FormHookReturns } from '../hooks/useFormState';
-import { isEmptyObject } from '../utils/utils';
 
 const StyledButtons = styled.div`
   display: flex;
@@ -18,14 +16,12 @@ interface Props {
   id: string;
   name: string;
   accept?: string;
-  useThumbnail?: boolean;
-  onSuccess?: (name: string, fileUrl: string) => void;
+  thumbnailMode?: boolean;
+  onSuccess?: (value: string) => void;
+  onReset?: () => void;
 }
 
-const Upload = ({ id, name, accept, useThumbnail, onSuccess }: Props) => {
-  const formValue = useContext(formContext) as FormHookReturns;
-  const hasFormValue = !isEmptyObject(formValue);
-
+const Upload = ({ id, name, accept, thumbnailMode, onSuccess, onReset }: Props) => {
   const [file, setFile] = useState<File>(); // 바이너리 파일
   const [fileInfo, setFileInfo] = useState({ fileUrl: '', fileName: '' });
   const [isStaging, setIsStaging] = useState(false); // 파일 서버 업로드 대기 상태
@@ -60,13 +56,13 @@ const Upload = ({ id, name, accept, useThumbnail, onSuccess }: Props) => {
 
     setIsStaging(false);
 
-    if (onSuccess) onSuccess(name, data.data.fileUrl);
-
-    if (hasFormValue) formValue.setFormValues(name, data.data.fileUrl);
+    if (onSuccess) onSuccess(data.data.fileUrl);
   }, [isSuccess]);
 
   useEffect(() => {
-    if (hasFormValue && isSuccess) formValue.setFormValues(name, ''); // 리셋
+    if (isSuccess && onReset) {
+      onReset();
+    }
   }, [file]);
 
   return (
@@ -77,11 +73,11 @@ const Upload = ({ id, name, accept, useThumbnail, onSuccess }: Props) => {
         className="hidden"
         type="file"
         name={name}
-        accept={accept}
+        accept={thumbnailMode && !accept ? 'image/*' : accept}
         onChange={handleFileChange}
       />
 
-      {useThumbnail && <Thumbnail imageUrl={fileInfo.fileUrl} onClick={triggerFileSearch} />}
+      {thumbnailMode && <Thumbnail imageUrl={fileInfo.fileUrl} onClick={triggerFileSearch} />}
 
       {fileInfo.fileName && <FileInfo data={fileInfo} isUploaded={isSuccess && !isStaging} />}
 
