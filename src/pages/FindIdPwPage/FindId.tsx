@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
+import { useForm, IData } from '../../hooks/useFormState';
+import Form from '../../components/Form';
+import ErrorMessage from '../../components/ErrorMessage';
+import { useToast } from '../../hooks/useToastState';
 import * as S from '../../components/styles';
 import { useFindIdQuery } from '../../hooks/userQueries';
 import FormControl from '../../components/FormControl';
 import { isValidValue } from '../../utils/Validation';
 
 const FindId = () => {
+  const initialValue = { userName: '', userEmail: '' };
   const [formIdData, setFormIdData] = useState({
     name: '',
     email: '',
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const { refetch } = useFindIdQuery({ name: formIdData.name, email: formIdData.email });
-  const handleSubmit = (values: IData<string>) => {
+  const { refetch, isSuccess } = useFindIdQuery({ name: formIdData.name, email: formIdData.email });
+  const onSubmit = (values: IData<string>) => {
     setFormIdData({ name: values.userName, email: values.userEmail });
     setFormSubmitted(true);
   };
@@ -31,21 +35,44 @@ const FindId = () => {
     return errors;
   };
 
+  const { errors, touched, getFieldProps, handleSubmit, resetForm } = useForm({
+    initialValue,
+    validate,
+    onSubmit,
+  });
+  const { appendToast } = useToast();
+
   useEffect(() => {
     if (formSubmitted && formIdData) {
       refetch();
     }
   }, [formSubmitted, formIdData]);
 
+  useEffect(() => {
+    if (!isSuccess) return;
+    resetForm();
+    appendToast({ content: '작성 완료', type: 'success' });
+  }, [isSuccess]);
+
   return (
     <>
       <S.Title>아이디 찾기</S.Title>
-      <Form id="login-form" initialValue={{ userName: '', userEmail: '' }} validate={validate} onSubmit={handleSubmit}>
-        <FormControl label="이름" htmlFor="userName" required error={<ErrorMessage name="userName" />}>
-          <Field id="userName" name="userName" type="text" placeholder="이름" />
+      <Form id="login-form" onSubmit={handleSubmit}>
+        <FormControl
+          label="이름"
+          htmlFor="userName"
+          required
+          error={<ErrorMessage touched={touched.userName} message={errors.userName} />}
+        >
+          <S.Field id="userName" {...getFieldProps('userName')} type="text" placeholder="이름" />
         </FormControl>
-        <FormControl label="이메일" htmlFor="userEmail" required error={<ErrorMessage name="userEmail" />}>
-          <Field id="userEmail" name="userEmail" type="text" placeholder="이메일" />
+        <FormControl
+          label="이메일"
+          htmlFor="userEmail"
+          required
+          error={<ErrorMessage touched={touched.userEmail} message={errors.userEmail} />}
+        >
+          <S.Field id="userEmail" {...getFieldProps('userEmail')} type="email" placeholder="이메일" />
         </FormControl>
         <S.Button type="submit">찾기</S.Button>
       </Form>

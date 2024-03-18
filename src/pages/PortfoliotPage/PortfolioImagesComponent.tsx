@@ -2,22 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiHeartFill, RiEyeLine } from '@remixicon/react';
-
-interface ImageData {
-  id: number;
-  imageUrl: string;
-  title: string;
-  artist: string;
-  location: string;
-  field: string;
-  like: number;
-  view: number;
-  RegDate: string;
-}
-
-interface ArtistImagesComponentProps {
-  image: ImageData;
-}
+import { PortfolioImagesComponentProps } from '../../model/PortfolioTypes';
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -156,12 +141,12 @@ const LocationAndField = styled.div<{ isVisible: boolean }>`
   }
 `;
 
-const ArtistImagesComponent = ({ image }: ArtistImagesComponentProps) => {
+const PortfolioImagesComponent = ({ image }: PortfolioImagesComponentProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
   const handleImageClick = () => {
-    navigate(`/artist/${image.id}`);
+    navigate(`/portfolio/${image.id}`);
   };
 
   return (
@@ -185,4 +170,4 @@ const ArtistImagesComponent = ({ image }: ArtistImagesComponentProps) => {
   );
 };
 
-export default ArtistImagesComponent;
+export default PortfolioImagesComponent;

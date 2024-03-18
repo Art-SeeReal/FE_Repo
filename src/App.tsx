@@ -14,12 +14,11 @@ import TestPage from './pages/TestPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
 import { DialogContainer } from './hooks/useDialogState';
 import ToastList from './components/ToastList';
-import RegisterArtistPage from './pages/ArtistPage/RegisterPage';
-import ArtistPage from './pages/ArtistPage';
+import RegisterPortfolioPage from './pages/PortfoliotPage/RegisterPage';
+import Portfoilio from './pages/PortfoliotPage';
 import { Interceptor } from './utils/api';
-import ArtistDetailPage from './pages/ArtistPage/DetialPage';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import ModifyPage from './pages/ArtistPage/ModifyPage';
+import DetailPortfolioPage from './pages/PortfoliotPage/DetialPage';
+import ModifyPortfolioPage from './pages/PortfoliotPage/ModifyPage';
 
 const queryClient = new QueryClient();
 
@@ -35,11 +34,11 @@ const App = () => {
               <Route path="/join" element={<SignupPage />} />
               <Route path="/agree" element={<ConsentPage />} />
               <Route path="/find-id-pw" element={<FindIdPwPage />} />
-              <Route path="/artist">
-                <Route index element={<ArtistPage />} />
-                <Route path="register" element={<RegisterArtistPage />} />
-                <Route path=":id" element={<ArtistDetailPage />} />
-                <Route path="update/:id" element={<ModifyPage />} />
+              <Route path="/portfolio">
+                <Route index element={<Portfoilio />} />
+                <Route path="register" element={<RegisterPortfolioPage />} />
+                <Route path=":id" element={<DetailPortfolioPage />} />
+                <Route path="update/:id" element={<ModifyPortfolioPage />} />
               </Route>
               <Route path="/test">
                 <Route index element={<TestPage />} />
