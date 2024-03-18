@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useSetRecoilState } from 'recoil';
-import { getArtist } from '../api/artist';
+import { getArtist, updateArtist, deleteArtist } from '../api/artist';
 import { artistDataState } from '../recoil/atoms/artistBoardState';
 import { fetchRegisterArtist } from '../api/artist';
 import { RegisterArtistData } from '../model/ArtistTypes';
 import { getDetailArtist } from '../api/artist';
+import { IData } from './useFormState';
 
 const QUERY_KEY = {
   artist: 'artist',
@@ -77,3 +78,17 @@ export const useFetchArtistDetails: (id: number) => UseQueryResult<ArtistData> =
     },
   });
 };
+
+export const useUpdateArtist: () => UseMutationResult<
+  AxiosResponse<IData<string>>,
+  AxiosError,
+  { id: number; userData: IData<string> }
+> = () =>
+  useMutation<AxiosResponse<IData<string>>, AxiosError, { id: number; userData: IData<string> }>({
+    mutationFn: (variables) => updateArtist(variables.id, variables.userData),
+  });
+
+export const useDeleteArtist: () => UseMutationResult<AxiosResponse<IData<string>>, AxiosError, { id: number }> = () =>
+  useMutation<AxiosResponse<IData<string>>, AxiosError, { id: number }>({
+    mutationFn: (variables) => deleteArtist(variables.id),
+  });

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RiHeartLine, RiEyeLine, RiStarLine, RiStarFill, RiHeartFill, RiCalendar2Line } from '@remixicon/react';
 import { Row, Col } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFetchArtistDetails } from '../../../hooks/useArtistQuery';
 import * as S from '../../../components/styles';
 
@@ -66,6 +66,11 @@ const ArtistDetailPage = () => {
   const params = useParams();
   const userId = params.id;
   const { data: artistDetails } = useFetchArtistDetails(Number(userId));
+  const navigate = useNavigate();
+
+  const goToModifyPage = () => {
+    navigate(`/artist/update/${userId}`);
+  };
 
   return (
     <div>
@@ -113,7 +118,7 @@ const ArtistDetailPage = () => {
               <p dangerouslySetInnerHTML={{ __html: artistDetails?.content ?? '' }} />
             </ContentContainer>
             <CenteredButtonContainer>
-              <S.Button>수정하기</S.Button>
+              <S.Button onClick={goToModifyPage}>수정하기</S.Button>
             </CenteredButtonContainer>
           </CenteredDiv>
         </Col>

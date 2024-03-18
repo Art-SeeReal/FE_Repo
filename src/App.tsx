@@ -19,6 +19,7 @@ import ArtistPage from './pages/ArtistPage';
 import { Interceptor } from './utils/api';
 import ArtistDetailPage from './pages/ArtistPage/DetialPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ModifyPage from './pages/ArtistPage/ModifyPage';
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => {
                 <Route index element={<ArtistPage />} />
                 <Route path="register" element={<RegisterArtistPage />} />
                 <Route path=":id" element={<ArtistDetailPage />} />
+                <Route path="update/:id" element={<ModifyPage />} />
               </Route>
               <Route path="/test">
                 <Route index element={<TestPage />} />
