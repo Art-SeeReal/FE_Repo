@@ -5,7 +5,7 @@ import HeaderNavGnb from './HeaderNavGnb';
 const GnbItems = [
   {
     id: 1,
-    to: '/artist',
+    to: '/portfolio',
     name: '예술가 포트폴리오',
   },
   {

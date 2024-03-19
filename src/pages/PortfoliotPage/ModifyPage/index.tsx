@@ -12,8 +12,7 @@ import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
 import { isValidValue } from '../../../utils/Validation';
-import { useDeleteArtist, useUpdateArtist } from '../../../hooks/useArtistQuery';
-import { useFetchArtistDetails } from '../../../hooks/useArtistQuery';
+import { useDeletePortfolio, useUpdatePortfolio, useFetchDetailPortfolio } from '../../../hooks/usePortfoliosQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -21,16 +20,16 @@ const CenteredContainer = styled.div`
   padding: 100px 0;
 `;
 
-const ModifyPage = () => {
+const ModifyPortfolioPage = () => {
   const params = useParams();
   const userId = Number(params.id);
-  const { data: artistDetails } = useFetchArtistDetails(Number(userId));
-  const { mutate: update, isSuccess } = useUpdateArtist();
-  const { mutate: deleteArtist } = useDeleteArtist();
+  const { data: portfolioDetail } = useFetchDetailPortfolio(Number(userId));
+  const { mutate: updatePortfolio, isSuccess } = useUpdatePortfolio();
+  const { mutate: deletePortfolio } = useDeletePortfolio();
   const navigate = useNavigate();
   const initialValue = {
-    title: artistDetails?.title || '',
-    content: artistDetails?.content || '',
+    title: portfolioDetail?.title || '',
+    content: portfolioDetail?.content || '',
   };
   const validate = (values: IData<string>) => {
     const errors: IData<string> = {};
@@ -47,7 +46,7 @@ const ModifyPage = () => {
   };
 
   const onSubmit = (values: IData<string>) => {
-    update({ id: userId, userData: values });
+    updatePortfolio({ id: userId, userData: values });
   };
 
   const { errors, touched, getFieldProps, getQuillProps, handleSubmit } = useForm({
@@ -65,7 +64,7 @@ const ModifyPage = () => {
         삭제하시겠습니까?
       </Dialog>,
     );
-    deleteArtist({ id: userId });
+    deletePortfolio({ id: userId });
   };
 
   useEffect(() => {
@@ -80,7 +79,7 @@ const ModifyPage = () => {
   useEffect(() => {
     if (!isSuccess) return;
     appendToast({ content: '작성 완료', type: 'success' });
-    navigate(`/artist/${userId}`);
+    navigate(`/portfolio/${userId}`);
   }, [isSuccess]);
 
   return (
@@ -110,4 +109,4 @@ const ModifyPage = () => {
   );
 };
 
-export default ModifyPage;
+export default ModifyPortfolioPage;

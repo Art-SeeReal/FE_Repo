@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as S from '../../components/styles';
-import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
+import { useForm, IData } from '../../hooks/useFormState';
+import Form from '../../components/Form';
+import ErrorMessage from '../../components/ErrorMessage';
+import { useToast } from '../../hooks/useToastState';
 import FormControl from '../../components/FormControl';
 import {
   isValidName,
@@ -40,10 +43,19 @@ const Divider = styled.div<DividerProps>`
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const initialValue = {
+    userName: '',
+    userNickName: '',
+    userPw: '',
+    userPwCheck: '',
+    userEmail: '',
+    userPhoneNum: '',
+    userLocation: '',
+  };
 
   const { mutate: register, isSuccess } = useSignupQuery();
 
-  const handleSubmit = (values: IData<string>) => {
+  const onSubmit = (values: IData<string>) => {
     register({
       signupData: {
         name: values.userName,
@@ -105,10 +117,18 @@ const SignupPage = () => {
     return errors;
   };
 
+  const { errors, touched, getFieldProps, handleSubmit, resetForm } = useForm({
+    initialValue,
+    validate,
+    onSubmit,
+  });
+  const { appendToast } = useToast();
+
   useEffect(() => {
-    if (isSuccess) {
-      navigate('/');
-    }
+    if (!isSuccess) return;
+    resetForm();
+    appendToast({ content: '작성 완료', type: 'success' });
+    navigate('/');
   }, [isSuccess]);
 
   return (
@@ -116,40 +136,62 @@ const SignupPage = () => {
       <S.Title>회원가입</S.Title>
       <Subtitle>아트씨리얼에 오신 것을 환영합니다.</Subtitle>
       <Divider height="3px" />
-      <Form
-        id="signup-form"
-        initialValue={{
-          userName: '',
-          userNickName: '',
-          userPw: '',
-          userPwCheck: '',
-          userEmail: '',
-          userPhoneNum: '',
-          userLocation: '',
-        }}
-        validate={validate}
-        onSubmit={handleSubmit}
-      >
-        <FormControl label="이름" htmlFor="userName" required error={<ErrorMessage name="userName" />}>
-          <Field id="userName" name="userName" type="text" placeholder="이름" />
+      <Form id="signup-form" onSubmit={handleSubmit}>
+        <FormControl
+          label="이름"
+          htmlFor="userName"
+          required
+          error={<ErrorMessage touched={touched.userName} message={errors.userName} />}
+        >
+          <S.Field id="userName" {...getFieldProps('userName')} type="text" placeholder="이름" />
         </FormControl>
-        <FormControl label="닉네임" htmlFor="userNickName" required error={<ErrorMessage name="userNickName" />}>
-          <Field id="userNickName" name="userNickName" type="text" placeholder="닉네임" />
+        <FormControl
+          label="닉네임"
+          htmlFor="userNickName"
+          required
+          error={<ErrorMessage touched={touched.userNickName} message={errors.userNickName} />}
+        >
+          <S.Field id="userNickName" {...getFieldProps('userNickName')} type="text" placeholder="닉네임" />
         </FormControl>
-        <FormControl label="이메일" htmlFor="userEmail" required error={<ErrorMessage name="userEmail" />}>
-          <Field id="userEmail" name="userEmail" type="email" placeholder="이메일" />
+        <FormControl
+          label="이메일"
+          htmlFor="userEmail"
+          required
+          error={<ErrorMessage touched={touched.userEmail} message={errors.userEmail} />}
+        >
+          <S.Field id="userEmail" {...getFieldProps('userEmail')} type="email" placeholder="이메일" />
         </FormControl>
-        <FormControl label="비밀번호" htmlFor="userPw" required error={<ErrorMessage name="userPw" />}>
-          <Field id="userPw" name="userPw" type="password" placeholder="비밀번호" />
+        <FormControl
+          label="비밀번호"
+          htmlFor="userPw"
+          required
+          error={<ErrorMessage touched={touched.userPw} message={errors.userPw} />}
+        >
+          <S.Field id="userPw" {...getFieldProps('userPw')} type="password" placeholder="비밀번호" />
         </FormControl>
-        <FormControl label="비밀번호확인" htmlFor="userPwCheck" required error={<ErrorMessage name="userPwCheck" />}>
-          <Field id="userPwCheck" name="userPwCheck" type="password" placeholder="비밀번호확인" />
+        <FormControl
+          label="비밀번호확인"
+          htmlFor="userPwCheck"
+          required
+          error={<ErrorMessage touched={touched.userPwCheck} message={errors.userPwCheck} />}
+        >
+          <S.Field id="userPwCheck" {...getFieldProps('userPwCheck')} type="password" placeholder="비밀번호확인" />
         </FormControl>
-        <FormControl label="핸드폰번호" htmlFor="userPhoneNum" required error={<ErrorMessage name="userPhoneNum" />}>
-          <Field id="userPhoneNum" name="userPhoneNum" type="text" placeholder="핸드폰번호" />
+        <FormControl
+          label="핸드폰번호"
+          htmlFor="userPhoneNum"
+          required
+          error={<ErrorMessage touched={touched.userPhoneNum} message={errors.userPhoneNum} />}
+        >
+          <S.Field id="userPhoneNum" {...getFieldProps('userPhoneNum')} type="text" placeholder="핸드폰번호" />
         </FormControl>
-        <FormControl label="지역" htmlFor="userLocation" required error={<ErrorMessage name="userLocation" />}>
-          <Field id="userLocation" name="userLocation" type="text" placeholder="지역" />
+        <FormControl
+          label="지역"
+          htmlFor="userLocation"
+          required
+          error={<ErrorMessage touched={touched.userLocation} message={errors.userLocation} />}
+        >
+          <S.Field id="userLocation" {...getFieldProps('userLocation')} type="text" placeholder="지역" />
         </FormControl>
         <S.Button type="submit">제출</S.Button>
       </Form>

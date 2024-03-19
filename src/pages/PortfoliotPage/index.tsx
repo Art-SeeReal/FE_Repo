@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useRecoilValue } from 'recoil';
-import { ImageData } from '../../model/ArtistTypes';
-import ArtistImagesComponent from './ArtistImagesComponent';
+import { ImageTypes } from '../../model/PortfolioTypes';
+import PortfolioImagesComponent from './PortfolioImagesComponent';
 import * as S from '../../components/styles';
-import { useFetchArtist } from '../../hooks/useArtistQuery';
+import { useFetchPortfolio } from '../../hooks/usePortfoliosQuery';
 import HeaderContainer from './HeaderContainer';
-import { artistDataSelector } from '../../recoil/selectors/artistBoardSelectors';
+import { portfolioDataSelector } from '../../recoil/selectors/portfolioBoardSelectors';
 import Loading from '../../components/Loading';
 
 const HeaderContainerStyle = styled.div`
@@ -43,9 +43,9 @@ const ImageWrapper = styled.div`
 
 const ITEMS_PER_PAGE = 10;
 
-const IndexPage = () => {
-  const artistDataSelectorState = useRecoilValue(artistDataSelector);
-  const { isLoading, isError } = useFetchArtist();
+const PortfolioPage = () => {
+  const PortfolioDataSelectorState = useRecoilValue(portfolioDataSelector);
+  const { isLoading, isError } = useFetchPortfolio();
   const [page, setPage] = useState(1);
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
@@ -69,15 +69,15 @@ const IndexPage = () => {
         ) : (
           <>
             <ImageContainer>
-              {artistDataSelectorState?.slice(startIndex, endIndex).map((image: ImageData) => (
+              {PortfolioDataSelectorState?.slice(startIndex, endIndex).map((image: ImageTypes) => (
                 <ImageWrapper key={image.id}>
-                  <ArtistImagesComponent image={image} />
+                  <PortfolioImagesComponent image={image} />
                 </ImageWrapper>
               ))}
             </ImageContainer>
             <Stack spacing={2} direction="row" justifyContent="center">
               <Pagination
-                count={Math.ceil((artistDataSelectorState?.length ?? 0) / ITEMS_PER_PAGE)}
+                count={Math.ceil((PortfolioDataSelectorState?.length ?? 0) / ITEMS_PER_PAGE)}
                 page={page}
                 onChange={handleChangePage}
                 color="secondary"
@@ -91,4 +91,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default PortfolioPage;

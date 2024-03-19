@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { useFetchAreas } from '../../hooks/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/useDropdown';
-import { selectedAreasState } from '../../recoil/atoms/artistBoardState';
+import { selectedAreasState } from '../../recoil/atoms/portfolioBoardState';
 import * as S from '../../components/styles';
 
 const Multidown = () => {
@@ -14,7 +14,7 @@ const Multidown = () => {
   const [selectedAreas, setSelectedAreas] = useState<string[]>([initialValue]);
 
   const goToRegisterPage = () => {
-    navigate('/artist/register');
+    navigate('/portfolio/register');
   };
 
   useEffect(() => {

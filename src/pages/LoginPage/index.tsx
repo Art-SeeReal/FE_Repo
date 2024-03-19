@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { useLoginQuery } from '../../hooks/userQueries';
-import { Form, Field, IData, ErrorMessage } from '../../hooks/useFormState';
+import { useForm, IData } from '../../hooks/useFormState';
+import Form from '../../components/Form';
+import ErrorMessage from '../../components/ErrorMessage';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import { userState } from '../../recoil/atoms/userState';
@@ -39,9 +41,13 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { isSuccess, refetch, data } = useLoginQuery({ id: formLoginData.id, pw: formLoginData.pw });
   const setUserState = useSetRecoilState(userState);
+  const initialValue = {
+    userId: '',
+    userPw: '',
+  };
   const { openDialog, closeDialog } = useDialog();
 
-  const handleSubmit = (values: IData<string>) => {
+  const onSubmit = (values: IData<string>) => {
     setFormLoginData({ id: values.userId, pw: values.userPw });
     setFormSubmitted(true);
   };
@@ -60,12 +66,20 @@ const LoginPage = () => {
     return errors;
   };
 
+  const { errors, touched, getFieldProps, handleSubmit, resetForm } = useForm({
+    initialValue,
+    validate,
+    onSubmit,
+  });
+
   useEffect(() => {
     if (isSuccess) {
       if (data.success) {
         setUserState(true);
+        resetForm();
         navigate('/private');
       } else {
+        resetForm();
         openDialog(
           <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
             올바른 아이디와 비밀번호가 아닙니다.
@@ -84,12 +98,22 @@ const LoginPage = () => {
   return (
     <LoginPageWrapper>
       <S.Title>로그인</S.Title>
-      <Form id="login-form" initialValue={{ userId: '', userPw: '' }} validate={validate} onSubmit={handleSubmit}>
-        <FormControl label="아이디" htmlFor="userId" required error={<ErrorMessage name="userId" />}>
-          <Field id="userId" name="userId" type="text" placeholder="아이디" />
+      <Form id="login-form" onSubmit={handleSubmit}>
+        <FormControl
+          label="아이디"
+          htmlFor="userId"
+          required
+          error={<ErrorMessage touched={touched.userId} message={errors.userId} />}
+        >
+          <S.Field id="userId" {...getFieldProps('userId')} type="text" placeholder="아이디" />
         </FormControl>
-        <FormControl label="비밀번호" htmlFor="userPw" required error={<ErrorMessage name="userPw" />}>
-          <Field id="userPw" name="userPw" type="password" placeholder="비밀번호" />
+        <FormControl
+          label="비밀번호"
+          htmlFor="userPw"
+          required
+          error={<ErrorMessage touched={touched.userPw} message={errors.userPw} />}
+        >
+          <S.Field id="userPw" {...getFieldProps('userPw')} type="password" placeholder="비밀번호" />
         </FormControl>
         <S.Button type="submit">제출</S.Button>
         <StyledLinksWrapper>

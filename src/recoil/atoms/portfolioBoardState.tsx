@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
-import { ImageData } from '../../model/ArtistTypes';
+import { ImageTypes } from '../../model/PortfolioTypes';
 
-export const artistDataState = atom<ImageData[]>({
-  key: 'artistDataState',
+export const portfolioDataState = atom<ImageTypes[]>({
+  key: 'portfolioDataState',
   default: [],
 });
 
