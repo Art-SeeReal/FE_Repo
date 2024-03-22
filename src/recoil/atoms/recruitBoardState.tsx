@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
+import { RecruitsTypes } from '../../model/RecruitsTypes';
 
-export const recruitBoardState = atom({
-  key: 'recruitBoardState',
-  default: {},
+export const recruitsDataState = atom<RecruitsTypes[]>({
+  key: 'recruitsDataState',
+  default: [],
 });

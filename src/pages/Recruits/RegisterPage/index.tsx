@@ -12,7 +12,7 @@ import ReactQuillForm from '../../../components/ReactQuillForm';
 import { isValidValue } from '../../../utils/Validation';
 import ErrorMessage from '../../../components/ErrorMessage';
 import { removeHtmlTags } from '../../../utils/utils';
-import { useRegisterRecruits } from '../../../hooks/useRecruitsQuery';
+import { useRegisterPortfolio } from '../../../hooks/usePortfoliosQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -27,7 +27,7 @@ const RegisterPortfolioPage = () => {
   };
   const navigate = useNavigate();
 
-  const { mutate: register, isSuccess } = useRegisterRecruits();
+  const { mutate: register, isSuccess } = useRegisterPortfolio();
 
   const onSubmit = (values: IData<string>) => {
     register({ title: values.title, content: values.content });

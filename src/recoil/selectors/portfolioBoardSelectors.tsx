@@ -11,6 +11,6 @@ export const portfolioDataSelector = selector({
 
     return selectedAreas.length === 1 && selectedAreas[0] === ALL_COUNTRY
       ? portfolioDataStates
-      : portfolioDataStates.filter(({ location }) => selectedAreas.includes(location));
+      : portfolioDataStates.filter(({ location: { code } }) => selectedAreas.includes(code));
   },
 });

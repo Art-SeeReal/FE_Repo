@@ -87,7 +87,7 @@ const DetailPortfolioPage = () => {
               <RiCalendar2Line color="black" />
               {portfolioDetails?.RegDate}
             </S.Button>
-            <S.Button $size="xsmall">{portfolioDetails?.location}</S.Button>
+            <S.Button $size="xsmall">{portfolioDetails?.location.label}</S.Button>
             <S.Button $size="xsmall">{portfolioDetails?.field}</S.Button>
           </OptionContainer>
           <OptionContainer>

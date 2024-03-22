@@ -5,7 +5,10 @@ export interface ImageTypes {
   imageUrl: string;
   title: string;
   artist: string;
-  location: string;
+  location: {
+    code: string;
+    label: string;
+  }
   field: string;
   like: number;
   view: number;

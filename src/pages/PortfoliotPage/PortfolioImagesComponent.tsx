@@ -163,7 +163,7 @@ const PortfolioImagesComponent = ({ image }: PortfolioImagesComponentProps) => {
         </LikeAndView>
         <Title isVisible={isHovered}>{image.title}</Title>
         <LocationAndField isVisible={isHovered}>
-          {image.location} - {image.field}
+          {image.location.label} - {image.field}
         </LocationAndField>
       </ImageContainer>
     </ImageWrapper>

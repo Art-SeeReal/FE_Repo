@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useForm, IData } from '../../../hooks/useFormState';
 import Form from '../../../components/Form';
-import { useToast } from '../../../hooks/useToastState';
 import * as S from '../../../components/styles';
+import ErrorMessage from '../../../components/ErrorMessage';
+import { removeHtmlTags } from '../../../utils/utils';
+import { useToast } from '../../../hooks/useToastState';
 import FormControl from '../../../components/FormControl';
 import { useDialog } from '../../../hooks/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
 import { isValidValue } from '../../../utils/Validation';
-import ErrorMessage from '../../../components/ErrorMessage';
-import { removeHtmlTags } from '../../../utils/utils';
-import { useRegisterRecruits } from '../../../hooks/useRecruitsQuery';
+import { useDeleteRecruits, useUpdateRecruits, useFetchDetailRecruits } from '../../../hooks/useRecruitsQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -20,19 +20,17 @@ const CenteredContainer = styled.div`
   padding: 100px 0;
 `;
 
-const RegisterPortfolioPage = () => {
-  const initialValue = {
-    title: '',
-    content: '',
-  };
+const ModifyRecruitsPage = () => {
+  const params = useParams();
+  const userId = Number(params.id);
+  const { data: recruitsDetail } = useFetchDetailRecruits(Number(userId));
+  const { mutate: updateRecruits, isSuccess } = useUpdateRecruits();
+  const { mutate: deleteRecruits } = useDeleteRecruits();
   const navigate = useNavigate();
-
-  const { mutate: register, isSuccess } = useRegisterRecruits();
-
-  const onSubmit = (values: IData<string>) => {
-    register({ title: values.title, content: values.content });
+  const initialValue = {
+    title: recruitsDetail?.title || '',
+    content: recruitsDetail?.content || '',
   };
-
   const validate = (values: IData<string>) => {
     const errors: IData<string> = {};
 
@@ -47,14 +45,27 @@ const RegisterPortfolioPage = () => {
     return errors;
   };
 
-  const { errors, touched, getFieldProps, getQuillProps, handleSubmit, resetForm } = useForm({
+  const onSubmit = (values: IData<string>) => {
+    updateRecruits({ id: userId, data: values });
+  };
+
+  const { errors, touched, getFieldProps, getQuillProps, handleSubmit } = useForm({
     initialValue,
     validate,
     onSubmit,
   });
+  const { appendToast } = useToast();
 
   const { openDialog, closeDialog } = useDialog();
-  const { appendToast } = useToast();
+
+  const deleteContent = () => {
+    openDialog(
+      <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
+        삭제하시겠습니까?
+      </Dialog>,
+    );
+    deleteRecruits({ id: userId });
+  };
 
   useEffect(() => {
     openDialog(
@@ -67,15 +78,13 @@ const RegisterPortfolioPage = () => {
 
   useEffect(() => {
     if (!isSuccess) return;
-
-    resetForm();
     appendToast({ content: '작성 완료', type: 'success' });
-    navigate('/recruits');
+    navigate(`/Recruits/${userId}`);
   }, [isSuccess]);
 
   return (
     <CenteredContainer>
-      <S.Title>등록</S.Title>
+      <S.Title>수정</S.Title>
       <Form id="register-form" onSubmit={handleSubmit}>
         <FormControl
           label="제목"
@@ -93,10 +102,11 @@ const RegisterPortfolioPage = () => {
         >
           <ReactQuillForm {...getQuillProps('content')} />
         </FormControl>
-        <S.Button type="submit">제출</S.Button>
+        <S.Button type="submit">수정하기</S.Button>
+        <S.Button onClick={deleteContent}>삭제</S.Button>
       </Form>
     </CenteredContainer>
   );
 };
 
-export default RegisterPortfolioPage;
+export default ModifyRecruitsPage;

@@ -19,6 +19,10 @@ import Portfoilio from './pages/PortfoliotPage';
 import { Interceptor } from './utils/api';
 import DetailPortfolioPage from './pages/PortfoliotPage/DetialPage';
 import ModifyPortfolioPage from './pages/PortfoliotPage/ModifyPage';
+import Recruits from './pages/Recruits';
+import DetailRecruitsPage from './pages/Recruits/DetailPage';
+import RegisterRecruitsPage from './pages/Recruits/RegisterPage';
+import ModifyRecruitsPage from './pages/Recruits/ModifyPage';
 
 const queryClient = new QueryClient();
 
@@ -39,6 +43,12 @@ const App = () => {
                 <Route path="register" element={<RegisterPortfolioPage />} />
                 <Route path=":id" element={<DetailPortfolioPage />} />
                 <Route path="update/:id" element={<ModifyPortfolioPage />} />
+              </Route>
+              <Route path="recruits">
+                <Route index element={<Recruits />} />
+                <Route path="register" element={<RegisterRecruitsPage />} />
+                <Route path=":id" element={<DetailRecruitsPage />} />
+                <Route path="update/:id" element={<ModifyRecruitsPage />} />
               </Route>
               <Route path="/test">
                 <Route index element={<TestPage />} />
