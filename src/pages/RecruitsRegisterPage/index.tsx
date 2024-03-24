@@ -1,30 +1,40 @@
 import React, { useEffect } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { useForm, IData } from '../../hooks/useFormState';
 import Form from '../../components/Form';
+import { useToast } from '../../hooks/customs/useToastState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
+import { isValidValue } from '../../utils/validation';
 import ErrorMessage from '../../components/ErrorMessage';
 import { removeHtmlTags } from '../../utils/utils';
-import { useToast } from '../../hooks/customs/useToastState';
-import Upload from '../../components/Upload';
+import { useRegisterPortfolio } from '../../hooks/query/usePortfoliosQuery';
 
-function testRegister() {
-  return new Promise((resolve) => setTimeout(() => resolve('success'), 2000));
-}
+const CenteredContainer = styled.div`
+  width: 800px;
+  margin: auto;
+  padding: 100px 0;
+`;
 
-export default () => {
+const RegisterPortfolioPage = () => {
   const initialValue = {
     title: '',
     content: '',
-    thumbUrl: '',
+  };
+  const navigate = useNavigate();
+
+  const { mutate: register, isSuccess } = useRegisterPortfolio();
+
+  const onSubmit = (values: IData<string>) => {
+    register({ title: values.title, content: values.content });
   };
 
   const validate = (values: IData<string>) => {
     const errors: IData<string> = {};
 
-    if (!values.title) {
+    if (!isValidValue(values.title)) {
       errors.title = '제목을 입력하세요.';
     }
 
@@ -32,21 +42,10 @@ export default () => {
       errors.content = '내용을 입력하세요.';
     }
 
-    if (!values.thumbUrl) {
-      errors.thumbUrl = '썸네일을 업로드하세요.';
-    }
-
     return errors;
   };
 
-  const { mutate, isSuccess, isPending } = useMutation({ mutationFn: testRegister });
-
-  const onSubmit = (values: IData<string>) => {
-    console.log('onSubmit: ', values);
-    mutate();
-  };
-
-  const { errors, touched, getFieldProps, getQuillProps, getUploadProps, handleSubmit, resetForm } = useForm({
+  const { errors, touched, getFieldProps, getQuillProps, handleSubmit, resetForm } = useForm({
     initialValue,
     validate,
     onSubmit,
@@ -59,11 +58,13 @@ export default () => {
 
     resetForm();
     appendToast({ content: '작성 완료', type: 'success' });
+    navigate('/recruits');
   }, [isSuccess]);
 
   return (
-    <S.Container $paddingTop $paddingBottom>
-      <Form id="test-form" onSubmit={handleSubmit}>
+    <CenteredContainer>
+      <S.Title>등록</S.Title>
+      <Form id="register-form" onSubmit={handleSubmit}>
         <FormControl
           label="제목"
           htmlFor="title"
@@ -80,21 +81,10 @@ export default () => {
         >
           <ReactQuillForm {...getQuillProps('content')} />
         </FormControl>
-        <FormControl
-          label="썸네일"
-          htmlFor="thumbUrl"
-          required
-          error={<ErrorMessage touched={touched.thumbUrl} message={errors.thumbUrl} />}
-        >
-          <Upload id="thumbUrl" {...getUploadProps('thumbUrl')} thumbnailMode accept=".jpg, .jpeg, .png" />
-        </FormControl>
-
-        <div className="text-right mt-5">
-          <S.Button type="submit" disabled={isPending}>
-            확인
-          </S.Button>
-        </div>
+        <S.Button type="submit">제출</S.Button>
       </Form>
-    </S.Container>
+    </CenteredContainer>
   );
 };
+
+export default RegisterPortfolioPage;

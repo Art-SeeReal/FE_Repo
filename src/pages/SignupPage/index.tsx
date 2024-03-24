@@ -5,7 +5,7 @@ import * as S from '../../components/styles';
 import { useForm, IData } from '../../hooks/useFormState';
 import Form from '../../components/Form';
 import ErrorMessage from '../../components/ErrorMessage';
-import { useToast } from '../../hooks/useToastState';
+import { useToast } from '../../hooks/customs/useToastState';
 import FormControl from '../../components/FormControl';
 import {
   isValidName,
@@ -16,8 +16,8 @@ import {
   isValidPhoneNum,
   isValidLocation,
   isValidValue,
-} from '../../utils/Validation';
-import { useSignupQuery } from '../../hooks/userQueries';
+} from '../../utils/validation';
+import { useSignupQuery } from '../../hooks/query/userQueries';
 
 interface DividerProps {
   height?: string;

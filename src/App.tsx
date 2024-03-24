@@ -12,17 +12,18 @@ import SignupPage from './pages/SignupPage';
 import ConsentPage from './pages/ConsentPage';
 import TestPage from './pages/TestPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
-import { DialogContainer } from './hooks/useDialogState';
+import { DialogContainer } from './hooks/customs/useDialogState';
 import ToastList from './components/ToastList';
-import RegisterPortfolioPage from './pages/PortfoliotPage/RegisterPage';
-import Portfoilio from './pages/PortfoliotPage';
+import RegisterPortfolioPage from './pages/PortfolioRegisterPage';
+import Portfoilio from './pages/PortfolioPage';
 import { Interceptor } from './utils/api';
-import DetailPortfolioPage from './pages/PortfoliotPage/DetialPage';
-import ModifyPortfolioPage from './pages/PortfoliotPage/ModifyPage';
-import Recruits from './pages/Recruits';
-import DetailRecruitsPage from './pages/Recruits/DetailPage';
-import RegisterRecruitsPage from './pages/Recruits/RegisterPage';
-import ModifyRecruitsPage from './pages/Recruits/ModifyPage';
+import DetailPortfolioPage from './pages/PortfolioDetialPage';
+import ModifyPortfolioPage from './pages/PortfolioModifyPage';
+import Recruits from './pages/RecruitsPage';
+import DetailRecruitsPage from './pages/RecruitsDetailPage';
+import RegisterRecruitsPage from './pages/RecruitsRegisterPage';
+import ModifyRecruitsPage from './pages/RecruitsModifyPage';
+import ScrollToTop from './components/ScrollTop';
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <Interceptor>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<AppLayout />}>
               <Route index element={<HomePage />} />

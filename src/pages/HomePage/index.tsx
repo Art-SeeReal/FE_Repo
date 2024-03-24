@@ -2,8 +2,8 @@ import React from 'react';
 import BannerSlider from './BannerSlider';
 import * as S from '../../components/styles';
 import SectionCarousel from './SectionCarousel';
-import { useFetchLatestPortfolios } from '../../hooks/usePortfolioQuery';
-import { useFetchLatestRecruits } from '../../hooks/useRecruitQuery';
+import { useFetchLatestPortfolios } from '../../hooks/query/usePortfolioQuery';
+import { useFetchLatestRecruits } from '../../hooks/query/useRecruitQuery';
 
 const HomePage = () => {
   const { data: latestPortfolios } = useFetchLatestPortfolios();

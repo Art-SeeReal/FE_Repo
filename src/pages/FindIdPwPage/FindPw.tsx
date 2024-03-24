@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useForm, IData } from '../../hooks/useFormState';
 import Form from '../../components/Form';
 import ErrorMessage from '../../components/ErrorMessage';
-import { useToast } from '../../hooks/useToastState';
+import { useToast } from '../../hooks/customs/useToastState';
 import * as S from '../../components/styles';
-import { useFindPwQuery } from '../../hooks/userQueries';
+import { useFindPwQuery } from '../../hooks/query/userQueries';
 import FormControl from '../../components/FormControl';
-import { isValidValue } from '../../utils/Validation';
+import { isValidValue } from '../../utils/validation';
 
 const FindPw = () => {
   const initialValue = { userName: '', userId: '', userEmail: '' };

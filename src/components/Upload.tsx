@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { useUpload } from '../hooks/useUtilQuery';
+import { useUpload } from '../hooks/query/useUtilQuery';
 import Thumbnail from './Thumbnail';
 import FileInfo from './FileInfo';
 import * as S from './styles';

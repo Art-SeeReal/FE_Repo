@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { RecruitsTypes } from '../../model/RecruitsTypes';
+import { RecruitsTypes } from '../../model/apiTypes';
 
 export const recruitsDataState = atom<RecruitsTypes[]>({
   key: 'recruitsDataState',
