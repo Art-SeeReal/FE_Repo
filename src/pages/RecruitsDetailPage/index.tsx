@@ -81,7 +81,7 @@ const DetailRecruitsPage = () => {
               {recruitsDetails?.RegDate}
             </S.Button>
             <S.Button $size="xsmall">{recruitsDetails?.location.label}</S.Button>
-            <S.Button $size="xsmall">{recruitsDetails?.field}</S.Button>
+            <S.Button $size="xsmall">{recruitsDetails?.field.label}</S.Button>
           </OptionContainer>
         </DetailsContainer>
         <ContentContainer>

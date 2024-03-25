@@ -14,15 +14,15 @@ import TestPage from './pages/TestPage';
 import PrivatePage from './pages/LoginPage/PrivatePage';
 import { DialogContainer } from './hooks/customs/useDialogState';
 import ToastList from './components/ToastList';
-import RegisterPortfolioPage from './pages/PortfolioRegisterPage';
-import Portfoilio from './pages/PortfolioPage';
 import { Interceptor } from './utils/api';
-import DetailPortfolioPage from './pages/PortfolioDetialPage';
-import ModifyPortfolioPage from './pages/PortfolioModifyPage';
-import Recruits from './pages/RecruitsPage';
-import DetailRecruitsPage from './pages/RecruitsDetailPage';
-import RegisterRecruitsPage from './pages/RecruitsRegisterPage';
-import ModifyRecruitsPage from './pages/RecruitsModifyPage';
+import PortfolioRegisterPage from './pages/PortfolioRegisterPage';
+import PortfoilioPage from './pages/PortfolioPage';
+import PortfolioDetailPage from './pages/PortfolioDetialPage';
+import PortfolioModifyPage from './pages/PortfolioModifyPage';
+import RecruitsPage from './pages/RecruitsPage';
+import RecruitsDetailPage from './pages/RecruitsDetailPage';
+import RecruitsRegisterPage from './pages/RecruitsRegisterPage';
+import RecruitsModifyPage from './pages/RecruitsModifyPage';
 import ScrollToTop from './components/ScrollTop';
 
 const queryClient = new QueryClient();
@@ -41,16 +41,16 @@ const App = () => {
               <Route path="/agree" element={<ConsentPage />} />
               <Route path="/find-id-pw" element={<FindIdPwPage />} />
               <Route path="/portfolio">
-                <Route index element={<Portfoilio />} />
-                <Route path="register" element={<RegisterPortfolioPage />} />
-                <Route path=":id" element={<DetailPortfolioPage />} />
-                <Route path="update/:id" element={<ModifyPortfolioPage />} />
+                <Route index element={<PortfoilioPage />} />
+                <Route path="register" element={<PortfolioRegisterPage />} />
+                <Route path=":id" element={<PortfolioDetailPage />} />
+                <Route path="update/:id" element={<PortfolioModifyPage />} />
               </Route>
               <Route path="recruits">
-                <Route index element={<Recruits />} />
-                <Route path="register" element={<RegisterRecruitsPage />} />
-                <Route path=":id" element={<DetailRecruitsPage />} />
-                <Route path="update/:id" element={<ModifyRecruitsPage />} />
+                <Route index element={<RecruitsPage />} />
+                <Route path="register" element={<RecruitsRegisterPage />} />
+                <Route path=":id" element={<RecruitsDetailPage />} />
+                <Route path="update/:id" element={<RecruitsModifyPage />} />
               </Route>
               <Route path="/test">
                 <Route index element={<TestPage />} />

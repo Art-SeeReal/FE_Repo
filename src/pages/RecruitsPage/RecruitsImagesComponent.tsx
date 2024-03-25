@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiStarLine } from '@remixicon/react';
-import { RecruitsTypes } from '../../model/apiTypes';
 
 const ImageContainer = styled.div`
   border: 1px solid #ccc;
@@ -33,24 +32,40 @@ const Title = styled.div`
   margin-bottom: 10px;
 `;
 
-const RecruitsImagesComponent = ({ data }: { data: RecruitsTypes }) => {
+export interface RecruitsProps {
+  recruitsProps: {
+    id: number;
+    name: string;
+    title: string;
+    location: {
+      code: string;
+      label: string;
+    };
+    field: {
+      code: string;
+      label: string;
+    };
+    RegDate: string;
+    content: string;
+  };
+}
+
+const RecruitsImagesComponent = ({ recruitsProps }: RecruitsProps) => {
   const navigate = useNavigate();
 
   const handleImageClick = () => {
-    navigate(`/recruits/${data.id}`);
+    navigate(`/recruits/${recruitsProps.id}`);
   };
-  useEffect(() => {
-    console.log(data.location);
-  }, [data.location]);
+
   return (
     <ImageContainer onClick={handleImageClick}>
       <NameAndIconContainer>
-        <PlannerName>{data.name}</PlannerName>
+        <PlannerName>{recruitsProps.name}</PlannerName>
         <RiStarLine />
       </NameAndIconContainer>
-      <Title>{data.title}</Title>
+      <Title>{recruitsProps.title}</Title>
       <div>
-        위치: {data.location?.label} | 분야: {data.field}
+        위치: {recruitsProps.location?.label} | 분야: {recruitsProps.field?.label}
       </div>
     </ImageContainer>
   );

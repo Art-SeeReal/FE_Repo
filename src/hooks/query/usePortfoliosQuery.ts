@@ -1,49 +1,39 @@
-import { useEffect } from 'react';
 import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useSetRecoilState } from 'recoil';
 import { getPortfolios, updatePortfolio, deletePortfolio, getDetailPortfolio } from '../../api/portfolio';
-import { portfolioDataState } from '../../recoil/atoms/portfolioBoardState';
-import { postPortfolio } from '../../api/portfolio';
-import { IData } from '../useFormState';
+import { addPortfolio } from '../../api/portfolio';
 import {
-  PortfolioResponseTypes,
-  PortfolioTypes,
-  RegisterPortfolioTypes,
-  PortfoilioUpdataTypes,
+  GetPortfoliosRequest,
+  GetPortfoliosResponse,
+  PostPortfolioRequest,
+  PostPortfolioResponse,
+  GetDetailPortfoliosResponse,
+  PutPortfolioRequest,
+  PutPortfolioResponse,
+  DeletePortfolioResponse,
 } from '../../model/apiTypes';
 
 const QUERY_KEY = {
   portfolio: 'portfolio',
 } as const;
 
-export const useFetchPortfolios: (page: number) => UseQueryResult<PortfolioResponseTypes> = (page: number) => {
-  const setPortfolioDataState = useSetRecoilState(portfolioDataState);
-
-  const query = useQuery({
+export const useFetchPortfolios = (params: GetPortfoliosRequest): UseQueryResult<GetPortfoliosResponse, AxiosError> => {
+  return useQuery({
     queryKey: [QUERY_KEY.portfolio],
-    queryFn: () => getPortfolios(page),
+    queryFn: () => getPortfolios(params),
   });
-
-  useEffect(() => {
-    if (query.data) {
-      setPortfolioDataState((prevData) => [...prevData, ...query.data.data]);
-    }
-  }, [query.data]);
-
-  return query;
 };
 
 export const useRegisterPortfolio: () => UseMutationResult<
-  AxiosResponse<RegisterPortfolioTypes>,
+  AxiosResponse<PostPortfolioResponse>,
   AxiosError,
-  { title: string; content: string }
+  PostPortfolioRequest
 > = () =>
-  useMutation<AxiosResponse<RegisterPortfolioTypes>, AxiosError, { title: string; content: string }>({
-    mutationFn: postPortfolio,
+  useMutation<AxiosResponse<PostPortfolioResponse>, AxiosError, PostPortfolioRequest>({
+    mutationFn: (data) => addPortfolio(data),
   });
 
-export const useFetchDetailPortfolio: (id: number) => UseQueryResult<PortfolioTypes> = (id) => {
+export const useFetchDetailPortfolio: (id: number) => UseQueryResult<GetDetailPortfoliosResponse> = (id) => {
   return useQuery({
     queryKey: [QUERY_KEY.portfolio, id],
     queryFn: () => getDetailPortfolio(id),
@@ -54,19 +44,19 @@ export const useFetchDetailPortfolio: (id: number) => UseQueryResult<PortfolioTy
 };
 
 export const useUpdatePortfolio: () => UseMutationResult<
-  AxiosResponse<PortfoilioUpdataTypes>,
+  AxiosResponse<PutPortfolioResponse>,
   AxiosError,
-  PortfoilioUpdataTypes
+  PutPortfolioRequest
 > = () =>
-  useMutation<AxiosResponse<PortfoilioUpdataTypes>, AxiosError, PortfoilioUpdataTypes>({
-    mutationFn: ({ id, userData }) => updatePortfolio(id, userData),
+  useMutation<AxiosResponse<PutPortfolioResponse>, AxiosError, PutPortfolioRequest>({
+    mutationFn: (data) => updatePortfolio(data),
   });
 
 export const useDeletePortfolio: () => UseMutationResult<
-  AxiosResponse<IData<string>>,
+  AxiosResponse<DeletePortfolioResponse>,
   AxiosError,
   { id: number }
 > = () =>
-  useMutation<AxiosResponse<IData<string>>, AxiosError, { id: number }>({
+  useMutation<AxiosResponse<DeletePortfolioResponse>, AxiosError, { id: number }>({
     mutationFn: ({ id }) => deletePortfolio(id),
   });

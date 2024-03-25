@@ -1,34 +1,29 @@
-import { useEffect } from 'react';
 import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useSetRecoilState } from 'recoil';
-import { IData } from '../useFormState';
-import { getRecruits, getDetailRecruit, postRecruit, updateRecruit, deleteRecruit } from '../../api/recruit';
-import { RecruitsResponseTypes, RecruitsTypes, RecruitsPostTypes, RecruitsUpdataTypes } from '../../model/apiTypes';
-import { recruitsDataState } from '../../recoil/atoms/recruitBoardState';
+import { getRecruits, getDetailRecruit, addRecruit, updateRecruit, deleteRecruit } from '../../api/recruit';
+import {
+  GetRecruitsRequest,
+  GetRecruitsResponse,
+  PostPortfolioResponse,
+  PostPortfolioRequest,
+  GetDetailRecruitsResponse,
+  PutRecruitsResponse,
+  PutRecruitsRequest,
+  DeleteRecruitsResponse,
+} from '../../model/apiTypes';
 
 const QUERY_KEY = {
   recruits: 'recruits',
 } as const;
 
-export const useFetchRecruits: () => UseQueryResult<RecruitsResponseTypes> = () => {
-  const setRecruitsDataState = useSetRecoilState(recruitsDataState);
-
-  const query = useQuery({
+export const useFetchRecruits = (params: GetRecruitsRequest): UseQueryResult<GetRecruitsResponse, AxiosError> => {
+  return useQuery({
     queryKey: [QUERY_KEY.recruits],
-    queryFn: getRecruits,
+    queryFn: () => getRecruits(params),
   });
-
-  useEffect(() => {
-    if (query.data) {
-      setRecruitsDataState(query.data.data.results);
-    }
-  }, [query]);
-
-  return query;
 };
 
-export const useFetchDetailRecruits: (id: number) => UseQueryResult<RecruitsTypes> = (id) => {
+export const useFetchDetailRecruits: (id: number) => UseQueryResult<GetDetailRecruitsResponse> = (id) => {
   return useQuery({
     queryKey: [QUERY_KEY.recruits, id],
     queryFn: () => getDetailRecruit(id),
@@ -39,28 +34,28 @@ export const useFetchDetailRecruits: (id: number) => UseQueryResult<RecruitsType
 };
 
 export const useRegisterRecruits: () => UseMutationResult<
-  AxiosResponse<RecruitsPostTypes>,
+  AxiosResponse<PostPortfolioResponse>,
   AxiosError,
-  { title: string; content: string }
+  PostPortfolioRequest
 > = () =>
-  useMutation<AxiosResponse<RecruitsPostTypes>, AxiosError, { title: string; content: string }>({
-    mutationFn: postRecruit,
+  useMutation<AxiosResponse<PostPortfolioResponse>, AxiosError, PostPortfolioRequest>({
+    mutationFn: (data) => addRecruit(data),
   });
 
 export const useUpdateRecruits: () => UseMutationResult<
-  AxiosResponse<RecruitsUpdataTypes>,
+  AxiosResponse<PutRecruitsResponse>,
   AxiosError,
-  RecruitsUpdataTypes
+  PutRecruitsRequest
 > = () =>
-  useMutation<AxiosResponse<RecruitsUpdataTypes>, AxiosError, RecruitsUpdataTypes>({
-    mutationFn: ({ id, data }) => updateRecruit(id, data),
+  useMutation<AxiosResponse<PutRecruitsResponse>, AxiosError, PutRecruitsRequest>({
+    mutationFn: (data) => updateRecruit(data),
   });
 
 export const useDeleteRecruits: () => UseMutationResult<
-  AxiosResponse<IData<string>>,
+  AxiosResponse<DeleteRecruitsResponse>,
   AxiosError,
   { id: number }
 > = () =>
-  useMutation<AxiosResponse<IData<string>>, AxiosError, { id: number }>({
+  useMutation<AxiosResponse<DeleteRecruitsResponse>, AxiosError, { id: number }>({
     mutationFn: ({ id }) => deleteRecruit(id),
   });

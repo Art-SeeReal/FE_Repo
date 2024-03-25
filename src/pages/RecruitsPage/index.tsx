@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import HeaderContainer from './HeaderContainer';
-import { recruitsDataSelector } from '../../recoil/selectors/recruitBoardSelectors';
+import { useNavigate } from 'react-router-dom';
+import { RiArrowUpDoubleFill } from '@remixicon/react';
+import { useInView } from 'react-intersection-observer';
 import { useFetchRecruits } from '../../hooks/query/useRecruitsQuery';
 import RecruitsImagesComponent from './RecruitsImagesComponent';
+import { MultipleDropdownMenu } from '../../hooks/useDropdown';
+import * as S from '../../components/styles';
+import { useFetchAreas } from '../../hooks/query/useUtilQuery';
+import Loading from '../../components/Loading';
 
 const ImageContainer = styled.div`
   display: flex;
@@ -14,48 +16,93 @@ const ImageContainer = styled.div`
   justify-content: space-around;
 `;
 
+const ScrollToTopButton = styled.button`
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
+  z-index: 1000;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+`;
+
+interface RecruitsPropsTypes {
+  id: number;
+  name: string;
+  title: string;
+  location: {
+    code: string;
+    label: string;
+  };
+  field: {
+    code: string;
+    label: string;
+  };
+  RegDate: string;
+  content: string;
+}
+
 const Recruits = () => {
-  const ITEMS_PER_PAGE = 12;
-  const recruitsData = useRecoilValue(recruitsDataSelector);
-  const { isLoading, isError } = useFetchRecruits();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(10);
+  const { data: recruitsData, refetch, isLoading, isError } = useFetchRecruits({ page });
+  const { data: areaData } = useFetchAreas();
+  const navigate = useNavigate();
+  const [ref, inView] = useInView({
+    threshold: 1,
+  });
+  const initialValue = 'Q000';
+  const [selectedAreas, setSelectedAreas] = useState<string[]>([initialValue]);
 
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-
-  const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
-    setPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const goToRegisterPage = () => {
+    navigate('/recruits/register');
   };
 
   useEffect(() => {
-    console.log(recruitsData);
-  }, [recruitsData]);
+    if (inView && !isLoading) {
+      refetch();
+      setPage(page + 10);
+    }
+  }, [inView, isLoading]);
 
+  if (isError) {
+    return <div>에러</div>;
+  }
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <>
-      <HeaderContainer />
+      <S.Container>
+        <MultipleDropdownMenu
+          values={selectedAreas}
+          setValues={(values) => setSelectedAreas(values)}
+          defaultLabel="지역"
+          checkboxGroup={{
+            initialValues: [initialValue],
+            data: areaData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+            name: 'area',
+          }}
+        />
+      </S.Container>
+      <S.Container>
+        <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
+      </S.Container>
       {isLoading ? (
-        <div>로딩중</div>
+        <Loading />
       ) : (
-        <>
-          <ImageContainer>
-            {recruitsData
-              ?.slice(startIndex, endIndex)
-              .map((data) => <RecruitsImagesComponent key={data.id} data={data} />)}
-          </ImageContainer>
-          <Stack spacing={2} direction="row" justifyContent="center">
-            <Pagination
-              count={Math.ceil((recruitsData?.length ?? 0) / ITEMS_PER_PAGE)}
-              page={page}
-              onChange={handleChangePage}
-              color="secondary"
-              size="large"
-            />
-          </Stack>
-        </>
+        <ImageContainer>
+          {recruitsData?.data.map((recruitsProps: RecruitsPropsTypes) => (
+            <RecruitsImagesComponent key={recruitsProps.id} recruitsProps={recruitsProps} />
+          ))}
+        </ImageContainer>
       )}
-      {isError && <div>에러</div>}
+      <div ref={ref} style={{ height: 50 }} />
+      <ScrollToTopButton onClick={scrollToTop}>
+        <RiArrowUpDoubleFill />
+      </ScrollToTopButton>
     </>
   );
 };

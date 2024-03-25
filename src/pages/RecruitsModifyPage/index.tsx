@@ -46,7 +46,7 @@ const ModifyRecruitsPage = () => {
   };
 
   const onSubmit = (values: IData<string>) => {
-    updateRecruits({ id: userId, data: values });
+    updateRecruits({ id: userId, data: { title: values.title, content: values.content } });
   };
 
   const { errors, touched, getFieldProps, getQuillProps, handleSubmit } = useForm({

@@ -46,7 +46,7 @@ const ModifyPortfolioPage = () => {
   };
 
   const onSubmit = (values: IData<string>) => {
-    updatePortfolio({ id: userId, userData: values });
+    updatePortfolio({ id: userId, data: { title: values.title, content: values.content } });
   };
 
   const { errors, touched, getFieldProps, getQuillProps, handleSubmit } = useForm({

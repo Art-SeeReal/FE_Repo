@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 import { useInView } from 'react-intersection-observer';
 import { RiArrowUpDoubleFill } from '@remixicon/react';
-import { ImageTypes } from '../../model/apiTypes';
+import { useNavigate } from 'react-router-dom';
 import PortfolioImagesComponent from './PortfolioImagesComponent';
 import * as S from '../../components/styles';
 import { useFetchPortfolios } from '../../hooks/query/usePortfoliosQuery';
-import HeaderContainer from './HeaderContainer';
-import { portfolioDataState } from '../../recoil/atoms/portfolioBoardState';
 import Loading from '../../components/Loading';
 
 const HeaderContainerStyle = styled.div`
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
   padding: 10px 50px;
   margin: 0 auto;
@@ -54,18 +53,47 @@ const ScrollToTopButton = styled.button`
   cursor: pointer;
 `;
 
+interface PortfolioPropsTypes {
+  id: number;
+  imageUrl: string;
+  title: string;
+  artist: string;
+  location: {
+    code: string;
+    label: string;
+  };
+  field: {
+    code: string;
+    label: string;
+  };
+  like: number;
+  view: number;
+  RegDate: string;
+}
+
 const PortfolioPage = () => {
-  const portfolioData = useRecoilValue(portfolioDataState);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(10);
+  const navigate = useNavigate();
   const [ref, inView] = useInView({
     threshold: 1,
   });
-  const { refetch, isLoading, isError } = useFetchPortfolios(page * 10);
+  const {
+    data: portfolioData,
+    refetch,
+    isLoading,
+    isError,
+  } = useFetchPortfolios({
+    page,
+  });
+
+  const goToRegisterPage = () => {
+    navigate('/portfolio/register');
+  };
 
   useEffect(() => {
     if (inView && !isLoading) {
       refetch();
-      setPage(page + 1);
+      setPage(page + 10);
     }
   }, [inView, isLoading]);
 
@@ -80,16 +108,16 @@ const PortfolioPage = () => {
   return (
     <div>
       <HeaderContainerStyle>
-        <HeaderContainer />
+        <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
       </HeaderContainerStyle>
       <S.Container $paddingBottom>
         {isLoading ? (
           <Loading />
         ) : (
           <ImageContainer>
-            {portfolioData?.map((image: ImageTypes) => (
-              <ImageWrapper key={image.id}>
-                <PortfolioImagesComponent image={image} />
+            {portfolioData?.data.map((portfolioProps: PortfolioPropsTypes) => (
+              <ImageWrapper key={portfolioProps.id}>
+                <PortfolioImagesComponent portfolioProps={portfolioProps} />
               </ImageWrapper>
             ))}
           </ImageContainer>

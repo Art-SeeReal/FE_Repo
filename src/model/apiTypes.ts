@@ -1,6 +1,31 @@
-import { IData } from '../hooks/useFormState';
+// 포트폴리오 타입
 
-export interface ImageTypes {
+export interface GetPortfoliosRequest {
+  page: number;
+}
+
+export interface GetPortfoliosResponse {
+  data: {
+    id: number;
+    imageUrl: string;
+    title: string;
+    artist: string;
+    location: {
+      code: string;
+      label: string;
+    };
+    field: {
+      code: string;
+      label: string;
+    };
+    like: number;
+    view: number;
+    RegDate: string;
+    content: string;
+  }[];
+}
+
+export interface GetDetailPortfoliosResponse {
   id: number;
   imageUrl: string;
   title: string;
@@ -9,37 +34,63 @@ export interface ImageTypes {
     code: string;
     label: string;
   };
-  field: string;
+  field: {
+    code: string;
+    label: string;
+  };
   like: number;
   view: number;
   RegDate: string;
-}
-
-export interface PortfolioTypes extends ImageTypes {
   content: string;
 }
 
-export interface RegisterPortfolioTypes {
+export interface PostPortfolioRequest {
   title: string;
   content: string;
 }
 
-export interface PortfolioImagesComponentProps {
-  image: ImageTypes;
+export interface PostPortfolioResponse {
+  success: boolean;
 }
 
-export interface PortfoilioUpdataTypes {
+export interface PutPortfolioRequest {
   id: number;
-  userData: IData<string>;
+  data: { title: string; content: string };
 }
 
-export interface PortfolioResponseTypes {
+export interface PutPortfolioResponse {
+  success: boolean;
+}
+
+export interface DeletePortfolioResponse {
+  success: boolean;
+}
+
+//Recruits타입
+
+export interface GetRecruitsRequest {
+  page: number;
+}
+
+export interface GetRecruitsResponse {
   data: {
-    results: PortfolioTypes[];
-  };
+    id: number;
+    name: string;
+    title: string;
+    location: {
+      code: string;
+      label: string;
+    };
+    field: {
+      code: string;
+      label: string;
+    };
+    RegDate: string;
+    content: string;
+  }[];
 }
 
-export interface RecruitsTypes {
+export interface GetDetailRecruitsResponse {
   id: number;
   name: string;
   title: string;
@@ -47,26 +98,37 @@ export interface RecruitsTypes {
     code: string;
     label: string;
   };
-  field: string;
+  field: {
+    code: string;
+    label: string;
+  };
   RegDate: string;
   content: string;
 }
 
-export interface RecruitsResponseTypes {
-  data: {
-    results: RecruitsTypes[];
-  };
-}
-
-export interface RecruitsPostTypes {
+export interface PostRecruitsRequest {
   title: string;
   content: string;
 }
 
-export interface RecruitsUpdataTypes {
-  id: number;
-  data: IData<string>;
+export interface PostRecruitsResponse {
+  success: boolean;
 }
+
+export interface PutRecruitsRequest {
+  id: number;
+  data: { title: string; content: string };
+}
+
+export interface PutRecruitsResponse {
+  success: boolean;
+}
+
+export interface DeleteRecruitsResponse {
+  success: boolean;
+}
+
+// 유저타입
 
 export interface RequestFindIdTypes {
   name: string;
