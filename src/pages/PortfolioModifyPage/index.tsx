@@ -38,7 +38,7 @@ const ModifyPortfolioPage = () => {
     return errors;
   };
 
-  const onSubmit: OnSubmitFn = ({ title, content}) => {
+  const onSubmit: OnSubmitFn = ({ title, content }) => {
     updatePortfolio({ id: userId, data: { title, content } });
   };
 

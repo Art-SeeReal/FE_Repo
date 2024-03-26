@@ -3,7 +3,7 @@ export const isValidValue = (value: string) => {
 };
 
 export const isValidUserId = (userId: string) => {
-  return /^[a-z]+[a-z0-9]{5,15}$/g.test(userId);
+  return /^[a-z]+[a-z0-9]{4,15}$/g.test(userId);
 };
 
 export const isValidPassword = (password: string) => {
@@ -59,9 +59,9 @@ export const certPhoneErrorMessage = (value: string) => {
 };
 
 export const titleErrorMessage = (title: string) => {
-  return isValidValue(title) ? '' : '제목을 입력해주세요.'
-}
+  return isValidValue(title) ? '' : '제목을 입력해주세요.';
+};
 
 export const contentErrorMessage = (content: string) => {
-  return isValidValue(content) ? '' : '내용을 입력해주세요.'
-}
+  return isValidValue(content) ? '' : '내용을 입력해주세요.';
+};
