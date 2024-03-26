@@ -1,19 +1,21 @@
-import React, { ChangeEvent, FocusEvent, FormEvent, ReactNode, useState, useEffect, useContext } from 'react';
+import { ChangeEvent, FocusEvent, FormEvent, useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { formState } from '../recoil/atoms/formState';
-import * as S from '../components/styles';
-import type { FieldProps } from '../components/styles/Field';
+import { FormValues, FormErrors, FormTouched, formState } from '../../recoil/atoms/formState';
 
-type FormTypes = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+type FormTypes = HTMLInputElement | HTMLTextAreaElement;
 
+// TODO: IData export는 추후 삭제 될 예정, IData 끌어 쓰는 모든 페이지 수정 필
 export interface IData<T> {
   [key: string]: T;
 }
 
+export type ValidateFn = (values: FormValues) => FormErrors;
+export type OnSubmitFn = (values: FormValues) => void;
+
 interface FormHookArgs {
-  initialValue: IData<string>;
-  validate: (values: IData<string>) => IData<string>;
-  onSubmit: (values: IData<string>) => void;
+  initialValue: FormValues;
+  validate?: ValidateFn;
+  onSubmit: OnSubmitFn;
 }
 
 export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
@@ -54,8 +56,14 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
       touched: Object.keys(prev.values).reduce((touched, field) => {
         return { ...touched, [field]: true };
       }, {}),
-      errors: validate(prev.values),
     }));
+
+    if (validate) {
+      setForm((prev) => ({
+        ...prev,
+        errors: validate(prev.values),
+      }));
+    }
 
     setTriedSubmit(+new Date());
   };
@@ -86,6 +94,21 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     return { name, onSuccess, onReset };
   };
 
+  const getCheckProps = (name: string, value: string) => {
+    const checkedValue = form.values[name] || '';
+    const checked = form.values[name] === value;
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.checked) {
+        setFormValue(name, value);
+      } else {
+        setFormValue(name, '');
+      }
+    };
+
+    return { name, value: checkedValue, checked, onChange };
+  };
+
   useEffect(() => {
     if (!triedSubmit) return;
 
@@ -97,11 +120,19 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
   }, [triedSubmit]);
 
   useEffect(() => {
+    if (!validate) return;
+
     setForm((prev) => ({
       ...prev,
       errors: validate(prev.values),
     }));
   }, [form.values]);
+
+  useEffect(() => {
+    return () => {
+      resetForm();
+    };
+  }, []);
 
   return {
     ...form,
@@ -111,6 +142,7 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
     getFieldProps,
     getQuillProps,
     getUploadProps,
+    getCheckProps,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -118,9 +150,9 @@ export const useForm = ({ initialValue, validate, onSubmit }: FormHookArgs) => {
 };
 
 export interface FormHookReturns {
-  values: IData<string>;
-  errors: IData<string>;
-  touched: IData<boolean>;
+  values: FormValues;
+  errors: FormErrors;
+  touched: FormTouched;
   handleChange: (e: ChangeEvent<FormTypes>) => void;
   setFormValue: (name: string, value: string) => void;
   setFormTouched: (name: string) => void;
@@ -133,52 +165,3 @@ export interface FormHookReturns {
     onChange: (e: ChangeEvent<FormTypes>) => void;
   };
 }
-
-export const formContext = React.createContext({});
-
-interface FormArgs extends FormHookArgs {
-  id: string;
-  children: ReactNode;
-}
-
-export const Form = ({ id, children, initialValue, validate, onSubmit }: FormArgs) => {
-  const formValue = useForm({ initialValue, validate, onSubmit });
-
-  return (
-    <formContext.Provider value={formValue}>
-      <form noValidate id={id} onSubmit={formValue.handleSubmit}>
-        {children}
-      </form>
-    </formContext.Provider>
-  );
-};
-
-interface FieldArgs extends FieldProps {
-  type?: 'text' | 'password' | 'email' | 'url';
-  id?: string;
-  name: string;
-  placeholder?: string;
-  value?: string;
-  rows?: number;
-  maxLength?: number;
-  onChange?: (e: ChangeEvent) => void;
-}
-
-export const Field = ({ as = 'input', type = 'text', children, ...rest }: FieldArgs) => {
-  const { getFieldProps, touched, errors } = useContext(formContext) as FormHookReturns;
-  const { name, value, onBlur, onChange } = getFieldProps(rest.name);
-
-  const $error = !!(touched[name] && errors[name]);
-
-  return (
-    <S.Field as={as} type={type} value={value} onBlur={onBlur} onChange={onChange} $error={$error} {...rest}>
-      {children}
-    </S.Field>
-  );
-};
-
-export const ErrorMessage = ({ name }: { name: string }) => {
-  const { touched, errors } = useContext(formContext) as FormHookReturns;
-  if (!touched[name] || !errors[name]) return null;
-  return <S.ErrorMessage>{errors[name]}</S.ErrorMessage>;
-};

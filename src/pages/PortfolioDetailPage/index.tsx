@@ -63,7 +63,7 @@ const DetailPortfolioPage = () => {
   const navigate = useNavigate();
 
   const goToModifyPage = () => {
-    navigate(`/portfolio/update/${userId}`);
+    navigate(`/portfolios/update/${userId}`);
   };
 
   return (

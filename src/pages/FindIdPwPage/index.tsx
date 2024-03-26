@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import FindId from './FindId';
-import FindPw from './FindPw';
+// import FindId from './FindId';
+// import FindPw from './FindPw';
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,9 +24,9 @@ const StyledDivider = styled.div`
 const FindIdPwPage = () => {
   return (
     <Wrapper>
-      <FindId />
+      {/* <FindId /> */}
       <StyledDivider />
-      <FindPw />
+      {/* <FindPw /> */}
     </Wrapper>
   );
 };

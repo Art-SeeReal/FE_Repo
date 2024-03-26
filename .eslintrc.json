@@ -40,7 +40,8 @@
     "react/require-default-props": "off",
     "import/no-extraneous-dependencies": "off",
     "react/jsx-props-no-spreading": "off",
-    "no-promise-executor-return": "off"
+    "no-promise-executor-return": "off",
+    "no-useless-escape": "off"
   },
   "settings": {
     "import/resolver": {

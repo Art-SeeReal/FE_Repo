@@ -13,6 +13,10 @@ interface Props {
 const StyledFormControl = styled.div`
   margin-bottom: 1em;
 
+  ${S.Label} {
+    display: block;
+  }
+
   .required {
     margin-left: 0.25em;
     font-size: var(--text-caption);

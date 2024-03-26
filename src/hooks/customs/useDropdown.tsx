@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useCheckboxGroup } from './useCheckbox';
-import { generateStr } from '../utils/utils';
-import Dropdown from '../components/Dropdown';
-import Checkbox from '../components/Checkbox';
-import * as S from '../components/styles';
+import { generateStr } from '../../utils/utils';
+import Dropdown from '../../components/Dropdown';
+import Checkbox from '../../components/Checkbox';
+import * as S from '../../components/styles';
 
 export const useDropdown = (defaultLabel: string) => {
   const [label, setLabel] = useState(defaultLabel);

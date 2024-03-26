@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useForm, IData } from '../../hooks/useFormState';
+import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
+import { titleErrorMessage, contentErrorMessage } from '../../utils/validation';
 import Form from '../../components/Form';
 import { useToast } from '../../hooks/customs/useToastState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
-import { isValidValue } from '../../utils/validation';
 import ErrorMessage from '../../components/ErrorMessage';
-import { removeHtmlTags } from '../../utils/utils';
 import { useRegisterPortfolio } from '../../hooks/query/usePortfoliosQuery';
 
 const CenteredContainer = styled.div`
@@ -27,21 +26,15 @@ const RegisterPortfolioPage = () => {
 
   const { mutate: register, isSuccess } = useRegisterPortfolio();
 
-  const onSubmit = (values: IData<string>) => {
-    register({ title: values.title, content: values.content });
+  const onSubmit: OnSubmitFn = ({ title, content }) => {
+    register({ title, content });
   };
 
-  const validate = (values: IData<string>) => {
-    const errors: IData<string> = {};
-
-    if (!isValidValue(values.title)) {
-      errors.title = '제목을 입력하세요.';
-    }
-
-    if (!removeHtmlTags(values.content)) {
-      errors.content = '내용을 입력하세요.';
-    }
-
+  const validate: ValidateFn = (values) => {
+    const errors = {
+      title: titleErrorMessage(values.title),
+      content: contentErrorMessage(values.content),
+    };
     return errors;
   };
 

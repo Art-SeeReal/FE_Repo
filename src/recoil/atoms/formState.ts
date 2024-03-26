@@ -8,11 +8,21 @@ interface IData<T> {
   [key: string]: T;
 }
 
-export const formState = atomFamily({
+export type FormValues = IData<string>;
+export type FormErrors = IData<string>;
+export type FormTouched = IData<boolean>;
+
+interface FormState {
+  values: FormValues;
+  errors: FormErrors;
+  touched: FormTouched;
+}
+
+export const formState = atomFamily<FormState, FormValues>({
   key: STATE_KEY.form,
-  default: (initialValue: IData<string>) => ({
+  default: (initialValue) => ({
     values: initialValue,
-    errors: {} as IData<string>,
-    touched: {} as IData<boolean>,
+    errors: {},
+    touched: {},
   }),
 });

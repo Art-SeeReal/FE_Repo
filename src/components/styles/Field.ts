@@ -33,6 +33,11 @@ export const Field = styled.input<FieldProps>`
     color: var(--color-placeholder);
   }
 
+  &:disabled,
+  &:read-only {
+    opacity: 0.5;
+  }
+
   ${({ $error }) => {
     if ($error)
       return `

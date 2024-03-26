@@ -1,72 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { useLoginQuery } from '../../hooks/query/userQueries';
-import { useForm, IData } from '../../hooks/useFormState';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
 import Form from '../../components/Form';
 import ErrorMessage from '../../components/ErrorMessage';
-import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
-import { userState } from '../../recoil/atoms/userState';
-import { useDialog } from '../../hooks/customs/useDialogState';
-import Dialog from '../../components/Dialog';
-import { isValidValue } from '../../utils/validation';
-
-const LoginPageWrapper = styled.div`
-  width: 400px;
-  margin: auto;
-  padding: 150px 0;
-`;
-
-const StyledLinksWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: #333;
-  font-size: 14px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+import * as S from '../../components/styles';
+import { userIdErrorMessage, passwordErrorMessage } from '../../utils/validation';
+import { useLogin } from '../../hooks/query/useUserQuery';
+import { isLoginSelector } from '../../recoil/selectors/userSelectors';
 
 const LoginPage = () => {
-  const [formLoginData, setFormLoginData] = useState({ id: '', pw: '' });
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
-  const { isSuccess, refetch, data } = useLoginQuery({ id: formLoginData.id, pw: formLoginData.pw });
-  const setUserState = useSetRecoilState(userState);
+  const isLogin = useRecoilValue(isLoginSelector);
+  if (isLogin) {
+    navigate('/');
+  }
+
   const initialValue = {
     userId: '',
-    userPw: '',
-  };
-  const { openDialog, closeDialog } = useDialog();
-
-  const onSubmit = (values: IData<string>) => {
-    setFormLoginData({ id: values.userId, pw: values.userPw });
-    setFormSubmitted(true);
+    password: '',
   };
 
-  const validate = (values: IData<string>) => {
-    const errors: IData<string> = {};
-
-    if (!isValidValue(values.userId)) {
-      errors.userId = '아이디를 입력하세요.';
-    }
-
-    if (!isValidValue(values.userPw)) {
-      errors.userPw = '패스워드를 입력하세요.';
-    }
+  const validate: ValidateFn = (values) => {
+    const errors = {
+      userId: userIdErrorMessage(values.userId),
+      password: passwordErrorMessage(values.password),
+    };
 
     return errors;
   };
 
-  const { errors, touched, getFieldProps, handleSubmit, resetForm } = useForm({
+  const { mutate, isPending, isSuccess } = useLogin();
+
+  const onSubmit: OnSubmitFn = ({ userId, password }) => {
+    mutate({ userId, password });
+  };
+
+  const { errors, touched, getFieldProps, handleSubmit } = useForm({
     initialValue,
     validate,
     onSubmit,
@@ -74,29 +45,12 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      if (data.success) {
-        setUserState(true);
-        resetForm();
-        navigate('/private');
-      } else {
-        resetForm();
-        openDialog(
-          <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
-            올바른 아이디와 비밀번호가 아닙니다.
-          </Dialog>,
-        );
-      }
+      navigate('/');
     }
-  }, [isSuccess, data]);
-
-  useEffect(() => {
-    if (formSubmitted && formLoginData) {
-      refetch();
-    }
-  }, [formSubmitted, formLoginData]);
+  }, [isSuccess]);
 
   return (
-    <LoginPageWrapper>
+    <S.Container $width={400}>
       <S.Title>로그인</S.Title>
       <Form id="login-form" onSubmit={handleSubmit}>
         <FormControl
@@ -109,19 +63,25 @@ const LoginPage = () => {
         </FormControl>
         <FormControl
           label="비밀번호"
-          htmlFor="userPw"
+          htmlFor="password"
           required
-          error={<ErrorMessage touched={touched.userPw} message={errors.userPw} />}
+          error={<ErrorMessage touched={touched.password} message={errors.password} />}
         >
-          <S.Field id="userPw" {...getFieldProps('userPw')} type="password" placeholder="비밀번호" />
+          <S.Field id="password" {...getFieldProps('password')} type="password" placeholder="비밀번호" />
         </FormControl>
-        <S.Button type="submit">제출</S.Button>
-        <StyledLinksWrapper>
-          <StyledLink to="/find-id-pw">ID/PW 찾기</StyledLink>
-          <StyledLink to="/signup">회원가입</StyledLink>
-        </StyledLinksWrapper>
+        <S.Button type="submit" $block disabled={isPending}>
+          로그인
+        </S.Button>
+        <S.Row $justifyContent="space-around" className="mt-5">
+          <S.ButtonRouter to="/find-id-pw" $style="link" $size="xsmall">
+            아이디/비밀번호 찾기
+          </S.ButtonRouter>
+          <S.ButtonRouter to="/signup" $style="link" $size="xsmall">
+            회원가입
+          </S.ButtonRouter>
+        </S.Row>
       </Form>
-    </LoginPageWrapper>
+    </S.Container>
   );
 };
 

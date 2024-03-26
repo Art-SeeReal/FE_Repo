@@ -1,24 +1,35 @@
-import { AxiosResponse } from 'axios';
 import api from '../utils/api';
-import { SignupData } from '../model/apiTypes';
-import { RequestFindIdTypes, RequestFindPwTypes, LoginResponse, LoginData } from '../model/apiTypes';
+import {
+  PostLoginRequest,
+  PostLoginResponse,
+  PostSignupRequest,
+  GetUserTypesResponse,
+  GetExistUserIdRequest,
+  GetExistNicknameRequest,
+  GetExistEmailRequest,
+  GetExistReponse,
+} from '../model/user';
 
-export const fetchRegisterUser = async ({
-  signupData,
-}: {
-  signupData: SignupData;
-}): Promise<AxiosResponse<SignupData>> => {
-  return api({ url: `/user`, method: 'post', data: signupData });
+export const login = (data: PostLoginRequest) => {
+  return api<PostLoginResponse>({ url: '/login', method: 'post', data });
 };
 
-export const fetchFindId = async ({ name, email }: RequestFindIdTypes): Promise<{ success: boolean }> => {
-  return api({ url: `/findId`, method: 'get', params: { name, email } });
+export const signup = (data: PostSignupRequest) => {
+  return api({ url: '/signup', method: 'post', data });
 };
 
-export const fetchFindPw = async ({ name, id, email }: RequestFindPwTypes): Promise<{ success: boolean }> => {
-  return api({ url: `/findPw`, method: 'get', params: { name, id, email } });
+export const getUserTypes = () => {
+  return api<GetUserTypesResponse>({ url: '/user/types', method: 'get' });
 };
 
-export const fetchLogin = async ({ id, pw }: LoginData): Promise<LoginResponse> => {
-  return api({ url: `/login`, method: 'get', params: { id, pw } });
+export const getExistUserId = (params: GetExistUserIdRequest) => {
+  return api<GetExistReponse>({ url: '/user/exist/user-id', method: 'get', params });
+};
+
+export const getExistNickname = (params: GetExistNicknameRequest) => {
+  return api<GetExistReponse>({ url: '/user/exist/nickname', method: 'get', params });
+};
+
+export const getExistEmail = (params: GetExistEmailRequest) => {
+  return api<GetExistReponse>({ url: '/user/exist/email', method: 'get', params });
 };

@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useForm, IData } from '../../hooks/useFormState';
+import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
+import { titleErrorMessage, contentErrorMessage } from '../../utils/validation';
 import Form from '../../components/Form';
 import * as S from '../../components/styles';
 import ErrorMessage from '../../components/ErrorMessage';
-import { removeHtmlTags } from '../../utils/utils';
 import { useToast } from '../../hooks/customs/useToastState';
 import FormControl from '../../components/FormControl';
 import { useDialog } from '../../hooks/customs/useDialogState';
 import Dialog from '../../components/Dialog';
 import ReactQuillForm from '../../components/ReactQuillForm';
-import { isValidValue } from '../../utils/validation';
 import { useDeleteRecruits, useUpdateRecruits, useFetchDetailRecruits } from '../../hooks/query/useRecruitsQuery';
 
 const CenteredContainer = styled.div`
@@ -31,22 +30,16 @@ const ModifyRecruitsPage = () => {
     title: recruitsDetail?.title || '',
     content: recruitsDetail?.content || '',
   };
-  const validate = (values: IData<string>) => {
-    const errors: IData<string> = {};
-
-    if (!isValidValue(values.title)) {
-      errors.title = '제목을 입력하세요.';
-    }
-
-    if (!removeHtmlTags(values.content)) {
-      errors.content = '내용을 입력하세요.';
-    }
-
+  const validate: ValidateFn = (values) => {
+    const errors = {
+      title: titleErrorMessage(values.title),
+      content: contentErrorMessage(values.content),
+    };
     return errors;
   };
 
-  const onSubmit = (values: IData<string>) => {
-    updateRecruits({ id: userId, data: { title: values.title, content: values.content } });
+  const onSubmit: OnSubmitFn = ({ title, content }) => {
+    updateRecruits({ id: userId, data: { title, content } });
   };
 
   const { errors, touched, getFieldProps, getQuillProps, handleSubmit } = useForm({

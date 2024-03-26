@@ -5,7 +5,7 @@ import { RiArrowUpDoubleFill } from '@remixicon/react';
 import { useInView } from 'react-intersection-observer';
 import { useFetchRecruits } from '../../hooks/query/useRecruitsQuery';
 import RecruitsImagesComponent from './RecruitsImagesComponent';
-import { MultipleDropdownMenu } from '../../hooks/useDropdown';
+import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 import * as S from '../../components/styles';
 import { useFetchAreas } from '../../hooks/query/useUtilQuery';
 import Loading from '../../components/Loading';
