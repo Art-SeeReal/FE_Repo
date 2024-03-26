@@ -1,24 +1,35 @@
-import { IData } from '../hooks/customs/useFormState';
 import api from '../utils/api';
+import {
+  PostPortfolioRequest,
+  PostPortfolioResponse,
+  GetPortfoliosRequest,
+  PutPortfolioRequest,
+  GetPortfoliosResponse,
+  GetDetailPortfoliosResponse,
+  PutPortfolioResponse,
+  DeletePortfolioResponse,
+} from '../model/apiTypes';
 
-export const postPortfolio = async (userData: IData<string>) => {
-  const response = await api.post('/portfolio/register', userData);
-  return response.data;
+export const getPortfolios = (params: GetPortfoliosRequest) => {
+  return api<GetPortfoliosResponse>({ url: '/portfolios', method: 'get', params });
 };
 
-export const getPortfolio = () => {
-  return api({ url: '/portfolio', method: 'get' });
+export const addPortfolio = (data: PostPortfolioRequest) => {
+  return api<PostPortfolioResponse>({ url: '/portfolio', method: 'post', data });
 };
 
 export const getDetailPortfolio = (id: number) => {
-  return api({ url: `/portfolio/${id}`, method: 'get' });
+  return api<GetDetailPortfoliosResponse>({ url: `/portfolios/${id}`, method: 'get' });
 };
 
-export const updatePortfolio = async (id: number, userData: IData<string>) => {
-  const response = await api.put(`portfolio/${id}`, userData);
-  return response.data;
+export const updatePortfolio = (data: PutPortfolioRequest) => {
+  return api<PutPortfolioResponse>({ url: `/portfolios/${data.id}`, method: 'put', data });
 };
 
 export const deletePortfolio = (id: number) => {
-  return api({ url: `/portfolio/${id}`, method: 'delete' });
+  return api<DeletePortfolioResponse>({ url: `/portfolios/${id}`, method: 'delete' });
+};
+
+export const getLatestPortfolios = () => {
+  return api({ url: '/portfolios/latest', method: 'get' });
 };

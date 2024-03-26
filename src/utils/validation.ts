@@ -57,3 +57,11 @@ export const existCheckErrorMessage = (value: string, label: string) => {
 export const certPhoneErrorMessage = (value: string) => {
   return value === '1' ? '' : `휴대폰번호 인증이 필요합니다.`;
 };
+
+export const titleErrorMessage = (title: string) => {
+  return isValidValue(title) ? '' : '제목을 입력해주세요.'
+}
+
+export const contentErrorMessage = (content: string) => {
+  return isValidValue(content) ? '' : '내용을 입력해주세요.'
+}

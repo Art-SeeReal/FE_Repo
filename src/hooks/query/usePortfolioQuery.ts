@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { getLatestPortfolios } from '../../api/portfolios';
+import { getLatestPortfolios } from '../../api/portfolio';
 
 const QUERY_KEY = {
   portfolios: 'portfolios',

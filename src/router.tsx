@@ -15,10 +15,15 @@ import SignupAgreePage from './pages/SignupAgreePage';
 import SignupFormPage from './pages/SignupFormPage';
 import FindIdPwPage from './pages/FindIdPwPage';
 
-import PortfoilioPage from './pages/PortfoliotPage';
-import RegisterPortfolioPage from './pages/PortfoliotPage/RegisterPage';
-import DetailPortfolioPage from './pages/PortfoliotPage/DetialPage';
-import ModifyPortfolioPage from './pages/PortfoliotPage/ModifyPage';
+import PortfolioPage from './pages/PortfoliotPage';
+import PortfolioRegisterPage from './pages/PortfolioRegisterPage';
+import PortfolioDetailPage from './pages/PortfolioDetailPage';
+import PortfolioModifyPage from './pages/PortfolioModifyPage';
+
+import RecruitsPage from './pages/RecruitsPage';
+import RecruitsRegisterPage from './pages/RecruitsRegisterPage';
+import RecruitsDetailPage from './pages/RecruitsDetailPage';
+import RecruitsModifyPage from './pages/RecruitsModifyPage';
 
 import ArtPlannerHomePage from './pages/ArtPlannerPage/home';
 import ArtPlannerRecruitsPage from './pages/ArtPlannerPage/recruits';
@@ -45,11 +50,18 @@ export default () => {
 
         <Route path="/find-id-pw" element={<FindIdPwPage />} />
 
-        <Route path="/portfolio">
-          <Route index element={<PortfoilioPage />} />
-          <Route path="register" element={<RegisterPortfolioPage />} />
-          <Route path=":id" element={<DetailPortfolioPage />} />
-          <Route path="update/:id" element={<ModifyPortfolioPage />} />
+        <Route path="/portfolios">
+          <Route index element={<PortfolioPage />} />
+          <Route path="register" element={<PortfolioRegisterPage />} />
+          <Route path=":id" element={<PortfolioDetailPage />} />
+          <Route path="update/:id" element={<PortfolioModifyPage />} />
+        </Route>
+
+        <Route path="/recruits">
+          <Route index element={<RecruitsPage />} />
+          <Route path="register" element={<RecruitsRegisterPage />} />
+          <Route path=":id" element={<RecruitsDetailPage />} />
+          <Route path="update/:id" element={<RecruitsModifyPage />} />
         </Route>
 
         <Route path="/art-planner" element={<LnbLayout />}>

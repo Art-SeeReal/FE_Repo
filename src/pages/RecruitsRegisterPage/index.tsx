@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useForm, IData } from '../../../hooks/customs/useFormState';
-import Form from '../../../components/Form';
-import { useToast } from '../../../hooks/customs/useToastState';
-import * as S from '../../../components/styles';
-import FormControl from '../../../components/FormControl';
-import { useDialog } from '../../../hooks/customs/useDialogState';
-import Dialog from '../../../components/Dialog';
-import ReactQuillForm from '../../../components/ReactQuillForm';
-import { isValidValue } from '../../../utils/validation';
-import ErrorMessage from '../../../components/ErrorMessage';
-import { removeHtmlTags } from '../../../utils/utils';
-import { useRegisterPortfolio } from '../../../hooks/query/usePortfoliosQuery';
+import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
+import { titleErrorMessage, contentErrorMessage } from '../../utils/validation';
+import Form from '../../components/Form';
+import { useToast } from '../../hooks/customs/useToastState';
+import * as S from '../../components/styles';
+import FormControl from '../../components/FormControl';
+import ReactQuillForm from '../../components/ReactQuillForm';
+import ErrorMessage from '../../components/ErrorMessage';
+import { useRegisterPortfolio } from '../../hooks/query/usePortfoliosQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -29,21 +26,15 @@ const RegisterPortfolioPage = () => {
 
   const { mutate: register, isSuccess } = useRegisterPortfolio();
 
-  const onSubmit = (values: IData<string>) => {
-    register({ title: values.title, content: values.content });
+  const onSubmit: OnSubmitFn = ({ title, content }) => {
+    register({ title, content });
   };
 
-  const validate = (values: IData<string>) => {
-    const errors: IData<string> = {};
-
-    if (!isValidValue(values.title)) {
-      errors.title = '제목을 입력하세요.';
-    }
-
-    if (!removeHtmlTags(values.content)) {
-      errors.content = '내용을 입력하세요.';
-    }
-
+  const validate: ValidateFn = (values) => {
+    const errors = {
+      title: titleErrorMessage(values.title),
+      content: contentErrorMessage(values.content),
+    };
     return errors;
   };
 
@@ -53,24 +44,14 @@ const RegisterPortfolioPage = () => {
     onSubmit,
   });
 
-  const { openDialog, closeDialog } = useDialog();
   const { appendToast } = useToast();
-
-  useEffect(() => {
-    openDialog(
-      <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
-        이 페이지는 예술적 표현을 위한 공간입니다. 음란물이나 욕설 등 부적절한 콘텐츠는 엄격히 금지되어 있습니다.
-        부적절한 콘텐츠를 게시할 경우 서비스 이용이 제한될 수 있습니다.
-      </Dialog>,
-    );
-  }, []);
 
   useEffect(() => {
     if (!isSuccess) return;
 
     resetForm();
     appendToast({ content: '작성 완료', type: 'success' });
-    navigate('/portfolio');
+    navigate('/recruits');
   }, [isSuccess]);
 
   return (
