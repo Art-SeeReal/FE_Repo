@@ -1,6 +1,6 @@
 import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { getAreas, upload } from '../api/utils';
+import { getAreas, upload } from '../../api/utils';
 
 const QUERY_KEY = {
   areas: 'areas',

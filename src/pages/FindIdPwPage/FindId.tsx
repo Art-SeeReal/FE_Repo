@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useForm, IData } from '../../hooks/useFormState';
 import Form from '../../components/Form';
 import ErrorMessage from '../../components/ErrorMessage';
-import { useToast } from '../../hooks/useToastState';
+import { useToast } from '../../hooks/customs/useToastState';
 import * as S from '../../components/styles';
-import { useFindIdQuery } from '../../hooks/userQueries';
+import { useFindIdQuery } from '../../hooks/query/userQueries';
 import FormControl from '../../components/FormControl';
-import { isValidValue } from '../../utils/Validation';
+import { isValidValue } from '../../utils/validation';
 
 const FindId = () => {
   const initialValue = { userName: '', userEmail: '' };

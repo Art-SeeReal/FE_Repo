@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { getBanners } from '../api/banners';
+import { getBanners } from '../../api/banners';
 
 const QUERY_KEY = {
   banners: 'banners',

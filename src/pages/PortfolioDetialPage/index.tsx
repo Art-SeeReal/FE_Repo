@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { RiHeartLine, RiEyeLine, RiStarLine, RiStarFill, RiHeartFill, RiCalendar2Line } from '@remixicon/react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useFetchDetailPortfolio } from '../../../hooks/usePortfoliosQuery';
-import * as S from '../../../components/styles';
+import { useFetchDetailPortfolio } from '../../hooks/query/usePortfoliosQuery';
+import * as S from '../../components/styles';
 
 const ArtistName = styled.div`
   font-size: 30px;
@@ -87,8 +87,8 @@ const DetailPortfolioPage = () => {
               <RiCalendar2Line color="black" />
               {portfolioDetails?.RegDate}
             </S.Button>
-            <S.Button $size="xsmall">{portfolioDetails?.location}</S.Button>
-            <S.Button $size="xsmall">{portfolioDetails?.field}</S.Button>
+            <S.Button $size="xsmall">{portfolioDetails?.location.label}</S.Button>
+            <S.Button $size="xsmall">{portfolioDetails?.field.label}</S.Button>
           </OptionContainer>
           <OptionContainer>
             <S.Button $size="xsmall">

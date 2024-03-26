@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
-import { toastState, Toast } from '../recoil/atoms/toastState';
-import { generateStr } from '../utils/utils';
+import { toastState, Toast } from '../../recoil/atoms/toastState';
+import { generateStr } from '../../utils/utils';
 
 export const useToast = () => {
   const [toasts, setToasts] = useRecoilState(toastState);

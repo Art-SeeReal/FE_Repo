@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { ReactNode, useEffect } from 'react';
-import { useToast } from '../hooks/useToastState';
+import { useToast } from '../hooks/customs/useToastState';
 
 const api = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '',

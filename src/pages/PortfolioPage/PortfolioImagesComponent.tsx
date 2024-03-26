@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { RiHeartFill, RiEyeLine } from '@remixicon/react';
-import { PortfolioImagesComponentProps } from '../../model/PortfolioTypes';
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -141,29 +140,49 @@ const LocationAndField = styled.div<{ isVisible: boolean }>`
   }
 `;
 
-const PortfolioImagesComponent = ({ image }: PortfolioImagesComponentProps) => {
+export interface PortfolioProps {
+  portfolioProps: {
+    id: number;
+    imageUrl: string;
+    title: string;
+    artist: string;
+    location: {
+      code: string;
+      label: string;
+    };
+    field: {
+      code: string;
+      label: string;
+    };
+    like: number;
+    view: number;
+    RegDate: string;
+  };
+}
+
+const PortfolioImagesComponent = ({ portfolioProps }: PortfolioProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
   const handleImageClick = () => {
-    navigate(`/portfolio/${image.id}`);
+    navigate(`/portfolio/${portfolioProps.id}`);
   };
 
   return (
     <ImageWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <ImageContainer onClick={handleImageClick}>
-        <Image id={image.id} src={image.imageUrl} alt={image.title} />
+        <Image id={portfolioProps.id} src={portfolioProps.imageUrl} alt={portfolioProps.title} />
         <ArtistInfo style={{ opacity: isHovered ? 1 : 0 }}>
-          <ArtistName>{image.artist}</ArtistName>
+          <ArtistName>{portfolioProps.artist}</ArtistName>
         </ArtistInfo>
         <LikeAndView style={{ opacity: isHovered ? 1 : 0 }}>
           <RiEyeLine />
-          {image.like}
-          <RiHeartFill /> {image.view}
+          {portfolioProps.like}
+          <RiHeartFill /> {portfolioProps.view}
         </LikeAndView>
-        <Title isVisible={isHovered}>{image.title}</Title>
+        <Title isVisible={isHovered}>{portfolioProps.title}</Title>
         <LocationAndField isVisible={isHovered}>
-          {image.location} - {image.field}
+          {portfolioProps.location.label} - {portfolioProps.field.label}
         </LocationAndField>
       </ImageContainer>
     </ImageWrapper>

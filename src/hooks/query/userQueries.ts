@@ -1,9 +1,7 @@
 import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { fetchFindId, fetchFindPw } from '../api/findIdPw';
-import { RequestFindIdTypes, RequestFindPwTypes, loginData, loginResponse, SignupData } from '../model/UserTypes';
-import { fetchLogin } from '../api/login';
-import { fetchRegisterUser } from '../api/signup';
+import { fetchFindId, fetchFindPw, fetchRegisterUser, fetchLogin } from '../../api/user';
+import { RequestFindIdTypes, RequestFindPwTypes, LoginData, LoginResponse, SignupData } from '../../model/apiTypes';
 
 const QUERY_KEY_LOGIN = 'login' as const;
 const QUERY_KEY_FIND_ID = 'findId' as const;
@@ -32,7 +30,7 @@ export const useFindPwQuery: (data: RequestFindPwTypes) => UseQueryResult<{ succ
   });
 };
 
-export const useLoginQuery: (data: loginData) => UseQueryResult<loginResponse> = ({ id, pw }: loginData) => {
+export const useLoginQuery: (data: LoginData) => UseQueryResult<LoginResponse> = ({ id, pw }: LoginData) => {
   return useQuery({
     queryKey: [QUERY_KEY_LOGIN],
     queryFn: () => fetchLogin({ id, pw }),

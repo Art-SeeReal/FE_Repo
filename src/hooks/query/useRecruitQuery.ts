@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { getLatestRecruits } from '../api/recruits';
+import { getLatestRecruits } from '../../api/recruit';
 
 const QUERY_KEY = {
   recruits: 'recruits',

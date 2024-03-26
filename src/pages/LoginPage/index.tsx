@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { useLoginQuery } from '../../hooks/userQueries';
+import { useLoginQuery } from '../../hooks/query/userQueries';
 import { useForm, IData } from '../../hooks/useFormState';
 import Form from '../../components/Form';
 import ErrorMessage from '../../components/ErrorMessage';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import { userState } from '../../recoil/atoms/userState';
-import { useDialog } from '../../hooks/useDialogState';
+import { useDialog } from '../../hooks/customs/useDialogState';
 import Dialog from '../../components/Dialog';
-import { isValidValue } from '../../utils/Validation';
+import { isValidValue } from '../../utils/validation';
 
 const LoginPageWrapper = styled.div`
   width: 400px;

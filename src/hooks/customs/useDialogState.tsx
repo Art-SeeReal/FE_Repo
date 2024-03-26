@@ -1,7 +1,7 @@
 import React, { ReactElement, MouseEvent } from 'react';
 import { useRecoilState } from 'recoil';
-import { dialogState } from '../recoil/atoms/dialogState';
-import * as S from '../components/styles';
+import { dialogState } from '../../recoil/atoms/dialogState';
+import * as S from '../../components/styles';
 
 export const useDialog = () => {
   const [dialog, setDialog] = useRecoilState(dialogState);
