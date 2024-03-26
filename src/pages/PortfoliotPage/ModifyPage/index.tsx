@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useForm, IData } from '../../../hooks/useFormState';
+import { useForm, IData } from '../../../hooks/customs/useFormState';
 import Form from '../../../components/Form';
 import * as S from '../../../components/styles';
 import ErrorMessage from '../../../components/ErrorMessage';
 import { removeHtmlTags } from '../../../utils/utils';
-import { useToast } from '../../../hooks/useToastState';
+import { useToast } from '../../../hooks/customs/useToastState';
 import FormControl from '../../../components/FormControl';
-import { useDialog } from '../../../hooks/useDialogState';
+import { useDialog } from '../../../hooks/customs/useDialogState';
 import Dialog from '../../../components/Dialog';
 import ReactQuillForm from '../../../components/ReactQuillForm';
-import { isValidValue } from '../../../utils/Validation';
-import { useDeletePortfolio, useUpdatePortfolio, useFetchDetailPortfolio } from '../../../hooks/usePortfoliosQuery';
+import { isValidValue } from '../../../utils/validation';
+import {
+  useDeletePortfolio,
+  useUpdatePortfolio,
+  useFetchDetailPortfolio,
+} from '../../../hooks/query/usePortfoliosQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;

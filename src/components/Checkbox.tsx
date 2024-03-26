@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ReactElement, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { RiCheckboxBlankLine, RiCheckboxFill } from '@remixicon/react';
 import * as S from './styles';
@@ -60,29 +60,33 @@ interface CheckboxProps {
   $error?: boolean;
   $style?: STYLES;
   children: string;
+  error?: ReactElement | null;
 }
 
-const Checkbox = ({ id, name, value, checked, disabled, onChange, $error, $style, children }: CheckboxProps) => {
+const Checkbox = ({ id, name, value, checked, disabled, onChange, $error, $style, error, children }: CheckboxProps) => {
   return (
-    <StyledLabel htmlFor={id} $error={$error} $disabled={disabled}>
-      <input
-        type="checkbox"
-        id={id}
-        name={name}
-        value={value}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-      />
-      {$style === STYLES.default && (checked ? <RiCheckboxFill /> : <RiCheckboxBlankLine />)}
-      {$style === STYLES.default ? (
-        <span className="ml-1">{children}</span>
-      ) : (
-        <S.Button as="div" $size="small" $style="secondary" $border={!checked}>
-          {children}
-        </S.Button>
-      )}
-    </StyledLabel>
+    <>
+      <StyledLabel htmlFor={id} $error={$error} $disabled={disabled}>
+        <input
+          type="checkbox"
+          id={id}
+          name={name}
+          value={value}
+          checked={checked}
+          disabled={disabled}
+          onChange={onChange}
+        />
+        {$style === STYLES.default && (checked ? <RiCheckboxFill /> : <RiCheckboxBlankLine />)}
+        {$style === STYLES.default ? (
+          <span className="ml-1">{children}</span>
+        ) : (
+          <S.Button as="div" $size="small" $style="secondary" $border={!checked}>
+            {children}
+          </S.Button>
+        )}
+      </StyledLabel>
+      {error && error}
+    </>
   );
 };
 

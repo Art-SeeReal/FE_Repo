@@ -10,3 +10,4 @@ export const selectedAreasState = atom<string[]>({
   key: 'selectedAreasState',
   default: [],
 });
+

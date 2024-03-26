@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { useFetchAreas } from '../../hooks/useUtilQuery';
-import { MultipleDropdownMenu } from '../../hooks/useDropdown';
+import { useFetchAreas } from '../../hooks/query/useUtilQuery';
+import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 import { selectedAreasState } from '../../recoil/atoms/portfolioBoardState';
 import * as S from '../../components/styles';
 

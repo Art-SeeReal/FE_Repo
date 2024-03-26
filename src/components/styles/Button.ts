@@ -87,7 +87,12 @@ export const Button = styled.button<Props>`
     return null;
   }};
 
-  ${({ $block }) => $block && `width: 100%;`}
+  ${({ $block }) =>
+    $block &&
+    `
+    width: 100%;
+    min-width: auto;
+  `}
 
   ${({ $style, $border }) => {
     if (!$border && $style === STYLES.primary)

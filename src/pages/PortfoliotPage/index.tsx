@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { ImageTypes } from '../../model/PortfolioTypes';
 import PortfolioImagesComponent from './PortfolioImagesComponent';
 import * as S from '../../components/styles';
-import { useFetchPortfolio } from '../../hooks/usePortfoliosQuery';
+import { useFetchPortfolio } from '../../hooks/query/usePortfoliosQuery';
 import HeaderContainer from './HeaderContainer';
 import { portfolioDataSelector } from '../../recoil/selectors/portfolioBoardSelectors';
 import Loading from '../../components/Loading';

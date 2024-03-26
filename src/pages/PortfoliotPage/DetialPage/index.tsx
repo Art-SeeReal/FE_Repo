@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RiHeartLine, RiEyeLine, RiStarLine, RiStarFill, RiHeartFill, RiCalendar2Line } from '@remixicon/react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useFetchDetailPortfolio } from '../../../hooks/usePortfoliosQuery';
+import { useFetchDetailPortfolio } from '../../../hooks/query/usePortfoliosQuery';
 import * as S from '../../../components/styles';
 
 const ArtistName = styled.div`

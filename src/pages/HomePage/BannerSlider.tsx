@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Slider from '../../components/Slider';
 import * as S from '../../components/styles';
-import { useFetchBanners } from '../../hooks/useBannerQuery';
+import { useFetchBanners } from '../../hooks/query/useBannerQuery';
 
 const StyledBanner = styled.div`
   position: relative;

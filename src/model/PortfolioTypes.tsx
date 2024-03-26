@@ -1,4 +1,4 @@
-import { IData } from '../hooks/useFormState';
+import { IData } from '../hooks/customs/useFormState';
 
 export interface ImageTypes {
   id: number;

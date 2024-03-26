@@ -5,12 +5,16 @@ import HeaderNav from './HeaderNav';
 import * as S from '../styles';
 
 const StyeldHeader = styeld.header`
+    position: sticky;
+    z-index: 1250;
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #fff;
-    padding: 0 6rem;
     height: 9rem;
+    padding: 0 6rem;
+    background: #fff;
 `;
 
 const Header = () => (
