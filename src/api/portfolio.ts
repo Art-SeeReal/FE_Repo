@@ -1,4 +1,4 @@
-import { IData } from '../hooks/customs/useFormState';
+import { IData } from '../hooks/useFormState';
 import api from '../utils/api';
 
 export const postPortfolio = async (userData: IData<string>) => {
