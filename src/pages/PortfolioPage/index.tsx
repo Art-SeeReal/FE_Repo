@@ -115,7 +115,7 @@ const PortfolioPage = () => {
           <Loading />
         ) : (
           <ImageContainer>
-            {portfolioData?.data.map((portfolioProps: PortfolioPropsTypes) => (
+            {portfolioData?.results.map((portfolioProps: PortfolioPropsTypes) => (
               <ImageWrapper key={portfolioProps.id}>
                 <PortfolioImagesComponent portfolioProps={portfolioProps} />
               </ImageWrapper>

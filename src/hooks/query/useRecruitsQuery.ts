@@ -20,6 +20,7 @@ export const useFetchRecruits = (params: GetRecruitsRequest): UseQueryResult<Get
   return useQuery({
     queryKey: [QUERY_KEY.recruits],
     queryFn: () => getRecruits(params),
+    select: (data) => data.data,
   });
 };
 
@@ -27,9 +28,7 @@ export const useFetchDetailRecruits: (id: number) => UseQueryResult<GetDetailRec
   return useQuery({
     queryKey: [QUERY_KEY.recruits, id],
     queryFn: () => getDetailRecruit(id),
-    select: (data) => {
-      return data.data;
-    },
+    select: (data) => data.data,
   });
 };
 

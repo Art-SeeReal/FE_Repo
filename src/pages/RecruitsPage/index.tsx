@@ -94,7 +94,7 @@ const Recruits = () => {
         <Loading />
       ) : (
         <ImageContainer>
-          {recruitsData?.data.map((recruitsProps: RecruitsPropsTypes) => (
+          {recruitsData?.results.map((recruitsProps: RecruitsPropsTypes) => (
             <RecruitsImagesComponent key={recruitsProps.id} recruitsProps={recruitsProps} />
           ))}
         </ImageContainer>

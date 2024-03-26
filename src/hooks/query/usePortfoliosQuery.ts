@@ -21,6 +21,7 @@ export const useFetchPortfolios = (params: GetPortfoliosRequest): UseQueryResult
   return useQuery({
     queryKey: [QUERY_KEY.portfolio],
     queryFn: () => getPortfolios(params),
+    select: (data) => data.data,
   });
 };
 
@@ -37,9 +38,7 @@ export const useFetchDetailPortfolio: (id: number) => UseQueryResult<GetDetailPo
   return useQuery({
     queryKey: [QUERY_KEY.portfolio, id],
     queryFn: () => getDetailPortfolio(id),
-    select: (data) => {
-      return data.data;
-    },
+    select: (data) => data.data,
   });
 };
 

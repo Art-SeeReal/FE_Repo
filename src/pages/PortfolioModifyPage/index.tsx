@@ -63,7 +63,7 @@ const ModifyPortfolioPage = () => {
   useEffect(() => {
     if (!isSuccess) return;
     appendToast({ content: '작성 완료', type: 'success' });
-    navigate(`/portfolio/${userId}`);
+    navigate(`/portfolios/${userId}`);
   }, [isSuccess]);
 
   return (

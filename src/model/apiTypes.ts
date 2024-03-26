@@ -5,7 +5,7 @@ export interface GetPortfoliosRequest {
 }
 
 export interface GetPortfoliosResponse {
-  data: {
+  results: {
     id: number;
     imageUrl: string;
     title: string;
@@ -23,6 +23,7 @@ export interface GetPortfoliosResponse {
     RegDate: string;
     content: string;
   }[];
+  count: number;
 }
 
 export interface GetDetailPortfoliosResponse {
@@ -73,7 +74,7 @@ export interface GetRecruitsRequest {
 }
 
 export interface GetRecruitsResponse {
-  data: {
+  results: {
     id: number;
     name: string;
     title: string;

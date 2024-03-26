@@ -15,7 +15,7 @@ import SignupAgreePage from './pages/SignupAgreePage';
 import SignupFormPage from './pages/SignupFormPage';
 import FindIdPwPage from './pages/FindIdPwPage';
 
-import PortfolioPage from './pages/PortfoliotPage';
+import PortfolioPage from './pages/PortfolioPage';
 import PortfolioRegisterPage from './pages/PortfolioRegisterPage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import PortfolioModifyPage from './pages/PortfolioModifyPage';

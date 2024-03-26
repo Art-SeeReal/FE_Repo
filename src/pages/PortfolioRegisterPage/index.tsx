@@ -9,7 +9,7 @@ import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
 import ErrorMessage from '../../components/ErrorMessage';
-import { useRegisterRecruits } from '../../hooks/query/useRecruitsQuery';
+import { useRegisterPortfolio } from '../../hooks/query/usePortfoliosQuery';
 
 const CenteredContainer = styled.div`
   width: 800px;
@@ -24,7 +24,7 @@ const RegisterPortfolioPage = () => {
   };
   const navigate = useNavigate();
 
-  const { mutate: register, isSuccess } = useRegisterRecruits();
+  const { mutate: register, isSuccess } = useRegisterPortfolio();
 
   const onSubmit: OnSubmitFn = ({ title, content }) => {
     register({ title, content });
