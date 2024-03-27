@@ -48,7 +48,7 @@ export default () => {
           />
         </Route>
 
-        <Route path="/find-account" element={<FindAccountPage />} />
+        <Route path="/find-account" element={isLogin ? <Navigate to="/" replace /> : <FindAccountPage />} />
 
         <Route path="/portfolios">
           <Route index element={<PortfolioPage />} />
