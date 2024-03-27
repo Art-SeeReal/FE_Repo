@@ -342,6 +342,10 @@ const UtilStyles = css`
   .color-info {
     color: var(--color-info);
   }
+
+  .bold {
+    font-weight: 700;
+  }
 `;
 
 export default UtilStyles;

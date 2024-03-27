@@ -73,7 +73,7 @@ const LoginPage = () => {
           로그인
         </S.Button>
         <S.Row $justifyContent="space-around" className="mt-5">
-          <S.ButtonRouter to="/find-id-pw" $style="link" $size="xsmall">
+          <S.ButtonRouter to="/find-account" $style="link" $size="xsmall">
             아이디/비밀번호 찾기
           </S.ButtonRouter>
           <S.ButtonRouter to="/signup" $style="link" $size="xsmall">

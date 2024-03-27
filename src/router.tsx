@@ -13,7 +13,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupAgreePage from './pages/SignupAgreePage';
 import SignupFormPage from './pages/SignupFormPage';
-import FindIdPwPage from './pages/FindIdPwPage';
+import FindAccountPage from './pages/FindAccountPage';
 
 import PortfolioPage from './pages/PortfolioPage';
 import PortfolioRegisterPage from './pages/PortfolioRegisterPage';
@@ -39,7 +39,7 @@ export default () => {
 
         <Route path="/login" element={isLogin ? <Navigate to="/" replace /> : <LoginPage />} />
 
-        <Route path="/signup">
+        <Route path="/signup" element={isLogin && <Navigate to="/" replace />}>
           <Route index element={<Navigate to="agree" replace />} />
           <Route path="agree" element={<SignupAgreePage />} />
           <Route
@@ -48,7 +48,7 @@ export default () => {
           />
         </Route>
 
-        <Route path="/find-id-pw" element={<FindIdPwPage />} />
+        <Route path="/find-account" element={<FindAccountPage />} />
 
         <Route path="/portfolios">
           <Route index element={<PortfolioPage />} />

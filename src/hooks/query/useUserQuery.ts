@@ -1,6 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { login, signup, getUserTypes, getExistUserId, getExistNickname, getExistEmail } from '../../api/user';
+import {
+  login,
+  signup,
+  getUserTypes,
+  getExistUserId,
+  getExistNickname,
+  getExistEmail,
+  findUserId,
+  findExistUser,
+  certEmail,
+  changePassword,
+} from '../../api/user';
 import {
   PostLoginRequest,
   PostLoginResponse,
@@ -8,6 +19,10 @@ import {
   GetExistUserIdRequest,
   GetExistNicknameRequest,
   GetExistEmailRequest,
+  GetUserIdRequest,
+  GetUserExistRequest,
+  PostUserCertEmailRequest,
+  PutUserPasswordRequest,
 } from '../../model/user';
 import { setToken, removeToken } from '../../utils/auth';
 import { useSetUserToken } from '../customs/useUserState';
@@ -17,6 +32,8 @@ const QUERY_KEY = {
   existUserId: 'existUserId',
   existNickname: 'existNickname',
   existEmail: 'existEmail',
+  userId: 'userId',
+  existUser: 'existUser',
 } as const;
 
 export const useLogin = () => {
@@ -82,5 +99,39 @@ export const useFetchExistEmail = (params: GetExistEmailRequest) => {
     select: (data) => data.data,
     enabled: false,
     gcTime: 0,
+  });
+};
+
+export const useFetchUserId = (params: GetUserIdRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userId],
+    queryFn: () => findUserId(params),
+    select: (data) => data.data,
+    enabled: false,
+    gcTime: 0,
+    retry: 0,
+  });
+};
+
+export const useFetchUserExist = (params: GetUserExistRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.existUser],
+    queryFn: () => findExistUser(params),
+    select: (data) => data.data,
+    enabled: false,
+    gcTime: 0,
+    retry: 0,
+  });
+};
+
+export const useCertEmail = () => {
+  return useMutation({
+    mutationFn: (data: PostUserCertEmailRequest) => certEmail(data),
+  });
+};
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: (data: PutUserPasswordRequest) => changePassword(data),
   });
 };
