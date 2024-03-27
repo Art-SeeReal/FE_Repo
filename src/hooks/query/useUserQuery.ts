@@ -61,6 +61,7 @@ export const useFetchExistUserId = (params: GetExistUserIdRequest) => {
     queryFn: () => getExistUserId(params),
     select: (data) => data.data,
     enabled: false,
+    gcTime: 0,
   });
 };
 
@@ -70,6 +71,7 @@ export const useFetchExistNickname = (params: GetExistNicknameRequest) => {
     queryFn: () => getExistNickname(params),
     select: (data) => data.data,
     enabled: false,
+    gcTime: 0,
   });
 };
 
@@ -79,5 +81,6 @@ export const useFetchExistEmail = (params: GetExistEmailRequest) => {
     queryFn: () => getExistEmail(params),
     select: (data) => data.data,
     enabled: false,
+    gcTime: 0,
   });
 };

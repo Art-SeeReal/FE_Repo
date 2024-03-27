@@ -16,6 +16,7 @@ import {
 } from '../../hooks/query/useUserQuery';
 import { useForm, OnSubmitFn, ValidateFn } from '../../hooks/customs/useFormState';
 import { useDialog } from '../../hooks/customs/useDialogState';
+import { useToast } from '../../hooks/customs/useToastState';
 import {
   certPhoneErrorMessage,
   userIdErrorMessage,
@@ -48,11 +49,11 @@ const SignupPage = () => {
   const validate: ValidateFn = (values) => {
     const errors = {
       phone: certPhoneErrorMessage(values.certedPhone),
-      userId: userIdErrorMessage(values.userId) || existCheckErrorMessage(values.availabledUserId, '아이디'),
+      userId: userIdErrorMessage(values.userId),
       password: passwordErrorMessage(values.password),
       passwordCheck: arePasswordsEqual(values.password, values.passwordCheck) ? '' : '비밀번호가 일치하지 않습니다.',
-      nickname: nicknameErrorMessage(values.nickname) || existCheckErrorMessage(values.availabledNickname, '닉네임'),
-      email: emailErrorMessage(values.email) || existCheckErrorMessage(values.availabledEmail, '이메일'),
+      nickname: nicknameErrorMessage(values.nickname),
+      email: emailErrorMessage(values.email),
       userType: [UserTypeAuthor, UserTypePlanner].includes(values.userType) ? '' : '회원유형을 선택하세요.',
     };
 
@@ -61,7 +62,28 @@ const SignupPage = () => {
 
   const { mutate: signup, isPending, isSuccess } = useSignup();
 
+  const { appendToast } = useToast();
+
   const onSubmit: OnSubmitFn = (values) => {
+    const checkUserIdErrorMessage = existCheckErrorMessage(values.availabledUserId, '아이디');
+    const checkNicknameErrorMessage = existCheckErrorMessage(values.availabledNickname, '닉네임');
+    const checkEmailErrorMessage = existCheckErrorMessage(values.availabledEmail, '이메일');
+
+    if (checkUserIdErrorMessage) {
+      appendToast({ content: checkUserIdErrorMessage, type: 'error' });
+      return;
+    }
+
+    if (checkNicknameErrorMessage) {
+      appendToast({ content: checkNicknameErrorMessage, type: 'error' });
+      return;
+    }
+
+    if (checkEmailErrorMessage) {
+      appendToast({ content: checkEmailErrorMessage, type: 'error' });
+      return;
+    }
+
     const { userId, password, name, nickname, email, emailSecret, phone, phoneSecret, userType } = values;
 
     signup({
@@ -97,8 +119,10 @@ const SignupPage = () => {
 
   // 중복체크 disabled 함수
   const getExistCheckDisabled = (name: string, availabledName: string) => {
-    // return !values[name] || !!values[availabledName] || !!errors[name];
-    return !values[name] || !!values[availabledName];
+    // 1) 입력란에 값이 없는 경우
+    // 2) 유효성검사에 통과되지 않은 값일 경우
+    // 3) 중복확인을 받지 않은 값일 경우
+    return !values[name] || !!errors[name] || !!values[availabledName];
   };
 
   // 중복체크 완료 후(사용가능 한 데이터 확인 완료 후), 데이터가 변경되면 available값 리셋
