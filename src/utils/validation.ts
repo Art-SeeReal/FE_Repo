@@ -1,5 +1,6 @@
-export const isValidValue = (value: string) => {
-  return value;
+export const isEmptyValue = (value: string) => {
+  value.replace(/\s/g, '');
+  return !value;
 };
 
 export const isValidUserId = (userId: string) => {
@@ -38,6 +39,10 @@ export const passwordErrorMessage = (password: string) => {
   return isValidPassword(password) ? '' : '비밀번호는 영문, 숫자, 특수문자를 조합한 8~20자로 입력하세요.';
 };
 
+export const passwordCheckErrorMessage = (password: string, passwordCheck: string) => {
+  return arePasswordsEqual(password, passwordCheck) ? '' : '비밀번호가 일치하지 않습니다.';
+};
+
 export const phoneErrorMessage = (phone: string) => {
   return isValidPhone(phone) ? '' : '휴대폰번호는 숫자로만 올바르게 입력하세요. 예)01012345678';
 };
@@ -59,9 +64,13 @@ export const certPhoneErrorMessage = (value: string) => {
 };
 
 export const titleErrorMessage = (title: string) => {
-  return isValidValue(title) ? '' : '제목을 입력해주세요.';
+  return isEmptyValue(title) ? '제목을 입력해주세요.' : '';
 };
 
 export const contentErrorMessage = (content: string) => {
-  return isValidValue(content) ? '' : '내용을 입력해주세요.';
+  return isEmptyValue(content) ? '내용을 입력해주세요.' : '';
+};
+
+export const nameErrorMessage = (name: string) => {
+  return isValidName(name) ? '' : '이름을 올바르게 입력하세요.';
 };
