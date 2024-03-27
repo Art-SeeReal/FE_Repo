@@ -3,7 +3,7 @@ export const isValidValue = (value: string) => {
 };
 
 export const isValidUserId = (userId: string) => {
-  return /^[a-z]+[a-z0-9]{5,15}$/g.test(userId);
+  return /^[a-z]+[a-z0-9]{4,14}$/g.test(userId);
 };
 
 export const isValidPassword = (password: string) => {
