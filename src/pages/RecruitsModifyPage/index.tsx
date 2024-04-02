@@ -15,19 +15,18 @@ import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 const ModifyRecruitsPage = () => {
   const params = useParams();
   const postId = Number(params.id);
+  const navigate = useNavigate();
   const { data: recruitsDetail } = useFetchDetailRecruits(Number(postId));
   const { mutate: updateRecruits, isSuccess } = useUpdateRecruits();
-
   const { data: fieldData } = useFetchField();
   const { data: areasData } = useFetchAreas();
   const fieldsValue = recruitsDetail?.fields?.code || [];
+  const areasValue = recruitsDetail?.areas?.code || [];
   const [selectedField, setSelectedField] = useState<string[]>(
     Array.isArray(fieldsValue) ? fieldsValue : [fieldsValue],
   );
-  const areasValue = recruitsDetail?.areas?.code || [];
   const [selectedAreas, setSelectedAreas] = useState<string[]>(Array.isArray(areasValue) ? areasValue : [areasValue]);
   const [initialValue, setInitialValue] = useState({ title: '', content: '' });
-  const navigate = useNavigate();
 
   const validate: ValidateFn = (values) => {
     const errors = {

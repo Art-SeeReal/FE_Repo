@@ -47,7 +47,6 @@ interface PortfolioPropsTypes {
 const PortfolioPage = () => {
   const [page, setPage] = useState(20);
   const navigate = useNavigate();
-
   const [selectedField, setSelectedField] = useState<string[]>([]);
   const [searchKeywords, setSearchKeywords] = useState('');
   const [ref, inView] = useInView({

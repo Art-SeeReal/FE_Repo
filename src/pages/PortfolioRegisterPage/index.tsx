@@ -22,9 +22,8 @@ const RegisterPortfolioPage = () => {
   };
   const navigate = useNavigate();
   const { data: fieldData } = useFetchField();
-  const [selectedField, setSelectedField] = useState<string[]>([]);
-
   const { mutate: register, isSuccess } = useRegisterPortfolio();
+  const [selectedField, setSelectedField] = useState<string[]>([]);
 
   const onSubmit: OnSubmitFn = ({ title, content }) => {
     register({ title, content });

@@ -18,10 +18,10 @@ import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser } from '../../hooks
 const PortfolioDetailPage = () => {
   const params = useParams();
   const postId = Number(params.id);
-  const { data: porfolioDetails } = useFetchDetailPortfolio(postId);
-  const { mutate: deletePorfolio } = useDeletePortfolio();
   const isLoggedIn = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
+  const { data: porfolioDetails } = useFetchDetailPortfolio(postId);
+  const { mutate: deletePorfolio } = useDeletePortfolio();
   const { mutate: addScrap } = useAddPortfolioScrap();
   const { mutate: deleteScrap } = useDeletePortfolioScrap();
   const { data: likeUser } = useFetchLikeUser();
