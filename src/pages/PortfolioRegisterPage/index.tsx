@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
-import { titleErrorMessage, contentErrorMessage } from '../../utils/validation';
+import { titleErrorMessage, contentErrorMessage, fieldErrorMessage } from '../../utils/validation';
 import Form from '../../components/Form';
 import { useToast } from '../../hooks/customs/useToastState';
 import * as S from '../../components/styles';
@@ -10,19 +9,20 @@ import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useRegisterPortfolio } from '../../hooks/query/usePortfoliosQuery';
-
-const CenteredContainer = styled.div`
-  width: 800px;
-  margin: auto;
-  padding: 100px 0;
-`;
+import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
+import { useFetchField } from '../../hooks/query/useUtilQuery';
+import Upload from '../../components/Upload';
 
 const RegisterPortfolioPage = () => {
   const initialValue = {
     title: '',
     content: '',
+    field: '',
+    thumbUrl: '',
   };
   const navigate = useNavigate();
+  const { data: fieldData } = useFetchField();
+  const [selectedField, setSelectedField] = useState<string[]>([]);
 
   const { mutate: register, isSuccess } = useRegisterPortfolio();
 
@@ -34,11 +34,12 @@ const RegisterPortfolioPage = () => {
     const errors = {
       title: titleErrorMessage(values.title),
       content: contentErrorMessage(values.content),
+      field: fieldErrorMessage(selectedField),
     };
     return errors;
   };
 
-  const { errors, touched, getFieldProps, getQuillProps, handleSubmit, resetForm } = useForm({
+  const { errors, touched, getFieldProps, getQuillProps, getUploadProps, handleSubmit, resetForm } = useForm({
     initialValue,
     validate,
     onSubmit,
@@ -55,8 +56,8 @@ const RegisterPortfolioPage = () => {
   }, [isSuccess]);
 
   return (
-    <CenteredContainer>
-      <S.Title>등록</S.Title>
+    <S.Container $width={800}>
+      <S.Title $center>등록</S.Title>
       <Form id="register-form" onSubmit={handleSubmit}>
         <FormControl
           label="제목"
@@ -67,6 +68,31 @@ const RegisterPortfolioPage = () => {
           <S.Field id="title" {...getFieldProps('title')} placeholder="제목을 입력하세요." />
         </FormControl>
         <FormControl
+          label="썸네일"
+          htmlFor="thumbUrl"
+          required
+          error={<ErrorMessage touched={touched.thumbUrl} message={errors.thumbUrl} />}
+        >
+          <Upload id="thumbUrl" {...getUploadProps('thubUrl')} thumbnailMode accept=".jpg, .jpeg, .png" />
+        </FormControl>
+        <FormControl
+          label="분야"
+          htmlFor="field"
+          required
+          error={<ErrorMessage touched={touched.field} message={errors.field} />}
+        >
+          <MultipleDropdownMenu
+            values={selectedField}
+            setValues={(values) => setSelectedField(values)}
+            defaultLabel="분야"
+            checkboxGroup={{
+              initialValues: [],
+              data: fieldData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'field',
+            }}
+          />
+        </FormControl>
+        <FormControl
           label="내용"
           htmlFor="content"
           required
@@ -74,9 +100,11 @@ const RegisterPortfolioPage = () => {
         >
           <ReactQuillForm {...getQuillProps('content')} />
         </FormControl>
-        <S.Button type="submit">제출</S.Button>
+        <S.Row $justifyContent="flex-end">
+          <S.Button type="submit">제출</S.Button>
+        </S.Row>
       </Form>
-    </CenteredContainer>
+    </S.Container>
   );
 };
 

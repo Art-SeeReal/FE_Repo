@@ -1,10 +1,12 @@
 import { useQuery, useMutation, UseQueryResult, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { getAreas, upload } from '../../api/utils';
+import { getAreas, getField, getSortType, upload } from '../../api/utils';
 
 const QUERY_KEY = {
   areas: 'areas',
   upload: 'upload',
+  field: 'field',
+  sortType: 'sortType',
 } as const;
 
 interface AreasResponse {
@@ -15,6 +17,30 @@ export const useFetchAreas: () => UseQueryResult<AreasResponse> = () => {
   return useQuery({
     queryKey: [QUERY_KEY.areas],
     queryFn: getAreas,
+    select: (data) => data.data,
+  });
+};
+
+interface FieldResponse {
+  results: { code: string; label: string }[];
+}
+
+export const useFetchField: () => UseQueryResult<FieldResponse> = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.field],
+    queryFn: getField,
+    select: (data) => data.data,
+  });
+};
+
+interface SortTypeResponse {
+  results: { code: string; label: string }[];
+}
+
+export const useFetchSortType: () => UseQueryResult<SortTypeResponse> = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.sortType],
+    queryFn: getSortType,
     select: (data) => data.data,
   });
 };

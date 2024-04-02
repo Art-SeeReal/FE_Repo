@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
-import { RiArrowUpDoubleFill } from '@remixicon/react';
 import { useNavigate } from 'react-router-dom';
 import PortfolioImagesComponent from './PortfolioImagesComponent';
 import * as S from '../../components/styles';
 import { useFetchPortfolios } from '../../hooks/query/usePortfoliosQuery';
 import Loading from '../../components/Loading';
-
-const HeaderContainerStyle = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 10px 50px;
-  margin: 0 auto;
-  @media (max-width: 760px) {
-    padding: 30px;
-  }
-  @media (max-width: 560px) {
-    padding: 10px;
-  }
-`;
+import { useFetchField } from '../../hooks/query/useUtilQuery';
+import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
+import ScrollToTop from '../../components/ScrollToTop';
+import SearchBar from '../../components/Searchbar';
 
 const ImageContainer = styled.div`
   display: flex;
@@ -31,7 +20,7 @@ const ImageContainer = styled.div`
 const ImageWrapper = styled.div`
   width: calc((100% - 20px) / 2);
   margin-bottom: 10px;
-  padding: 50px;
+  padding: 20px;
   @media (max-width: 760px) {
     padding: 30px;
   }
@@ -40,40 +29,27 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const ScrollToTopButton = styled.button`
-  position: fixed;
-  bottom: 50px;
-  right: 20px;
-  z-index: 1000;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-`;
-
 interface PortfolioPropsTypes {
   id: number;
   imageUrl: string;
   title: string;
   artist: string;
-  location: {
+  fields: {
     code: string;
     label: string;
   };
-  field: {
-    code: string;
-    label: string;
-  };
+  isScrap: boolean;
   like: number;
   view: number;
   RegDate: string;
 }
 
 const PortfolioPage = () => {
-  const [page, setPage] = useState(10);
+  const [page, setPage] = useState(20);
   const navigate = useNavigate();
+
+  const [selectedField, setSelectedField] = useState<string[]>([]);
+  const [searchKeywords, setSearchKeywords] = useState('');
   const [ref, inView] = useInView({
     threshold: 1,
   });
@@ -84,16 +60,23 @@ const PortfolioPage = () => {
     isError,
   } = useFetchPortfolios({
     page,
+    fields: selectedField,
+    keyWords: searchKeywords,
   });
+  const { data: fieldData } = useFetchField();
 
   const goToRegisterPage = () => {
     navigate('/portfolios/register');
   };
 
   useEffect(() => {
+    refetch();
+  }, [selectedField, searchKeywords]);
+
+  useEffect(() => {
     if (inView && !isLoading) {
       refetch();
-      setPage(page + 10);
+      setPage(page + 20);
     }
   }, [inView, isLoading]);
 
@@ -101,18 +84,29 @@ const PortfolioPage = () => {
     return <div>에러</div>;
   }
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <div>
-      <HeaderContainerStyle>
+    <S.Container>
+      <S.Row className="mx-5" $justifyContent="space-between">
+        <S.Row>
+          <MultipleDropdownMenu
+            values={selectedField}
+            setValues={(values) => setSelectedField(values)}
+            defaultLabel="분야"
+            checkboxGroup={{
+              initialValues: [],
+              data: fieldData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'field',
+            }}
+          />
+          <SearchBar placeholder="검색어를 입력해주세요" onSearch={setSearchKeywords} />
+        </S.Row>
         <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
-      </HeaderContainerStyle>
+      </S.Row>
       <S.Container $paddingBottom>
         {isLoading ? (
-          <Loading />
+          <S.Row $justifyContent="center">
+            <Loading />
+          </S.Row>
         ) : (
           <ImageContainer>
             {portfolioData?.results.map((portfolioProps: PortfolioPropsTypes) => (
@@ -123,11 +117,9 @@ const PortfolioPage = () => {
           </ImageContainer>
         )}
       </S.Container>
-      <div ref={ref} style={{ height: 50 }} />
-      <ScrollToTopButton onClick={scrollToTop}>
-        <RiArrowUpDoubleFill />
-      </ScrollToTopButton>
-    </div>
+      <div ref={ref} style={{ height: 10 }} />
+      <ScrollToTop />
+    </S.Container>
   );
 };
 

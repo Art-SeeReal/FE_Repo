@@ -8,6 +8,9 @@ import {
   GetExistNicknameRequest,
   GetExistEmailRequest,
   GetExistReponse,
+  PostLikeUserResponse,
+  DeleteLikeLikeResponse,
+  GetLikeUsersResponse,
 } from '../model/user';
 
 export const login = (data: PostLoginRequest) => {
@@ -32,4 +35,16 @@ export const getExistNickname = (params: GetExistNicknameRequest) => {
 
 export const getExistEmail = (params: GetExistEmailRequest) => {
   return api<GetExistReponse>({ url: '/user/exist/email', method: 'get', params });
+};
+
+export const getLikeUsers = () => {
+  return api<GetLikeUsersResponse>({ url: `/user/like/users`, method: 'get' });
+};
+
+export const addLikeUser = (id: number) => {
+  return api<PostLikeUserResponse>({ url: `/user/like/${id}`, method: 'post' });
+};
+
+export const deleteLikeUser = (id: number) => {
+  return api<DeleteLikeLikeResponse>({ url: `/user/like/${id}`, method: 'delete' });
 };

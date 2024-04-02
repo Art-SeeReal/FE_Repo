@@ -1,6 +1,16 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { login, signup, getUserTypes, getExistUserId, getExistNickname, getExistEmail } from '../../api/user';
+import {
+  login,
+  signup,
+  getUserTypes,
+  getExistUserId,
+  getExistNickname,
+  getExistEmail,
+  addLikeUser,
+  deleteLikeUser,
+  getLikeUsers,
+} from '../../api/user';
 import {
   PostLoginRequest,
   PostLoginResponse,
@@ -8,6 +18,7 @@ import {
   GetExistUserIdRequest,
   GetExistNicknameRequest,
   GetExistEmailRequest,
+  GetLikeUsersResponse,
 } from '../../model/user';
 import { setToken, removeToken } from '../../utils/auth';
 import { useSetUserToken } from '../customs/useUserState';
@@ -17,6 +28,7 @@ const QUERY_KEY = {
   existUserId: 'existUserId',
   existNickname: 'existNickname',
   existEmail: 'existEmail',
+  likeUser: 'likeUser',
 } as const;
 
 export const useLogin = () => {
@@ -79,5 +91,25 @@ export const useFetchExistEmail = (params: GetExistEmailRequest) => {
     queryFn: () => getExistEmail(params),
     select: (data) => data.data,
     enabled: false,
+  });
+};
+
+export const useFetchLikeUser: () => UseQueryResult<GetLikeUsersResponse> = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.likeUser],
+    queryFn: getLikeUsers,
+    select: (data) => data.data,
+  });
+};
+
+export const useAddLikeUser = () => {
+  return useMutation({
+    mutationFn: (id: number) => addLikeUser(id),
+  });
+};
+
+export const useDeleteLikeUser = () => {
+  return useMutation({
+    mutationFn: (id: number) => deleteLikeUser(id),
   });
 };

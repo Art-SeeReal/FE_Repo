@@ -3,7 +3,7 @@ export const isValidValue = (value: string) => {
 };
 
 export const isValidUserId = (userId: string) => {
-  return /^[a-z]+[a-z0-9]{5,15}$/g.test(userId);
+  return /^[a-z]+[a-z0-9]{4,15}$/g.test(userId);
 };
 
 export const isValidPassword = (password: string) => {
@@ -24,6 +24,10 @@ export const isValidNickname = (nickname: string) => {
 
 export const isValidEmail = (email: string) => {
   return /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email);
+};
+
+export const isValidStringArray = (arr: string[]) => {
+  return arr.length > 1;
 };
 
 export const arePasswordsEqual = (password: string, passwordCheck: string) => {
@@ -64,4 +68,12 @@ export const titleErrorMessage = (title: string) => {
 
 export const contentErrorMessage = (content: string) => {
   return isValidValue(content) ? '' : '내용을 입력해주세요.';
+};
+
+export const fieldErrorMessage = (field: string[]) => {
+  return isValidStringArray(field) ? '' : '분야를 선택해주세요.';
+};
+
+export const areaErrorMessage = (area: string[]) => {
+  return isValidStringArray(area) ? '' : '지역을 선택해주세요.';
 };

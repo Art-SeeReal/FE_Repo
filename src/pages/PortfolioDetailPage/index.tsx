@@ -1,119 +1,131 @@
 import React from 'react';
-import styled from 'styled-components';
-import { RiHeartLine, RiEyeLine, RiStarLine, RiStarFill, RiHeartFill, RiCalendar2Line } from '@remixicon/react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useFetchDetailPortfolio } from '../../hooks/query/usePortfoliosQuery';
+import { useRecoilValue } from 'recoil';
+import { RiStarFill, RiStarLine, RiHeartLine, RiHeartFill } from '@remixicon/react';
+import {
+  useAddPortfolioScrap,
+  useDeletePortfolio,
+  useDeletePortfolioScrap,
+  useFetchDetailPortfolio,
+} from '../../hooks/query/usePortfoliosQuery';
+import { useDialog } from '../../hooks/customs/useDialogState';
+import Dialog from '../../components/Dialog';
 import * as S from '../../components/styles';
+import { isLoginSelector } from '../../recoil/selectors/userSelectors';
+import { useToast } from '../../hooks/customs/useToastState';
+import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser } from '../../hooks/query/useUserQuery';
 
-const ArtistName = styled.div`
-  font-size: 30px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-`;
-
-const DetailsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5px;
-
-  ${S.Button} {
-    margin: 2px;
-  }
-`;
-
-const Title = styled.div`
-  font-size: 40px;
-  margin-top: 10px;
-`;
-
-const OptionContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Count = styled.span`
-  margin-left: 5px;
-`;
-
-const ContentContainer = styled.div`
-  margin-top: 20px;
-  min-height: 600px;
-
-  p {
-    margin: 0;
-  }
-`;
-const CenteredDiv = styled.div`
-  padding: 20px;
-  margin: 5px;
-`;
-
-const CenteredButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
-
-const DetailPortfolioPage = () => {
+const PortfolioDetailPage = () => {
   const params = useParams();
-  const userId = params.id;
-  const { data: portfolioDetails } = useFetchDetailPortfolio(Number(userId));
+  const postId = Number(params.id);
+  const { data: porfolioDetails } = useFetchDetailPortfolio(postId);
+  const { mutate: deletePorfolio } = useDeletePortfolio();
+  const isLoggedIn = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
+  const { mutate: addScrap } = useAddPortfolioScrap();
+  const { mutate: deleteScrap } = useDeletePortfolioScrap();
+  const { data: likeUser } = useFetchLikeUser();
+  const { mutate: addLikeUser } = useAddLikeUser();
+  const { mutate: deleteLikeUser } = useDeleteLikeUser();
 
   const goToModifyPage = () => {
-    navigate(`/portfolios/update/${userId}`);
+    navigate(`/porfolios/update/${postId}`);
+  };
+
+  const { openDialog, closeDialog } = useDialog();
+  const { appendToast } = useToast();
+
+  const handleAddScrap: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    addScrap(postId);
+    appendToast({ content: '스크랩 성공', type: 'success' });
+  };
+
+  const handleDeleteScrap: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    deleteScrap(postId);
+    appendToast({ content: '스크랩 취소', type: 'success' });
+  };
+
+  const goToLoginPage = () => {
+    closeDialog();
+    navigate('/login');
+  };
+
+  const handleAddLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    addLikeUser(postId);
+    appendToast({ content: '좋아요 성공', type: 'success' });
+  };
+
+  const handleDeleteLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    deleteLikeUser(postId);
+    appendToast({ content: '좋아요 취소', type: 'success' });
+  };
+
+  const handleOpenDialog: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    openDialog(
+      <Dialog
+        header="알림"
+        footer={
+          <>
+            <S.Button onClick={goToLoginPage}>이동</S.Button>
+            <S.Button onClick={closeDialog}>닫기</S.Button>
+          </>
+        }
+      >
+        로그인이 필요한 서비스입니다.
+      </Dialog>,
+    );
+  };
+
+  const deleteContent = () => {
+    openDialog(
+      <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
+        삭제하시겠습니까?
+      </Dialog>,
+    );
+    deletePorfolio(Number(postId));
   };
 
   return (
-    <div>
-      <CenteredDiv>
-        <OptionContainer>
-          <ArtistName>{portfolioDetails?.artist}</ArtistName>
-          <S.Button $size="xsmall">
-            <RiHeartLine color="red" />
-            <Count>{portfolioDetails?.like}</Count>
-          </S.Button>
-          <S.Button $size="xsmall">
-            <RiHeartFill color="red" />
-            <Count>{portfolioDetails?.like}</Count>
-          </S.Button>
-        </OptionContainer>
-        <Title>{portfolioDetails?.title}</Title>
-        <DetailsContainer>
-          <OptionContainer>
-            <S.Button $size="xsmall">
-              <RiCalendar2Line color="black" />
-              {portfolioDetails?.RegDate}
-            </S.Button>
-            <S.Button $size="xsmall">{portfolioDetails?.location.label}</S.Button>
-            <S.Button $size="xsmall">{portfolioDetails?.field.label}</S.Button>
-          </OptionContainer>
-          <OptionContainer>
-            <S.Button $size="xsmall">
-              <RiEyeLine color="black" />
-              <Count>{portfolioDetails?.view}</Count>
-            </S.Button>
-            <S.Button $size="xsmall">
-              <RiStarLine color="yellow" />
-              <Count>{portfolioDetails?.like}</Count>
-            </S.Button>
-            <S.Button $size="xsmall">
-              <RiStarFill color="yellow" />
-              <Count>{portfolioDetails?.like}</Count>
-            </S.Button>
-          </OptionContainer>
-        </DetailsContainer>
-        <ContentContainer>
-          <p dangerouslySetInnerHTML={{ __html: portfolioDetails?.content ?? '' }} />
-        </ContentContainer>
-        <CenteredButtonContainer>
-          <S.Button onClick={goToModifyPage}>수정하기</S.Button>
-        </CenteredButtonContainer>
-      </CenteredDiv>
-    </div>
+    <S.Container $width={800}>
+      <S.Row>
+        <S.Title>{porfolioDetails?.artist}</S.Title>
+        {isLoggedIn &&
+          (likeUser?.results.some((user) => user.userId === porfolioDetails?.id) ? (
+            <RiHeartFill color="red" onClick={handleDeleteLikeUser} />
+          ) : (
+            <RiHeartLine color="red" onClick={handleAddLikeUser} />
+          ))}
+        {!isLoggedIn && <RiHeartLine color="red" onClick={handleOpenDialog} />}
+      </S.Row>
+      <S.Title>{porfolioDetails?.title}</S.Title>
+      <S.Row className="my-5">
+        <S.Col>{porfolioDetails?.RegDate}</S.Col>
+        <S.Col>{porfolioDetails?.fields.label}</S.Col>
+        <S.Col>
+          {isLoggedIn &&
+            (porfolioDetails?.isScrap ? (
+              <RiStarFill color="yellow" onClick={handleDeleteScrap} />
+            ) : (
+              <RiStarLine color="yellow" onClick={handleAddScrap} />
+            ))}
+          {!isLoggedIn && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
+        </S.Col>
+        <S.Col>{porfolioDetails?.view}</S.Col>
+      </S.Row>
+      <S.Row className="my-5">
+        <p dangerouslySetInnerHTML={{ __html: porfolioDetails?.content ?? '' }} />
+      </S.Row>
+      <S.Row className="my-5" $justifyContent="space-between">
+        <S.Button onClick={deleteContent}>삭제하기</S.Button>
+        <S.Button onClick={goToModifyPage}>수정하기</S.Button>
+      </S.Row>
+    </S.Container>
   );
 };
 
-export default DetailPortfolioPage;
+export default PortfolioDetailPage;

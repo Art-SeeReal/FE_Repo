@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { RiHeartFill, RiEyeLine } from '@remixicon/react';
+import { RiEyeLine, RiStarFill, RiStarLine, RiHeartLine, RiHeartFill } from '@remixicon/react';
+import { useRecoilValue } from 'recoil';
+import * as S from '../../components/styles';
+import { useAddRecruitsScrap, useDeleteRecruitsScrap } from '../../hooks/query/useRecruitsQuery';
+import { isLoginSelector } from '../../recoil/selectors/userSelectors';
+import { useDialog } from '../../hooks/customs/useDialogState';
+import { useToast } from '../../hooks/customs/useToastState';
+import Dialog from '../../components/Dialog';
+import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser } from '../../hooks/query/useUserQuery';
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -48,28 +56,6 @@ const ArtistInfo = styled.div`
   z-index: 2;
 `;
 
-const ArtistName = styled.div`
-  font-size: 30px;
-  font-weight: bold;
-
-  @media (max-width: 1200px) {
-    font-size: 26px;
-  }
-
-  @media (max-width: 960px) {
-    font-size: 20px;
-  }
-
-  @media (max-width: 760px) {
-    font-size: 16px;
-  }
-
-  @media (max-width: 560px) {
-    font-size: 14px;
-    text-align: center;
-  }
-`;
-
 const LikeAndView = styled.div`
   position: absolute;
   top: 10px;
@@ -86,10 +72,6 @@ const LikeAndView = styled.div`
   @media (max-width: 560px) {
     display: none;
   }
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
 `;
 
 const Title = styled.div<{ isVisible: boolean }>`
@@ -146,14 +128,11 @@ export interface PortfolioProps {
     imageUrl: string;
     title: string;
     artist: string;
-    location: {
+    fields: {
       code: string;
       label: string;
     };
-    field: {
-      code: string;
-      label: string;
-    };
+    isScrap: boolean;
     like: number;
     view: number;
     RegDate: string;
@@ -162,30 +141,99 @@ export interface PortfolioProps {
 
 const PortfolioImagesComponent = ({ portfolioProps }: PortfolioProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const isLoggedIn = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
+  const { mutate: addScrap } = useAddRecruitsScrap();
+  const { mutate: deleteScrap } = useDeleteRecruitsScrap();
+  const { data: likeUser } = useFetchLikeUser();
+  const { mutate: addLikeUser } = useAddLikeUser();
+  const { mutate: deleteLikeUser } = useDeleteLikeUser();
 
   const handleImageClick = () => {
     navigate(`/portfolios/${portfolioProps.id}`);
   };
 
+  const { openDialog, closeDialog } = useDialog();
+  const { appendToast } = useToast();
+
+  const handleAddScrap: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    addScrap(portfolioProps.id);
+    appendToast({ content: '스크랩 성공', type: 'success' });
+  };
+
+  const handleDeleteScrap: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    deleteScrap(portfolioProps.id);
+    appendToast({ content: '스크랩 취소', type: 'success' });
+  };
+
+  const goToLoginPage = () => {
+    closeDialog();
+    navigate('/login');
+  };
+
+  const handleAddLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    addLikeUser(portfolioProps.id);
+    appendToast({ content: '좋아요 성공', type: 'success' });
+  };
+
+  const handleDeleteLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    deleteLikeUser(portfolioProps.id);
+    appendToast({ content: '좋아요 취소', type: 'success' });
+  };
+
+  const handleOpenDialog: React.MouseEventHandler<SVGSVGElement> = (event) => {
+    event.stopPropagation();
+    openDialog(
+      <Dialog
+        header="알림"
+        footer={
+          <>
+            <S.Button onClick={goToLoginPage}>이동</S.Button>
+            <S.Button onClick={closeDialog}>닫기</S.Button>
+          </>
+        }
+      >
+        로그인이 필요한 서비스입니다.
+      </Dialog>,
+    );
+  };
+
   return (
-    <ImageWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <S.Container onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <ImageContainer onClick={handleImageClick}>
-        <Image id={portfolioProps.id} src={portfolioProps.imageUrl} alt={portfolioProps.title} />
+        <Image id={portfolioProps?.id} src={portfolioProps?.imageUrl} alt={portfolioProps?.title} />
         <ArtistInfo style={{ opacity: isHovered ? 1 : 0 }}>
-          <ArtistName>{portfolioProps.artist}</ArtistName>
+          <S.Row>
+            <S.Title>{portfolioProps.artist}</S.Title>
+            {isLoggedIn &&
+              (likeUser?.results.some((user) => user.userId === portfolioProps?.id) ? (
+                <RiHeartFill color="red" onClick={handleDeleteLikeUser} />
+              ) : (
+                <RiHeartLine color="red" onClick={handleAddLikeUser} />
+              ))}
+            {!isLoggedIn && <RiHeartLine color="red" onClick={handleOpenDialog} />}
+          </S.Row>
         </ArtistInfo>
         <LikeAndView style={{ opacity: isHovered ? 1 : 0 }}>
-          <RiEyeLine />
-          {portfolioProps.like}
-          <RiHeartFill /> {portfolioProps.view}
+          <RiEyeLine /> {portfolioProps?.view}
+          {isLoggedIn &&
+            (portfolioProps?.isScrap ? (
+              <RiStarFill color="yellow" onClick={handleDeleteScrap} />
+            ) : (
+              <RiStarLine color="yellow" onClick={handleAddScrap} />
+            ))}
+          {!isLoggedIn && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
         </LikeAndView>
-        <Title isVisible={isHovered}>{portfolioProps.title}</Title>
-        <LocationAndField isVisible={isHovered}>
-          {portfolioProps.location.label} - {portfolioProps.field.label}
-        </LocationAndField>
+        <Title isVisible={isHovered}>
+          {portfolioProps?.title.length > 25 ? `${portfolioProps?.title.slice(0, 22)}...` : portfolioProps?.title}
+        </Title>
+        <LocationAndField isVisible={isHovered}>{portfolioProps?.fields.label}</LocationAndField>
       </ImageContainer>
-    </ImageWrapper>
+    </S.Container>
   );
 };
 

@@ -4,10 +4,12 @@ import {
   GetDetailRecruitsResponse,
   GetRecruitsRequest,
   GetRecruitsResponse,
-  PostPortfolioResponse,
+  PostRecruitsResponse,
   PostRecruitsRequest,
-  PutPortfolioResponse,
+  PutRecruitsResponse,
   PutRecruitsRequest,
+  PostRecruitsScrapResponse,
+  DeleteRecruitsScrapResponse,
 } from '../model/apiTypes';
 
 export const getLatestRecruits = () => {
@@ -19,17 +21,25 @@ export const getRecruits = (params: GetRecruitsRequest) => {
 };
 
 export const addRecruit = (data: PostRecruitsRequest) => {
-  return api<PostPortfolioResponse>({ url: `/recruit`, method: 'post', data });
+  return api<PostRecruitsResponse>({ url: `/recruits`, method: 'post', data });
 };
 
 export const getDetailRecruit = (id: number) => {
-  return api<GetDetailRecruitsResponse>({ url: `/recruit/${id}`, method: 'get' });
+  return api<GetDetailRecruitsResponse>({ url: `/recruits/${id}`, method: 'get' });
 };
 
 export const updateRecruit = (data: PutRecruitsRequest) => {
-  return api<PutPortfolioResponse>({ url: `/recruit/${data.id}`, method: 'put', data });
+  return api<PutRecruitsResponse>({ url: `/recruits/${data.id}`, method: 'put', data });
 };
 
 export const deleteRecruit = (id: number) => {
-  return api<DeleteRecruitsResponse>({ url: `/recruit/${id}`, method: 'delete' });
+  return api<DeleteRecruitsResponse>({ url: `/recruits/${id}`, method: 'delete' });
+};
+
+export const addRecruitScrap = (id: number) => {
+  return api<PostRecruitsScrapResponse>({ url: `/recruits/${id}/scrap`, method: 'post' });
+};
+
+export const deleteRecruitScrap = (id: number) => {
+  return api<DeleteRecruitsScrapResponse>({ url: `/recruits/${id}/scrap`, method: 'post' });
 };

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
 import { titleErrorMessage, contentErrorMessage } from '../../utils/validation';
 import Form from '../../components/Form';
@@ -8,28 +7,28 @@ import * as S from '../../components/styles';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useToast } from '../../hooks/customs/useToastState';
 import FormControl from '../../components/FormControl';
-import { useDialog } from '../../hooks/customs/useDialogState';
-import Dialog from '../../components/Dialog';
 import ReactQuillForm from '../../components/ReactQuillForm';
-import { useDeleteRecruits, useUpdateRecruits, useFetchDetailRecruits } from '../../hooks/query/useRecruitsQuery';
-
-const CenteredContainer = styled.div`
-  width: 800px;
-  margin: auto;
-  padding: 100px 0;
-`;
+import { useUpdateRecruits, useFetchDetailRecruits } from '../../hooks/query/useRecruitsQuery';
+import { useFetchAreas, useFetchField } from '../../hooks/query/useUtilQuery';
+import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 
 const ModifyRecruitsPage = () => {
   const params = useParams();
-  const userId = Number(params.id);
-  const { data: recruitsDetail } = useFetchDetailRecruits(Number(userId));
+  const postId = Number(params.id);
+  const { data: recruitsDetail } = useFetchDetailRecruits(Number(postId));
   const { mutate: updateRecruits, isSuccess } = useUpdateRecruits();
-  const { mutate: deleteRecruits } = useDeleteRecruits();
+
+  const { data: fieldData } = useFetchField();
+  const { data: areasData } = useFetchAreas();
+  const fieldsValue = recruitsDetail?.fields?.code || [];
+  const [selectedField, setSelectedField] = useState<string[]>(
+    Array.isArray(fieldsValue) ? fieldsValue : [fieldsValue],
+  );
+  const areasValue = recruitsDetail?.areas?.code || [];
+  const [selectedAreas, setSelectedAreas] = useState<string[]>(Array.isArray(areasValue) ? areasValue : [areasValue]);
+  const [initialValue, setInitialValue] = useState({ title: '', content: '' });
   const navigate = useNavigate();
-  const initialValue = {
-    title: recruitsDetail?.title || '',
-    content: recruitsDetail?.content || '',
-  };
+
   const validate: ValidateFn = (values) => {
     const errors = {
       title: titleErrorMessage(values.title),
@@ -39,7 +38,7 @@ const ModifyRecruitsPage = () => {
   };
 
   const onSubmit: OnSubmitFn = ({ title, content }) => {
-    updateRecruits({ id: userId, data: { title, content } });
+    updateRecruits({ id: postId, data: { title, content } });
   };
 
   const { errors, touched, getFieldProps, getQuillProps, handleSubmit } = useForm({
@@ -49,26 +48,27 @@ const ModifyRecruitsPage = () => {
   });
   const { appendToast } = useToast();
 
-  const { openDialog, closeDialog } = useDialog();
+  useEffect(() => {
+    if (recruitsDetail) {
+      setInitialValue({ title: recruitsDetail.title, content: recruitsDetail.content });
+    }
+  }, [recruitsDetail]);
 
-  const deleteContent = () => {
-    openDialog(
-      <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
-        삭제하시겠습니까?
-      </Dialog>,
-    );
-    deleteRecruits({ id: userId });
-  };
+  useEffect(() => {
+    if (recruitsDetail) {
+      setInitialValue({ title: recruitsDetail.title, content: recruitsDetail.content });
+    }
+  }, [recruitsDetail]);
 
   useEffect(() => {
     if (!isSuccess) return;
     appendToast({ content: '작성 완료', type: 'success' });
-    navigate(`/Recruits/${userId}`);
+    navigate(`/Recruits/${postId}`);
   }, [isSuccess]);
 
   return (
-    <CenteredContainer>
-      <S.Title>수정</S.Title>
+    <S.Container $width={800}>
+      <S.Title $center>수정</S.Title>
       <Form id="register-form" onSubmit={handleSubmit}>
         <FormControl
           label="제목"
@@ -79,6 +79,40 @@ const ModifyRecruitsPage = () => {
           <S.Field id="title" {...getFieldProps('title')} placeholder="제목을 입력하세요." />
         </FormControl>
         <FormControl
+          label="분야"
+          htmlFor="field"
+          required
+          error={<ErrorMessage touched={touched.field} message={errors.field} />}
+        >
+          <MultipleDropdownMenu
+            values={selectedField}
+            setValues={(values) => setSelectedField(values)}
+            defaultLabel="분야"
+            checkboxGroup={{
+              initialValues: selectedField,
+              data: fieldData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'field',
+            }}
+          />
+        </FormControl>
+        <FormControl
+          label="지역"
+          htmlFor="areas"
+          required
+          error={<ErrorMessage touched={touched.areas} message={errors.areas} />}
+        >
+          <MultipleDropdownMenu
+            values={selectedAreas}
+            setValues={(values) => setSelectedAreas(values)}
+            defaultLabel="지역"
+            checkboxGroup={{
+              initialValues: selectedAreas,
+              data: areasData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'areas',
+            }}
+          />
+        </FormControl>
+        <FormControl
           label="내용"
           htmlFor="content"
           required
@@ -86,10 +120,11 @@ const ModifyRecruitsPage = () => {
         >
           <ReactQuillForm {...getQuillProps('content')} />
         </FormControl>
-        <S.Button type="submit">수정하기</S.Button>
-        <S.Button onClick={deleteContent}>삭제</S.Button>
+        <S.Row $justifyContent="flex-end">
+          <S.Button type="submit">수정하기</S.Button>
+        </S.Row>
       </Form>
-    </CenteredContainer>
+    </S.Container>
   );
 };
 

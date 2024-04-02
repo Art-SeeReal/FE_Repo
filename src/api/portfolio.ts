@@ -8,6 +8,8 @@ import {
   GetDetailPortfoliosResponse,
   PutPortfolioResponse,
   DeletePortfolioResponse,
+  PostPortfolioScrapResponse,
+  DeletePortfolioScrapResponse,
 } from '../model/apiTypes';
 
 export const getPortfolios = (params: GetPortfoliosRequest) => {
@@ -15,7 +17,7 @@ export const getPortfolios = (params: GetPortfoliosRequest) => {
 };
 
 export const addPortfolio = (data: PostPortfolioRequest) => {
-  return api<PostPortfolioResponse>({ url: '/portfolio', method: 'post', data });
+  return api<PostPortfolioResponse>({ url: '/portfolios', method: 'post', data });
 };
 
 export const getDetailPortfolio = (id: number) => {
@@ -28,6 +30,14 @@ export const updatePortfolio = (data: PutPortfolioRequest) => {
 
 export const deletePortfolio = (id: number) => {
   return api<DeletePortfolioResponse>({ url: `/portfolios/${id}`, method: 'delete' });
+};
+
+export const addPortfolioScrap = (id: number) => {
+  return api<PostPortfolioScrapResponse>({ url: `/portfolios/${id}/scrap`, method: 'post' });
+};
+
+export const deletePortfolioScrap = (id: number) => {
+  return api<DeletePortfolioScrapResponse>({ url: `/portfolios/${id}/scrap`, method: 'post' });
 };
 
 export const getLatestPortfolios = () => {

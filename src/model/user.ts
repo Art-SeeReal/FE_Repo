@@ -39,3 +39,20 @@ export interface GetExistEmailRequest {
 export interface GetExistReponse {
   available: boolean;
 }
+
+export interface GetLikeUsersResponse{
+  results: {
+    userId: number;
+    userType: string;
+    nickname: string;
+  }[],
+  count: number;
+}
+
+export interface PostLikeUserResponse{
+  success: boolean;
+}
+
+export interface DeleteLikeLikeResponse{
+  success: boolean;
+}

@@ -2,6 +2,9 @@
 
 export interface GetPortfoliosRequest {
   page: number;
+  fields?: string[];
+  sortType?: string;
+  keyWords?: string; 
 }
 
 export interface GetPortfoliosResponse {
@@ -10,14 +13,11 @@ export interface GetPortfoliosResponse {
     imageUrl: string;
     title: string;
     artist: string;
-    location: {
+    fields: {
       code: string;
       label: string;
     };
-    field: {
-      code: string;
-      label: string;
-    };
+    isScrap: boolean;
     like: number;
     view: number;
     RegDate: string;
@@ -31,14 +31,11 @@ export interface GetDetailPortfoliosResponse {
   imageUrl: string;
   title: string;
   artist: string;
-  location: {
+  fields: {
     code: string;
     label: string;
   };
-  field: {
-    code: string;
-    label: string;
-  };
+  isScrap: boolean;
   like: number;
   view: number;
   RegDate: string;
@@ -56,7 +53,7 @@ export interface PostPortfolioResponse {
 
 export interface PutPortfolioRequest {
   id: number;
-  data: { title: string; content: string };
+  data: { title: string; content: string; fields: string[] };
 }
 
 export interface PutPortfolioResponse {
@@ -67,10 +64,22 @@ export interface DeletePortfolioResponse {
   success: boolean;
 }
 
+export interface PostPortfolioScrapResponse {
+  success: boolean;
+}
+
+export interface DeletePortfolioScrapResponse {
+  success: boolean;
+}
+
 //Recruits타입
 
 export interface GetRecruitsRequest {
   page: number;
+  fields?: string[];
+  areas?: string[];
+  sortType?: string;
+  keyWords?: string; 
 }
 
 export interface GetRecruitsResponse {
@@ -78,15 +87,17 @@ export interface GetRecruitsResponse {
     id: number;
     name: string;
     title: string;
-    location: {
+    areas: {
       code: string;
       label: string;
     };
-    field: {
+    fields: {
       code: string;
       label: string;
     };
+    isScrap: boolean;
     RegDate: string;
+    view: number;
     content: string;
   }[];
 }
@@ -95,21 +106,25 @@ export interface GetDetailRecruitsResponse {
   id: number;
   name: string;
   title: string;
-  location: {
+  areas: {
     code: string;
     label: string;
   };
-  field: {
+  fields: {
     code: string;
     label: string;
   };
+  isScrap: boolean;
   RegDate: string;
+  view: number;
   content: string;
 }
 
 export interface PostRecruitsRequest {
   title: string;
   content: string;
+  fields: string[];
+  areas: string[];
 }
 
 export interface PostRecruitsResponse {
@@ -129,32 +144,10 @@ export interface DeleteRecruitsResponse {
   success: boolean;
 }
 
-// 유저타입
-
-export interface RequestFindIdTypes {
-  name: string;
-  email: string;
-}
-export interface RequestFindPwTypes {
-  name: string;
-  id: string;
-  email: string;
-}
-export interface LoginData {
-  id: string;
-  pw: string;
-}
-
-export interface LoginResponse {
+export interface PostRecruitsScrapResponse {
   success: boolean;
 }
 
-export interface SignupData {
-  name: string;
-  nickName: string;
-  email: string;
-  pw: string;
-  pwCheck: string;
-  phoneNum: string;
-  location: string;
+export interface DeleteRecruitsScrapResponse {
+  success: boolean;
 }
