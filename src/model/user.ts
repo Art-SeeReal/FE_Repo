@@ -40,6 +40,34 @@ export interface GetExistReponse {
   available: boolean;
 }
 
+export interface GetLikeUsersResponse {
+  results: {
+    userId: number;
+    userType: string;
+    nickname: string;
+  }[];
+  count: number;
+}
+
+export interface PostLikeUserResponse {
+  success: boolean;
+}
+
+export interface DeleteLikeUserResponse {
+  success: boolean;
+}
+
+export interface GetUserResponse {
+  name: string;
+  nickname: string;
+  userId: string;
+  email: string;
+  phone: string;
+  regions: Array<string>;
+  isPrivateEmail: boolean;
+  isPrivatePhone: boolean;
+  userType: string;
+}
 // 회원 아이디 찾기
 export interface GetUserIdRequest {
   name: string;

@@ -1,32 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
-import { titleErrorMessage, contentErrorMessage, fieldErrorMessage } from '../../utils/validation';
+import { titleErrorMessage, contentErrorMessage, fieldErrorMessage, areaErrorMessage } from '../../utils/validation';
 import Form from '../../components/Form';
 import { useToast } from '../../hooks/customs/useToastState';
 import * as S from '../../components/styles';
 import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
 import ErrorMessage from '../../components/ErrorMessage';
-import { useRegisterPortfolio } from '../../hooks/query/usePortfoliosQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
-import { useFetchFields } from '../../hooks/query/useUtilQuery';
-import Upload from '../../components/Upload';
+import { useFetchRegions, useFetchFields } from '../../hooks/query/useUtilQuery';
+import { useRegisterRecruits } from '../../hooks/query/useRecruitsQuery';
 
 const RegisterPortfolioPage = () => {
   const initialValue = {
     title: '',
     content: '',
     fields: '',
-    thumbUrl: '',
+    regions: '',
   };
   const navigate = useNavigate();
   const { data: fieldsData } = useFetchFields();
-  const { mutate: register, isSuccess } = useRegisterPortfolio();
+  const { data: regionsData } = useFetchRegions();
   const [selectedField, setSelectedField] = useState<string[]>([]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+
+  const { mutate: register, isSuccess } = useRegisterRecruits();
 
   const onSubmit: OnSubmitFn = ({ title, content }) => {
-    register({ title, content });
+    register({ title, content, fields: selectedField, regions: selectedRegions });
   };
 
   const validate: ValidateFn = (values) => {
@@ -34,11 +36,12 @@ const RegisterPortfolioPage = () => {
       title: titleErrorMessage(values.title),
       content: contentErrorMessage(values.content),
       fields: fieldErrorMessage(selectedField),
+      regions: areaErrorMessage(selectedRegions),
     };
     return errors;
   };
 
-  const { errors, touched, getFieldProps, getQuillProps, getUploadProps, handleSubmit, resetForm } = useForm({
+  const { errors, touched, getFieldProps, getQuillProps, handleSubmit, resetForm } = useForm({
     initialValue,
     validate,
     onSubmit,
@@ -51,7 +54,7 @@ const RegisterPortfolioPage = () => {
 
     resetForm();
     appendToast({ content: '작성 완료', type: 'success' });
-    navigate('/portfolios');
+    navigate('/recruits');
   }, [isSuccess]);
 
   return (
@@ -67,14 +70,6 @@ const RegisterPortfolioPage = () => {
           <S.Field id="title" {...getFieldProps('title')} placeholder="제목을 입력하세요." />
         </FormControl>
         <FormControl
-          label="썸네일"
-          htmlFor="thumbUrl"
-          required
-          error={<ErrorMessage touched={touched.thumbUrl} message={errors.thumbUrl} />}
-        >
-          <Upload id="thumbUrl" {...getUploadProps('thubUrl')} thumbnailMode accept=".jpg, .jpeg, .png" />
-        </FormControl>
-        <FormControl
           label="분야"
           htmlFor="fields"
           required
@@ -88,6 +83,23 @@ const RegisterPortfolioPage = () => {
               initialValues: [],
               data: fieldsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
               name: 'fields',
+            }}
+          />
+        </FormControl>
+        <FormControl
+          label="지역"
+          htmlFor="regions"
+          required
+          error={<ErrorMessage touched={touched.regions} message={errors.regions} />}
+        >
+          <MultipleDropdownMenu
+            values={selectedRegions}
+            setValues={(values) => setSelectedRegions(values)}
+            defaultLabel="지역"
+            checkboxGroup={{
+              initialValues: [],
+              data: regionsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'regions',
             }}
           />
         </FormControl>

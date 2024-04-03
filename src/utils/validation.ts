@@ -27,6 +27,10 @@ export const isValidEmail = (email: string) => {
   return /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email);
 };
 
+export const isValidStringArray = (arr: string[]) => {
+  return arr.length > 1;
+};
+
 export const arePasswordsEqual = (password: string, passwordCheck: string) => {
   return password === passwordCheck;
 };
@@ -73,4 +77,12 @@ export const contentErrorMessage = (content: string) => {
 
 export const nameErrorMessage = (name: string) => {
   return isValidName(name) ? '' : '이름을 올바르게 입력하세요.';
+};
+
+export const fieldErrorMessage = (field: string[]) => {
+  return isValidStringArray(field) ? '' : '분야를 선택해주세요.';
+};
+
+export const areaErrorMessage = (area: string[]) => {
+  return isValidStringArray(area) ? '' : '지역을 선택해주세요.';
 };

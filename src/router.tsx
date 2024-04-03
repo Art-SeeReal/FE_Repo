@@ -20,10 +20,10 @@ import PortfolioRegisterPage from './pages/PortfolioRegisterPage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import PortfolioModifyPage from './pages/PortfolioModifyPage';
 
-import RecruitsPage from './pages/RecruitsPage';
-import RecruitsRegisterPage from './pages/RecruitsRegisterPage';
-import RecruitsDetailPage from './pages/RecruitsDetailPage';
-import RecruitsModifyPage from './pages/RecruitsModifyPage';
+import RecruitsPage from './pages/RecruitPage';
+import RecruitsRegisterPage from './pages/RecruitRegisterPage';
+import RecruitsDetailPage from './pages/RecruitDetailPage';
+import RecruitsModifyPage from './pages/RecruitModifyPage';
 
 import ArtPlannerHomePage from './pages/ArtPlannerPage/home';
 import ArtPlannerRecruitsPage from './pages/ArtPlannerPage/recruits';
@@ -39,7 +39,7 @@ export default () => {
 
         <Route path="/login" element={isLogin ? <Navigate to="/" replace /> : <LoginPage />} />
 
-        <Route path="/signup" element={isLogin && <Navigate to="/" replace />}>
+        <Route path="/signup">
           <Route index element={<Navigate to="agree" replace />} />
           <Route path="agree" element={<SignupAgreePage />} />
           <Route
@@ -54,14 +54,14 @@ export default () => {
           <Route index element={<PortfolioPage />} />
           <Route path="register" element={<PortfolioRegisterPage />} />
           <Route path=":id" element={<PortfolioDetailPage />} />
-          <Route path="update/:id" element={<PortfolioModifyPage />} />
+          <Route path="modify/:id" element={<PortfolioModifyPage />} />
         </Route>
 
         <Route path="/recruits">
           <Route index element={<RecruitsPage />} />
           <Route path="register" element={<RecruitsRegisterPage />} />
           <Route path=":id" element={<RecruitsDetailPage />} />
-          <Route path="update/:id" element={<RecruitsModifyPage />} />
+          <Route path="modify/:id" element={<RecruitsModifyPage />} />
         </Route>
 
         <Route path="/art-planner" element={<LnbLayout />}>
