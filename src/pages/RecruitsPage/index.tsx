@@ -6,10 +6,11 @@ import { useFetchRecruits } from '../../hooks/query/useRecruitsQuery';
 import RecruitsImagesComponent from './RecruitsImagesComponent';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 import * as S from '../../components/styles';
-import { useFetchAreas, useFetchField } from '../../hooks/query/useUtilQuery';
+import { useFetchRegions, useFetchFields } from '../../hooks/query/useUtilQuery';
 import Loading from '../../components/Loading';
 import ScrollToTop from '../../components/ScrollToTop';
 import SearchBar from '../../components/Searchbar';
+import { useFetchUserInfo } from '../../hooks/query/useUserQuery';
 
 const ImageContainer = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ interface RecruitsPropsTypes {
   id: number;
   name: string;
   title: string;
-  areas: {
+  regions: {
     code: string;
     label: string;
   };
@@ -37,7 +38,7 @@ interface RecruitsPropsTypes {
 
 const Recruits = () => {
   const [page, setPage] = useState(20);
-  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
   const [selectedFields, setSelectedFields] = useState<string[]>([]);
   const [searchKeywords, setSearchKeywords] = useState('');
   const {
@@ -47,12 +48,13 @@ const Recruits = () => {
     isError,
   } = useFetchRecruits({
     page,
-    areas: selectedAreas,
+    regions: selectedRegions,
     fields: selectedFields,
     keyWords: searchKeywords,
   });
-  const { data: areasData } = useFetchAreas();
-  const { data: fieldsData } = useFetchField();
+  const { data: regionsData } = useFetchRegions();
+  const { data: fieldsData } = useFetchFields();
+  const { data: userInfoData } = useFetchUserInfo();
   const navigate = useNavigate();
   const [ref, inView] = useInView({
     threshold: 1,
@@ -64,7 +66,7 @@ const Recruits = () => {
 
   useEffect(() => {
     refetch();
-  }, [selectedFields, selectedAreas, searchKeywords]);
+  }, [selectedFields, selectedRegions, searchKeywords]);
 
   useEffect(() => {
     if (inView && !isLoading) {
@@ -80,12 +82,12 @@ const Recruits = () => {
     <S.Container>
       <S.Row className="mx-2" $justifyContent="space-around">
         <MultipleDropdownMenu
-          values={selectedAreas}
-          setValues={(values) => setSelectedAreas(values)}
+          values={selectedRegions}
+          setValues={(values) => setSelectedRegions(values)}
           defaultLabel="지역"
           checkboxGroup={{
             initialValues: [],
-            data: areasData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+            data: regionsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
             name: 'area',
           }}
         />
@@ -110,9 +112,12 @@ const Recruits = () => {
         <Loading />
       ) : (
         <ImageContainer>
-          {recruitsData?.results.map((recruitsProps: RecruitsPropsTypes) => (
-            <RecruitsImagesComponent key={recruitsProps.id} recruitsProps={recruitsProps} />
-          ))}
+          {recruitsData?.results.map(
+            (recruitsProps: RecruitsPropsTypes) =>
+              userInfoData && (
+                <RecruitsImagesComponent key={recruitsProps.id} recruitsProps={recruitsProps} userInfo={userInfoData} />
+              ),
+          )}
         </ImageContainer>
       )}
       <div ref={ref} style={{ height: 50 }} />

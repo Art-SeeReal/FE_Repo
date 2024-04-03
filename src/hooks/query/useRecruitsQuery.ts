@@ -14,7 +14,7 @@ import {
   PostRecruitsRequest,
   GetDetailRecruitsResponse,
   PutRecruitsRequest,
-} from '../../model/apiTypes';
+} from '../../model/recruits';
 
 const QUERY_KEY = {
   recruits: 'recruits',

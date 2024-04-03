@@ -9,34 +9,34 @@ import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
 import ErrorMessage from '../../components/ErrorMessage';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
-import { useFetchAreas, useFetchField } from '../../hooks/query/useUtilQuery';
+import { useFetchRegions, useFetchFields } from '../../hooks/query/useUtilQuery';
 import { useRegisterRecruits } from '../../hooks/query/useRecruitsQuery';
 
 const RegisterPortfolioPage = () => {
   const initialValue = {
     title: '',
     content: '',
-    field: '',
-    areas: '',
+    fields: '',
+    regions: '',
   };
   const navigate = useNavigate();
-  const { data: fieldData } = useFetchField();
-  const { data: areasData } = useFetchAreas();
+  const { data: fieldsData } = useFetchFields();
+  const { data: regionsData } = useFetchRegions();
   const [selectedField, setSelectedField] = useState<string[]>([]);
-  const [selectedAreas, setSelectedAreas] = useState<string[]>([]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
 
   const { mutate: register, isSuccess } = useRegisterRecruits();
 
   const onSubmit: OnSubmitFn = ({ title, content }) => {
-    register({ title, content, fields: selectedField, areas: selectedAreas });
+    register({ title, content, fields: selectedField, regions: selectedRegions });
   };
 
   const validate: ValidateFn = (values) => {
     const errors = {
       title: titleErrorMessage(values.title),
       content: contentErrorMessage(values.content),
-      field: fieldErrorMessage(selectedField),
-      areas: areaErrorMessage(selectedAreas),
+      fields: fieldErrorMessage(selectedField),
+      regions: areaErrorMessage(selectedRegions),
     };
     return errors;
   };
@@ -71,9 +71,9 @@ const RegisterPortfolioPage = () => {
         </FormControl>
         <FormControl
           label="분야"
-          htmlFor="field"
+          htmlFor="fields"
           required
-          error={<ErrorMessage touched={touched.field} message={errors.field} />}
+          error={<ErrorMessage touched={touched.fields} message={errors.fields} />}
         >
           <MultipleDropdownMenu
             values={selectedField}
@@ -81,25 +81,25 @@ const RegisterPortfolioPage = () => {
             defaultLabel="분야"
             checkboxGroup={{
               initialValues: [],
-              data: fieldData?.results.map(({ code: value, label }) => ({ value, label })) || [],
-              name: 'field',
+              data: fieldsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'fields',
             }}
           />
         </FormControl>
         <FormControl
           label="지역"
-          htmlFor="areas"
+          htmlFor="regions"
           required
-          error={<ErrorMessage touched={touched.areas} message={errors.areas} />}
+          error={<ErrorMessage touched={touched.regions} message={errors.regions} />}
         >
           <MultipleDropdownMenu
-            values={selectedAreas}
-            setValues={(values) => setSelectedAreas(values)}
+            values={selectedRegions}
+            setValues={(values) => setSelectedRegions(values)}
             defaultLabel="지역"
             checkboxGroup={{
               initialValues: [],
-              data: areasData?.results.map(({ code: value, label }) => ({ value, label })) || [],
-              name: 'areas',
+              data: regionsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'regions',
             }}
           />
         </FormControl>

@@ -10,18 +10,18 @@ import ReactQuillForm from '../../components/ReactQuillForm';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useRegisterPortfolio } from '../../hooks/query/usePortfoliosQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
-import { useFetchField } from '../../hooks/query/useUtilQuery';
+import { useFetchFields } from '../../hooks/query/useUtilQuery';
 import Upload from '../../components/Upload';
 
 const RegisterPortfolioPage = () => {
   const initialValue = {
     title: '',
     content: '',
-    field: '',
+    fields: '',
     thumbUrl: '',
   };
   const navigate = useNavigate();
-  const { data: fieldData } = useFetchField();
+  const { data: fieldsData } = useFetchFields();
   const { mutate: register, isSuccess } = useRegisterPortfolio();
   const [selectedField, setSelectedField] = useState<string[]>([]);
 
@@ -33,7 +33,7 @@ const RegisterPortfolioPage = () => {
     const errors = {
       title: titleErrorMessage(values.title),
       content: contentErrorMessage(values.content),
-      field: fieldErrorMessage(selectedField),
+      fields: fieldErrorMessage(selectedField),
     };
     return errors;
   };
@@ -76,9 +76,9 @@ const RegisterPortfolioPage = () => {
         </FormControl>
         <FormControl
           label="분야"
-          htmlFor="field"
+          htmlFor="fields"
           required
-          error={<ErrorMessage touched={touched.field} message={errors.field} />}
+          error={<ErrorMessage touched={touched.fields} message={errors.fields} />}
         >
           <MultipleDropdownMenu
             values={selectedField}
@@ -86,8 +86,8 @@ const RegisterPortfolioPage = () => {
             defaultLabel="분야"
             checkboxGroup={{
               initialValues: [],
-              data: fieldData?.results.map(({ code: value, label }) => ({ value, label })) || [],
-              name: 'field',
+              data: fieldsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'fields',
             }}
           />
         </FormControl>

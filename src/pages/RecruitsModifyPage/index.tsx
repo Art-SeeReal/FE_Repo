@@ -9,7 +9,7 @@ import { useToast } from '../../hooks/customs/useToastState';
 import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
 import { useUpdateRecruits, useFetchDetailRecruits } from '../../hooks/query/useRecruitsQuery';
-import { useFetchAreas, useFetchField } from '../../hooks/query/useUtilQuery';
+import { useFetchRegions, useFetchFields } from '../../hooks/query/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 
 const ModifyRecruitsPage = () => {
@@ -18,14 +18,16 @@ const ModifyRecruitsPage = () => {
   const navigate = useNavigate();
   const { data: recruitsDetail } = useFetchDetailRecruits(Number(postId));
   const { mutate: updateRecruits, isSuccess } = useUpdateRecruits();
-  const { data: fieldData } = useFetchField();
-  const { data: areasData } = useFetchAreas();
+  const { data: fieldsData } = useFetchFields();
+  const { data: regionsData } = useFetchRegions();
   const fieldsValue = recruitsDetail?.fields?.code || [];
-  const areasValue = recruitsDetail?.areas?.code || [];
+  const regionsValue = recruitsDetail?.regions?.code || [];
   const [selectedField, setSelectedField] = useState<string[]>(
     Array.isArray(fieldsValue) ? fieldsValue : [fieldsValue],
   );
-  const [selectedAreas, setSelectedAreas] = useState<string[]>(Array.isArray(areasValue) ? areasValue : [areasValue]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>(
+    Array.isArray(regionsValue) ? regionsValue : [regionsValue],
+  );
   const [initialValue, setInitialValue] = useState({ title: '', content: '' });
 
   const validate: ValidateFn = (values) => {
@@ -79,9 +81,9 @@ const ModifyRecruitsPage = () => {
         </FormControl>
         <FormControl
           label="분야"
-          htmlFor="field"
+          htmlFor="fields"
           required
-          error={<ErrorMessage touched={touched.field} message={errors.field} />}
+          error={<ErrorMessage touched={touched.fields} message={errors.fields} />}
         >
           <MultipleDropdownMenu
             values={selectedField}
@@ -89,25 +91,25 @@ const ModifyRecruitsPage = () => {
             defaultLabel="분야"
             checkboxGroup={{
               initialValues: selectedField,
-              data: fieldData?.results.map(({ code: value, label }) => ({ value, label })) || [],
-              name: 'field',
+              data: fieldsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'fields',
             }}
           />
         </FormControl>
         <FormControl
           label="지역"
-          htmlFor="areas"
+          htmlFor="regions"
           required
-          error={<ErrorMessage touched={touched.areas} message={errors.areas} />}
+          error={<ErrorMessage touched={touched.regions} message={errors.regions} />}
         >
           <MultipleDropdownMenu
-            values={selectedAreas}
-            setValues={(values) => setSelectedAreas(values)}
+            values={selectedRegions}
+            setValues={(values) => setSelectedRegions(values)}
             defaultLabel="지역"
             checkboxGroup={{
-              initialValues: selectedAreas,
-              data: areasData?.results.map(({ code: value, label }) => ({ value, label })) || [],
-              name: 'areas',
+              initialValues: selectedRegions,
+              data: regionsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'regions',
             }}
           />
         </FormControl>

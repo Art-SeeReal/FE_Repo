@@ -54,14 +54,14 @@ export default () => {
           <Route index element={<PortfolioPage />} />
           <Route path="register" element={<PortfolioRegisterPage />} />
           <Route path=":id" element={<PortfolioDetailPage />} />
-          <Route path="update/:id" element={<PortfolioModifyPage />} />
+          <Route path="modify/:id" element={<PortfolioModifyPage />} />
         </Route>
 
         <Route path="/recruits">
           <Route index element={<RecruitsPage />} />
           <Route path="register" element={<RecruitsRegisterPage />} />
           <Route path=":id" element={<RecruitsDetailPage />} />
-          <Route path="update/:id" element={<RecruitsModifyPage />} />
+          <Route path="modify/:id" element={<RecruitsModifyPage />} />
         </Route>
 
         <Route path="/art-planner" element={<LnbLayout />}>

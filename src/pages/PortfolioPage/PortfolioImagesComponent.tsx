@@ -10,6 +10,7 @@ import { useDialog } from '../../hooks/customs/useDialogState';
 import { useToast } from '../../hooks/customs/useToastState';
 import Dialog from '../../components/Dialog';
 import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser } from '../../hooks/query/useUserQuery';
+import { GetUserResponse } from '../../model/user';
 
 const ImageContainer = styled.div`
   width: 100%;
@@ -137,11 +138,12 @@ export interface PortfolioProps {
     view: number;
     RegDate: string;
   };
+  userInfo: GetUserResponse;
 }
 
-const PortfolioImagesComponent = ({ portfolioProps }: PortfolioProps) => {
+const PortfolioImagesComponent = ({ portfolioProps, userInfo }: PortfolioProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const isLoggedIn = useRecoilValue(isLoginSelector);
+  const isLogin = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
   const { mutate: addScrap } = useAddRecruitsScrap();
   const { mutate: deleteScrap } = useDeleteRecruitsScrap();
@@ -175,13 +177,13 @@ const PortfolioImagesComponent = ({ portfolioProps }: PortfolioProps) => {
 
   const handleAddLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
     event.stopPropagation();
-    addLikeUser(portfolioProps.id);
+    addLikeUser(userInfo.userId);
     appendToast({ content: '좋아요 성공', type: 'success' });
   };
 
   const handleDeleteLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
     event.stopPropagation();
-    deleteLikeUser(portfolioProps.id);
+    deleteLikeUser(userInfo.userId);
     appendToast({ content: '좋아요 취소', type: 'success' });
   };
 
@@ -209,24 +211,24 @@ const PortfolioImagesComponent = ({ portfolioProps }: PortfolioProps) => {
         <ArtistInfo style={{ opacity: isHovered ? 1 : 0 }}>
           <S.Row>
             <S.Title>{portfolioProps.artist}</S.Title>
-            {isLoggedIn &&
+            {isLogin &&
               (likeUser?.results.some((user) => user.userId === portfolioProps?.id) ? (
                 <RiHeartFill color="red" onClick={handleDeleteLikeUser} />
               ) : (
                 <RiHeartLine color="red" onClick={handleAddLikeUser} />
               ))}
-            {!isLoggedIn && <RiHeartLine color="red" onClick={handleOpenDialog} />}
+            {!isLogin && <RiHeartLine color="red" onClick={handleOpenDialog} />}
           </S.Row>
         </ArtistInfo>
         <LikeAndView style={{ opacity: isHovered ? 1 : 0 }}>
           <RiEyeLine /> {portfolioProps?.view}
-          {isLoggedIn &&
+          {isLogin &&
             (portfolioProps?.isScrap ? (
               <RiStarFill color="yellow" onClick={handleDeleteScrap} />
             ) : (
               <RiStarLine color="yellow" onClick={handleAddScrap} />
             ))}
-          {!isLoggedIn && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
+          {!isLogin && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
         </LikeAndView>
         <Title isVisible={isHovered}>
           {portfolioProps?.title.length > 25 ? `${portfolioProps?.title.slice(0, 22)}...` : portfolioProps?.title}

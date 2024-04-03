@@ -9,8 +9,9 @@ import {
   GetExistEmailRequest,
   GetExistReponse,
   PostLikeUserResponse,
-  DeleteLikeLikeResponse,
+  DeleteLikeUserResponse,
   GetLikeUsersResponse,
+  GetUserResponse,
 } from '../model/user';
 
 export const login = (data: PostLoginRequest) => {
@@ -19,6 +20,10 @@ export const login = (data: PostLoginRequest) => {
 
 export const signup = (data: PostSignupRequest) => {
   return api({ url: '/signup', method: 'post', data });
+};
+
+export const getUserInfo = () => {
+  return api<GetUserResponse>({ url: '/user', method: 'get' });
 };
 
 export const getUserTypes = () => {
@@ -41,10 +46,10 @@ export const getLikeUsers = () => {
   return api<GetLikeUsersResponse>({ url: `/user/like/users`, method: 'get' });
 };
 
-export const addLikeUser = (id: number) => {
-  return api<PostLikeUserResponse>({ url: `/user/like/${id}`, method: 'post' });
+export const addLikeUser = (userId: string) => {
+  return api<PostLikeUserResponse>({ url: `/user/like/${userId}`, method: 'post' });
 };
 
-export const deleteLikeUser = (id: number) => {
-  return api<DeleteLikeLikeResponse>({ url: `/user/like/${id}`, method: 'delete' });
+export const deleteLikeUser = (userId: string) => {
+  return api<DeleteLikeUserResponse>({ url: `/user/like/${userId}`, method: 'delete' });
 };

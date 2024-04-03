@@ -11,10 +11,10 @@ import {
 import {
   GetPortfoliosRequest,
   GetPortfoliosResponse,
-  PostPortfolioRequest,
+  PostPortfoliosRequest,
   GetDetailPortfoliosResponse,
-  PutPortfolioRequest,
-} from '../../model/apiTypes';
+  PutPortfoliosRequest,
+} from '../../model/portfolios';
 
 const QUERY_KEY = {
   portfolio: 'portfolio',
@@ -30,7 +30,7 @@ export const useFetchPortfolios = (params: GetPortfoliosRequest): UseQueryResult
 
 export const useRegisterPortfolio = () => {
   return useMutation({
-    mutationFn: (data: PostPortfolioRequest) => addPortfolio(data),
+    mutationFn: (data: PostPortfoliosRequest) => addPortfolio(data),
   });
 };
 
@@ -44,7 +44,7 @@ export const useFetchDetailPortfolio: (id: number) => UseQueryResult<GetDetailPo
 
 export const useUpdatePortfolio = () => {
   return useMutation({
-    mutationFn: (data: PutPortfolioRequest) => updatePortfolio(data),
+    mutationFn: (data: PutPortfoliosRequest) => updatePortfolio(data),
   });
 };
 

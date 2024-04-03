@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { RiStarFill, RiStarLine, RiHeartLine, RiHeartFill } from '@remixicon/react';
@@ -13,12 +13,24 @@ import Dialog from '../../components/Dialog';
 import * as S from '../../components/styles';
 import { isLoginSelector } from '../../recoil/selectors/userSelectors';
 import { useToast } from '../../hooks/customs/useToastState';
-import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser } from '../../hooks/query/useUserQuery';
+import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser, useFetchUserInfo } from '../../hooks/query/useUserQuery';
+import { GetUserResponse } from '../../model/user';
 
 const PortfolioDetailPage = () => {
+  const [userInfo, setUserInfo] = useState<GetUserResponse>({
+    name: '',
+    nickname: '',
+    userId: '',
+    email: '',
+    phone: '',
+    regions: [],
+    isPrivateEmail: false,
+    isPrivatePhone: false,
+    userType: '',
+  });
   const params = useParams();
   const postId = Number(params.id);
-  const isLoggedIn = useRecoilValue(isLoginSelector);
+  const isLogin = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
   const { data: porfolioDetails } = useFetchDetailPortfolio(postId);
   const { mutate: deletePorfolio } = useDeletePortfolio();
@@ -27,9 +39,10 @@ const PortfolioDetailPage = () => {
   const { data: likeUser } = useFetchLikeUser();
   const { mutate: addLikeUser } = useAddLikeUser();
   const { mutate: deleteLikeUser } = useDeleteLikeUser();
+  const { data: userInfoData } = useFetchUserInfo();
 
   const goToModifyPage = () => {
-    navigate(`/porfolios/update/${postId}`);
+    navigate(`/porfolios/modify/${postId}`);
   };
 
   const { openDialog, closeDialog } = useDialog();
@@ -54,13 +67,13 @@ const PortfolioDetailPage = () => {
 
   const handleAddLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
     event.stopPropagation();
-    addLikeUser(postId);
+    addLikeUser(userInfo.userId);
     appendToast({ content: '좋아요 성공', type: 'success' });
   };
 
   const handleDeleteLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
     event.stopPropagation();
-    deleteLikeUser(postId);
+    deleteLikeUser(userInfo.userId);
     appendToast({ content: '좋아요 취소', type: 'success' });
   };
 
@@ -90,30 +103,36 @@ const PortfolioDetailPage = () => {
     deletePorfolio(Number(postId));
   };
 
+  useEffect(() => {
+    if (userInfoData) {
+      setUserInfo(userInfoData);
+    }
+  }, [userInfoData]);
+
   return (
     <S.Container $width={800}>
       <S.Row>
         <S.Title>{porfolioDetails?.artist}</S.Title>
-        {isLoggedIn &&
+        {isLogin &&
           (likeUser?.results.some((user) => user.userId === porfolioDetails?.id) ? (
             <RiHeartFill color="red" onClick={handleDeleteLikeUser} />
           ) : (
             <RiHeartLine color="red" onClick={handleAddLikeUser} />
           ))}
-        {!isLoggedIn && <RiHeartLine color="red" onClick={handleOpenDialog} />}
+        {!isLogin && <RiHeartLine color="red" onClick={handleOpenDialog} />}
       </S.Row>
       <S.Title>{porfolioDetails?.title}</S.Title>
       <S.Row className="my-5">
         <S.Col>{porfolioDetails?.RegDate}</S.Col>
         <S.Col>{porfolioDetails?.fields.label}</S.Col>
         <S.Col>
-          {isLoggedIn &&
+          {isLogin &&
             (porfolioDetails?.isScrap ? (
               <RiStarFill color="yellow" onClick={handleDeleteScrap} />
             ) : (
               <RiStarLine color="yellow" onClick={handleAddScrap} />
             ))}
-          {!isLoggedIn && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
+          {!isLogin && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
         </S.Col>
         <S.Col>{porfolioDetails?.view}</S.Col>
       </S.Row>

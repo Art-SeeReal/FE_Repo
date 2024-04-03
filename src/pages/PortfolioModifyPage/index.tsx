@@ -9,7 +9,7 @@ import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
 import { contentErrorMessage, fieldErrorMessage, titleErrorMessage } from '../../utils/validation';
 import { useUpdatePortfolio, useFetchDetailPortfolio } from '../../hooks/query/usePortfoliosQuery';
-import { useFetchField } from '../../hooks/query/useUtilQuery';
+import { useFetchFields } from '../../hooks/query/useUtilQuery';
 import Upload from '../../components/Upload';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 
@@ -18,7 +18,7 @@ const ModifyPortfolioPage = () => {
   const postId = Number(params.id);
   const { data: portfolioDetail } = useFetchDetailPortfolio(Number(postId));
   const { mutate: updatePortfolio, isSuccess } = useUpdatePortfolio();
-  const { data: fieldData } = useFetchField();
+  const { data: fieldData } = useFetchFields();
   const fieldsValue = portfolioDetail?.fields?.code || [];
   const [selectedField, setSelectedField] = useState<string[]>(
     Array.isArray(fieldsValue) ? fieldsValue : [fieldsValue],

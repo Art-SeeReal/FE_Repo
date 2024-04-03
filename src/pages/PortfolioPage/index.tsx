@@ -6,10 +6,11 @@ import PortfolioImagesComponent from './PortfolioImagesComponent';
 import * as S from '../../components/styles';
 import { useFetchPortfolios } from '../../hooks/query/usePortfoliosQuery';
 import Loading from '../../components/Loading';
-import { useFetchField } from '../../hooks/query/useUtilQuery';
+import { useFetchFields } from '../../hooks/query/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 import ScrollToTop from '../../components/ScrollToTop';
 import SearchBar from '../../components/Searchbar';
+import { useFetchUserInfo } from '../../hooks/query/useUserQuery';
 
 const ImageContainer = styled.div`
   display: flex;
@@ -62,7 +63,8 @@ const PortfolioPage = () => {
     fields: selectedField,
     keyWords: searchKeywords,
   });
-  const { data: fieldData } = useFetchField();
+  const { data: fieldData } = useFetchFields();
+  const { data: userInfoData } = useFetchUserInfo();
 
   const goToRegisterPage = () => {
     navigate('/portfolios/register');
@@ -108,11 +110,12 @@ const PortfolioPage = () => {
           </S.Row>
         ) : (
           <ImageContainer>
-            {portfolioData?.results.map((portfolioProps: PortfolioPropsTypes) => (
-              <ImageWrapper key={portfolioProps.id}>
-                <PortfolioImagesComponent portfolioProps={portfolioProps} />
-              </ImageWrapper>
-            ))}
+            {userInfoData &&
+              portfolioData?.results.map((portfolioProps: PortfolioPropsTypes) => (
+                <ImageWrapper key={portfolioProps.id}>
+                  <PortfolioImagesComponent portfolioProps={portfolioProps} userInfo={userInfoData} />
+                </ImageWrapper>
+              ))}
           </ImageContainer>
         )}
       </S.Container>

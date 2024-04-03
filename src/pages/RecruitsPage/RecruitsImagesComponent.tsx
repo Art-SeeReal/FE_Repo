@@ -10,6 +10,7 @@ import Dialog from '../../components/Dialog';
 import { useAddRecruitsScrap, useDeleteRecruitsScrap } from '../../hooks/query/useRecruitsQuery';
 import { useToast } from '../../hooks/customs/useToastState';
 import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser } from '../../hooks/query/useUserQuery';
+import { GetUserResponse } from '../../model/user';
 
 const ImageContainer = styled.div`
   border: 1px solid #ccc;
@@ -27,7 +28,7 @@ export interface RecruitsProps {
     id: number;
     name: string;
     title: string;
-    areas: {
+    regions: {
       code: string;
       label: string;
     };
@@ -40,16 +41,17 @@ export interface RecruitsProps {
     RegDate: string;
     content: string;
   };
+  userInfo: GetUserResponse;
 }
 
-const RecruitsImagesComponent = ({ recruitsProps }: RecruitsProps) => {
+const RecruitsImagesComponent = ({ recruitsProps, userInfo }: RecruitsProps) => {
   const navigate = useNavigate();
   const { mutate: addScrap } = useAddRecruitsScrap();
   const { mutate: deleteScrap } = useDeleteRecruitsScrap();
   const { data: likeUser } = useFetchLikeUser();
   const { mutate: addLikeUser } = useAddLikeUser();
   const { mutate: deleteLikeUser } = useDeleteLikeUser();
-  const isLoggedIn = useRecoilValue(isLoginSelector);
+  const isLogin = useRecoilValue(isLoginSelector);
 
   const handleImageClick = () => {
     navigate(`/recruits/${recruitsProps.id}`);
@@ -77,13 +79,13 @@ const RecruitsImagesComponent = ({ recruitsProps }: RecruitsProps) => {
 
   const handleAddLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
     event.stopPropagation();
-    addLikeUser(recruitsProps.id);
+    addLikeUser(userInfo.userId);
     appendToast({ content: '좋아요 성공', type: 'success' });
   };
 
   const handleDeleteLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
     event.stopPropagation();
-    deleteLikeUser(recruitsProps.id);
+    deleteLikeUser(userInfo.userId);
     appendToast({ content: '좋아요 취소', type: 'success' });
   };
 
@@ -103,34 +105,33 @@ const RecruitsImagesComponent = ({ recruitsProps }: RecruitsProps) => {
       </Dialog>,
     );
   };
-
   return (
     <ImageContainer onClick={handleImageClick}>
       <S.Row className="my-4" $justifyContent="space-between">
         <S.Row>
           {recruitsProps.name}
-          {isLoggedIn &&
+          {isLogin &&
             (likeUser?.results.some((user) => user.userId === recruitsProps?.id) ? (
               <RiHeartFill color="red" onClick={handleDeleteLikeUser} />
             ) : (
               <RiHeartLine color="red" onClick={handleAddLikeUser} />
             ))}
-          {!isLoggedIn && <RiHeartLine color="red" onClick={handleOpenDialog} />}
+          {!isLogin && <RiHeartLine color="red" onClick={handleOpenDialog} />}
         </S.Row>
         <S.Row>
           <RiEyeLine /> {recruitsProps?.view}
-          {isLoggedIn &&
+          {isLogin &&
             (recruitsProps.isScrap ? (
               <RiStarFill color="yellow" onClick={handleDeleteScrap} />
             ) : (
               <RiStarLine color="yellow" onClick={handleAddScrap} />
             ))}
-          {!isLoggedIn && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
+          {!isLogin && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
         </S.Row>
       </S.Row>
       <S.Title className="my-5">{recruitsProps.title}</S.Title>
       <S.Row className="my-4">
-        지역: {recruitsProps.areas?.label} | 분야: {recruitsProps.fields?.label}
+        지역: {recruitsProps.regions?.label} | 분야: {recruitsProps.fields?.label}
       </S.Row>
     </ImageContainer>
   );

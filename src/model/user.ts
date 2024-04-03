@@ -40,19 +40,31 @@ export interface GetExistReponse {
   available: boolean;
 }
 
-export interface GetLikeUsersResponse{
+export interface GetLikeUsersResponse {
   results: {
     userId: number;
     userType: string;
     nickname: string;
-  }[],
+  }[];
   count: number;
 }
 
-export interface PostLikeUserResponse{
+export interface PostLikeUserResponse {
   success: boolean;
 }
 
-export interface DeleteLikeLikeResponse{
+export interface DeleteLikeUserResponse {
   success: boolean;
+}
+
+export interface GetUserResponse {
+  name: string;
+  nickname: string;
+  userId: string;
+  email: string;
+  phone: string;
+  regions: Array<string>;
+  isPrivateEmail: boolean;
+  isPrivatePhone: boolean;
+  userType: string;
 }

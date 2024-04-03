@@ -1,11 +1,11 @@
 import api from '../utils/api';
 
-export const getAreas = () => {
-  return api({ url: '/utils/areas', method: 'get' });
+export const getRegions = () => {
+  return api({ url: '/utils/regions', method: 'get' });
 };
 
 export const getField = () => {
-  return api({ url: '/utils/field', method: 'get' });
+  return api({ url: '/utils/fields', method: 'get' });
 };
 
 export const getSortType = () => {
@@ -13,7 +13,6 @@ export const getSortType = () => {
 };
 
 export const upload = (data: FormData) => {
-  console.log(upload);
   return api({
     url: '/utils/upload',
     method: 'post',
