@@ -8,10 +8,6 @@ export const getField = () => {
   return api({ url: '/utils/fields', method: 'get' });
 };
 
-export const getSortType = () => {
-  return api({ url: '/utils/sortType', method: 'get' });
-};
-
 export const upload = (data: FormData) => {
   return api({
     url: '/utils/upload',
