@@ -12,6 +12,7 @@ export * from './RoundBox';
 export * from './Backdrop';
 export * from './EmptyContent';
 export * from './Description';
+export * from './Divider';
 
 // Form UI
 export * from './Label';

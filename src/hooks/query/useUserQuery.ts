@@ -11,6 +11,10 @@ import {
   deleteLikeUser,
   getLikeUsers,
   getUserInfo,
+  findUserId,
+  findExistUser,
+  certEmail,
+  changePassword,
 } from '../../api/user';
 import {
   PostLoginRequest,
@@ -21,6 +25,10 @@ import {
   GetExistEmailRequest,
   GetLikeUsersResponse,
   GetUserResponse,
+  GetUserIdRequest,
+  GetUserExistRequest,
+  PostUserCertEmailRequest,
+  PutUserPasswordRequest,
 } from '../../model/user';
 import { setToken, removeToken } from '../../utils/auth';
 import { useSetUserToken } from '../customs/useUserState';
@@ -32,6 +40,8 @@ const QUERY_KEY = {
   existNickname: 'existNickname',
   existEmail: 'existEmail',
   likeUser: 'likeUser',
+  userId: 'userId',
+  existUser: 'existUser',
 } as const;
 
 export const useLogin = () => {
@@ -76,6 +86,7 @@ export const useFetchExistUserId = (params: GetExistUserIdRequest) => {
     queryFn: () => getExistUserId(params),
     select: (data) => data.data,
     enabled: false,
+    gcTime: 0,
   });
 };
 
@@ -85,6 +96,7 @@ export const useFetchExistNickname = (params: GetExistNicknameRequest) => {
     queryFn: () => getExistNickname(params),
     select: (data) => data.data,
     enabled: false,
+    gcTime: 0,
   });
 };
 
@@ -94,6 +106,41 @@ export const useFetchExistEmail = (params: GetExistEmailRequest) => {
     queryFn: () => getExistEmail(params),
     select: (data) => data.data,
     enabled: false,
+    gcTime: 0,
+  });
+};
+
+export const useFetchUserId = (params: GetUserIdRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userId],
+    queryFn: () => findUserId(params),
+    select: (data) => data.data,
+    enabled: false,
+    gcTime: 0,
+    retry: 0,
+  });
+};
+
+export const useFetchUserExist = (params: GetUserExistRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.existUser],
+    queryFn: () => findExistUser(params),
+    select: (data) => data.data,
+    enabled: false,
+    gcTime: 0,
+    retry: 0,
+  });
+};
+
+export const useCertEmail = () => {
+  return useMutation({
+    mutationFn: (data: PostUserCertEmailRequest) => certEmail(data),
+  });
+};
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: (data: PutUserPasswordRequest) => changePassword(data),
   });
 };
 

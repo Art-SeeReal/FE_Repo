@@ -13,17 +13,17 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupAgreePage from './pages/SignupAgreePage';
 import SignupFormPage from './pages/SignupFormPage';
-import FindIdPwPage from './pages/FindIdPwPage';
+import FindAccountPage from './pages/FindAccountPage';
 
 import PortfolioPage from './pages/PortfolioPage';
 import PortfolioRegisterPage from './pages/PortfolioRegisterPage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import PortfolioModifyPage from './pages/PortfolioModifyPage';
 
-import RecruitsPage from './pages/RecruitsPage';
-import RecruitsRegisterPage from './pages/RecruitsRegisterPage';
-import RecruitsDetailPage from './pages/RecruitsDetailPage';
-import RecruitsModifyPage from './pages/RecruitsModifyPage';
+import RecruitsPage from './pages/RecruitPage';
+import RecruitsRegisterPage from './pages/RecruitRegisterPage';
+import RecruitsDetailPage from './pages/RecruitDetailPage';
+import RecruitsModifyPage from './pages/RecruitModifyPage';
 
 import ArtPlannerHomePage from './pages/ArtPlannerPage/home';
 import ArtPlannerRecruitsPage from './pages/ArtPlannerPage/recruits';
@@ -48,7 +48,7 @@ export default () => {
           />
         </Route>
 
-        <Route path="/find-id-pw" element={<FindIdPwPage />} />
+        <Route path="/find-account" element={<FindAccountPage />} />
 
         <Route path="/portfolios">
           <Route index element={<PortfolioPage />} />

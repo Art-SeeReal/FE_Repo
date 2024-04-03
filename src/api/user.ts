@@ -12,6 +12,13 @@ import {
   DeleteLikeUserResponse,
   GetLikeUsersResponse,
   GetUserResponse,
+  GetUserIdRequest,
+  GetUserIdResponse,
+  GetUserExistRequest,
+  GetUserExistResponse,
+  PostUserCertEmailRequest,
+  PostUserCertEmailResponse,
+  PutUserPasswordRequest,
 } from '../model/user';
 
 export const login = (data: PostLoginRequest) => {
@@ -52,4 +59,20 @@ export const addLikeUser = (userId: string) => {
 
 export const deleteLikeUser = (userId: string) => {
   return api<DeleteLikeUserResponse>({ url: `/user/like/${userId}`, method: 'delete' });
+};
+
+export const findUserId = (params: GetUserIdRequest) => {
+  return api<GetUserIdResponse>({ url: '/user/userId', method: 'get', params });
+};
+
+export const findExistUser = (params: GetUserExistRequest) => {
+  return api<GetUserExistResponse>({ url: '/user/exist', method: 'get', params });
+};
+
+export const certEmail = (data: PostUserCertEmailRequest) => {
+  return api<PostUserCertEmailResponse>({ url: '/user/cert/email', method: 'post', data });
+};
+
+export const changePassword = (data: PutUserPasswordRequest) => {
+  return api({ url: '/user/password', method: 'put', data });
 };
