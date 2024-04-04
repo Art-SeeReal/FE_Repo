@@ -5,8 +5,8 @@ import { useRecoilValue } from 'recoil';
 import { userState } from './recoil/atoms/userState';
 import { isLoginSelector } from './recoil/selectors/userSelectors';
 
-import AppLayout from './layout/AppLayout';
 import LnbLayout from './layout/LnbLayout';
+import AppLayout from './layout/AppLayout';
 
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import HomePage from './pages/HomePage';
