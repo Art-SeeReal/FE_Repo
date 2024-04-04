@@ -39,7 +39,7 @@ const StyledSlider = styled.div`
 
   .slider-nav {
     position: absolute;
-    z-index: 9999;
+    z-index: 1;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;

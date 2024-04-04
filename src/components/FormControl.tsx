@@ -6,12 +6,16 @@ interface Props {
   label: string;
   htmlFor: string;
   required?: boolean;
-  error?: ReactElement;
+  error?: ReactElement | null;
   children: ReactNode;
 }
 
 const StyledFormControl = styled.div`
   margin-bottom: 1em;
+
+  ${S.Label} {
+    display: block;
+  }
 
   .required {
     margin-left: 0.25em;
@@ -22,8 +26,10 @@ const StyledFormControl = styled.div`
 const FormControl = ({ label, htmlFor, required, error, children }: Props) => {
   return (
     <StyledFormControl>
-      <S.Label htmlFor={htmlFor}>{label}</S.Label>
-      {required && <sup className="required">*</sup>}
+      <S.Label htmlFor={htmlFor}>
+        {label}
+        {required && <sup className="required">*</sup>}
+      </S.Label>
       {children}
       {error && error}
     </StyledFormControl>

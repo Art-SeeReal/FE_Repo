@@ -3,13 +3,21 @@ import styeld from 'styled-components';
 interface Props {
   $paddingTop?: boolean | string;
   $paddingBottom?: boolean | string;
+  $width?: number;
 }
 
 export const Container = styeld.div<Props>`
-    max-width: var(--content-width);
     margin: 0 auto;
+
+    max-width: ${({ $width }) => {
+      if ($width) {
+        return `${$width}px;`;
+      }
+      return `var(--content-width);`;
+    }}
+
     ${({ $paddingTop }) => {
-      if (typeof $paddingTop === 'boolean') {
+      if ($paddingTop === true) {
         return `padding-top: 8rem`;
       }
 
@@ -22,7 +30,7 @@ export const Container = styeld.div<Props>`
 
 
     ${({ $paddingBottom }) => {
-      if (typeof $paddingBottom === 'boolean') {
+      if ($paddingBottom === true) {
         return `padding-bottom: 16rem`;
       }
 

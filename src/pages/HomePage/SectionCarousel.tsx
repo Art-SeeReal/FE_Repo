@@ -56,7 +56,7 @@ const SectionCarousel = ({ title, data, routerPath }: Props) => (
     <Slider
       options={{
         slidesPerView: 3,
-        spaceBetween: 80,
+        spaceBetween: 40,
         loopedSlides: data?.count,
         autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true },
         speed: 4000,
@@ -75,7 +75,7 @@ const SectionCarousel = ({ title, data, routerPath }: Props) => (
       ))}
     </Slider>
     <div className="mt-5 text-right">
-      <S.ButtonRouter $style="border" to={routerPath}>
+      <S.ButtonRouter to={routerPath}>
         View more <RiMoreLine />
       </S.ButtonRouter>
     </div>

@@ -1,9 +1,8 @@
 import React from 'react';
 import BannerSlider from './BannerSlider';
-import * as S from '../../components/styles';
 import SectionCarousel from './SectionCarousel';
-import { useFetchLatestPortfolios } from '../../hooks/usePortfolioQuery';
-import { useFetchLatestRecruits } from '../../hooks/useRecruitQuery';
+import { useFetchLatestPortfolios } from '../../hooks/query/usePortfolioQuery';
+import { useFetchLatestRecruits } from '../../hooks/query/useRecruitQuery';
 
 const HomePage = () => {
   const { data: latestPortfolios } = useFetchLatestPortfolios();
@@ -12,12 +11,10 @@ const HomePage = () => {
   return (
     <>
       <BannerSlider />
-      <S.Container $paddingBottom>
-        {latestPortfolios && (
-          <SectionCarousel title="예술가 포트폴리오" data={latestPortfolios} routerPath="/portfolios" />
-        )}
-        {latestRecruits && <SectionCarousel title="기획자 공고" data={latestRecruits} routerPath="/recruits" />}
-      </S.Container>
+      {latestPortfolios && (
+        <SectionCarousel title="예술가 포트폴리오" data={latestPortfolios} routerPath="/portfolios" />
+      )}
+      {latestRecruits && <SectionCarousel title="기획자 공고" data={latestRecruits} routerPath="/recruits" />}
     </>
   );
 };

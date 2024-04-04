@@ -1,18 +1,18 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-import GlobalStyles from './styles';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+import { Outlet, useLocation } from 'react-router-dom';
+import * as S from '../components/styles';
+import LayoutWrapper from './LayoutWrapper';
 
-const Applayout = () => {
+const AppLayout = () => {
+  const location = useLocation();
+
   return (
-    <>
-      <GlobalStyles />
-      <Header />
-      <Outlet />
-      <Footer />
-    </>
+    <LayoutWrapper>
+      <S.Container $paddingTop={location.pathname !== '/'} $paddingBottom>
+        <Outlet />
+      </S.Container>
+    </LayoutWrapper>
   );
 };
 
-export default Applayout;
+export default AppLayout;

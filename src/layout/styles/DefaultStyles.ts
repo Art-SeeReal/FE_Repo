@@ -4,8 +4,7 @@ const DefaultStyles = css`
   :root {
     --x-spacing: 0 2rem;
     --spacing: 2rem;
-    // --content-width: 1320px;
-    --content-width: 1600px;
+    --content-width: 1320px;
 
     --title-1: 3.4rem;
     --title-2: 3rem;
@@ -22,8 +21,11 @@ const DefaultStyles = css`
     --color-primary: #000;
     --color-secondary: #767676;
     --color-placeholder: #999;
-    --color-border: #777;
+    --color-border-1: #777;
+    --color-border-2: #ccc;
+    --color-success: #2ecc71;
     --color-error: #ff3838;
+    --color-info: #747d8c;
   }
   html {
     font-size: 10px;

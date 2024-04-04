@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ReactNode } from 'react';
 
 const SIZES = {
+  xsmall: 'xsmall',
   small: 'small',
   medium: 'medium',
   large: 'large',
@@ -10,7 +11,6 @@ const SIZES = {
 const STYLES = {
   primary: 'primary',
   secondary: 'secondary',
-  border: 'border',
   link: 'link',
   linkWhite: 'linkWhite',
 } as const;
@@ -19,53 +19,83 @@ type SIZES = (typeof SIZES)[keyof typeof SIZES];
 type STYLES = (typeof STYLES)[keyof typeof STYLES];
 
 export interface Props {
+  type?: string;
   children: ReactNode;
   $size?: SIZES;
   $style?: STYLES;
+  $border?: boolean;
   $block?: boolean;
-  disabled?: boolean;
 }
 
 export const Button = styled.button<Props>`
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   padding: 1em;
   border-radius: 0.8rem;
   line-height: 1;
 
-  ${({ disabled }) =>
-    disabled &&
+  &::before {
+    border-radius: 0.8rem;
+  }
+
+  ${({ $border }) =>
+    $border &&
     `
-      opacity: .5;
-      cursor: no-drop;
-  `};
+      &::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid transparent;
+      }
+    `}
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: no-drop;
+  }
 
   ${({ $size }) => {
+    if ($size === SIZES.xsmall)
+      return `
+        height: 8px;
+        min-width: 6rem;
+        font-size: var(--text-body-2);
+      `;
     if ($size === SIZES.small)
       return `
-        max-width: 10rem;
+        min-width: 10rem;
         font-size: var(--text-body-2);
       `;
     if ($size === SIZES.medium)
       return `
-        max-width: 16rem;
+        min-width: 16rem;
         font-size: var(--text-body-1);
       `;
     if ($size === SIZES.large)
       return `
-        max-width: 20rem;
+        min-width: 20rem;
         font-size: var(--sub-title-3);
       `;
 
     return null;
   }};
 
-  ${({ $block }) => $block && `max-width: none`};
+  ${({ $block }) =>
+    $block &&
+    `
+    width: 100%;
+    min-width: auto;
+  `}
 
-  ${({ $style }) => {
-    if ($style === STYLES.primary)
+  ${({ $style, $border }) => {
+    if (!$border && $style === STYLES.primary)
       return `
         color: #fff;
         background-image: linear-gradient(120deg, #fa9ee9, #b87eea 70%, #81fee9);
@@ -77,10 +107,29 @@ export const Button = styled.button<Props>`
         }
       `;
 
-    if ($style === STYLES.secondary)
+    if ($border && $style === STYLES.primary)
+      return `
+        color: #000;
+
+        &::before {
+          background-image: linear-gradient(#fff, #fff), linear-gradient(120deg, #fa9ee9, #b87eea 70%, #81fee9);
+          background-origin: border-box;
+          background-clip: padding-box, border-box;
+          background-size: 200% auto;
+          transition: background 0.4s ease;
+        }
+
+        &:hover {
+          &::before {
+            background-position: right center;
+          }
+        }
+    `;
+
+    if (!$border && $style === STYLES.secondary)
       return `
         color: #fff;
-        background: rgba(0, 0, 0);
+        background: #000;
         transition: background 0.4s ease;
 
         &:hover {
@@ -88,20 +137,15 @@ export const Button = styled.button<Props>`
         }
       `;
 
-    if ($style === STYLES.border)
+    if ($border && $style === STYLES.secondary)
       return `
         color: #000;
-        border: 2px solid transparent;
-        background-image: linear-gradient(#fff, #fff), linear-gradient(120deg, #fa9ee9, #b87eea 70%, #81fee9);
-        background-origin: border-box;
-        background-clip: padding-box, border-box;
-        background-size: 200% auto;
         transition: background 0.4s ease;
 
-        &:hover {
-          background-position: right center;
+        &::before {
+          border-color: #000;
         }
-    `;
+      `;
 
     if ($style === STYLES.link)
       return `
@@ -132,6 +176,7 @@ export const Button = styled.button<Props>`
 `;
 
 export const defaultProps = {
+  type: 'button',
   $size: SIZES.medium,
   $style: STYLES.primary,
 };
