@@ -5,6 +5,7 @@ import LayoutWrapper from './LayoutWrapper';
 
 const AppLayout = () => {
   const location = useLocation();
+  //임시 테스트 주석
 
   return (
     <LayoutWrapper>
