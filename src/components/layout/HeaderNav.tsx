@@ -19,8 +19,8 @@ const GnbItems = [
   },
   {
     id: 3,
-    to: '/inquiry',
-    name: '문의하기',
+    to: '/showLists',
+    name: '공연정보',
   },
 ];
 

@@ -15,6 +15,8 @@ import SignupAgreePage from './pages/SignupAgreePage';
 import SignupFormPage from './pages/SignupFormPage';
 import FindAccountPage from './pages/FindAccountPage';
 
+import ShowListsPage from './pages/ShowListsPage';
+
 import PortfolioPage from './pages/PortfolioPage';
 import PortfolioRegisterPage from './pages/PortfolioRegisterPage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
@@ -49,6 +51,10 @@ export default () => {
         </Route>
 
         <Route path="/find-account" element={<FindAccountPage />} />
+
+        <Route path="/showlists">
+          <Route index element={<ShowListsPage />} />
+        </Route>
 
         <Route path="/portfolios">
           <Route index element={<PortfolioPage />} />
