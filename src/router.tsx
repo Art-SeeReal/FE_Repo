@@ -6,9 +6,8 @@ import { userState } from './recoil/atoms/userState';
 import { isLoginSelector } from './recoil/selectors/userSelectors';
 
 import AppLayout from './layout/AppLayout';
-import LnbLayout from './layout/LnbLayout';
+import ErrorLayout from './layout/ErrorLayout';
 
-import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupAgreePage from './pages/SignupAgreePage';
@@ -25,8 +24,7 @@ import RecruitsRegisterPage from './pages/RecruitsRegisterPage';
 import RecruitsDetailPage from './pages/RecruitsDetailPage';
 import RecruitsModifyPage from './pages/RecruitsModifyPage';
 
-import ArtPlannerHomePage from './pages/ArtPlannerPage/home';
-import ArtPlannerRecruitsPage from './pages/ArtPlannerPage/recruits';
+import UserHomePage from './pages/UserHomePage';
 
 export default () => {
   const { isAgreeForSignup } = useRecoilValue(userState);
@@ -63,19 +61,14 @@ export default () => {
           <Route path=":id" element={<RecruitsDetailPage />} />
           <Route path="update/:id" element={<RecruitsModifyPage />} />
         </Route>
-
-        <Route path="/art-planner" element={<LnbLayout />}>
-          <Route index element={<NotFoundPage />} />
-          <Route path=":id">
-            <Route index element={<Navigate to="home" replace />} />
-            <Route path="home" element={<ArtPlannerHomePage />} />
-            <Route path="recruits" element={<ArtPlannerRecruitsPage />} />
-          </Route>
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-
-        <Route path="*" element={<NotFoundPage />} />
       </Route>
+
+      <Route path="/users" element={isLogin ? <AppLayout /> : <ErrorLayout errorCode={401} />}>
+        <Route index element={<Navigate to="/" replace />} />
+        <Route path=":userId/home" element={<UserHomePage />} />
+      </Route>
+
+      <Route path="*" element={<ErrorLayout errorCode={404} />} />
     </Routes>
   );
 };
