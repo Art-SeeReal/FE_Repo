@@ -17,11 +17,6 @@ const GnbItems = [
     to: '/recruits',
     name: '공고',
   },
-  {
-    id: 3,
-    to: '/inquiry',
-    name: '문의하기',
-  },
 ];
 
 const StyledNav = styled.nav`
