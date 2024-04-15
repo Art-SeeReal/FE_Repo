@@ -18,3 +18,19 @@ export const upload = (data: FormData) => {
     },
   });
 };
+
+export const getPresignedUrl = (file: File) => {
+  return api({
+    url: '/utils/presignedUrl',
+    method: 'post',
+    data: { filename: file.name },
+  });
+};
+
+export const uploadS3 = (url: string, file: File) => {
+  return api({
+    url,
+    method: 'put',
+    data: { filename: file.name },
+  });
+};
