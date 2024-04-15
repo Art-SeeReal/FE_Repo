@@ -3,6 +3,7 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import * as S from '../components/styles';
 import GlobalStyles from './styles';
+import ScrollToTop from '../components/ScrollToTop';
 
 export default ({ children }: { children: ReactNode }) => {
   return (
@@ -11,6 +12,7 @@ export default ({ children }: { children: ReactNode }) => {
       <Header />
       <S.Main>{children}</S.Main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 };

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface Props {
   $gap?: number | string;
   $justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around';
+  $alignItems?: 'flex-start' | 'flex-end' | 'center';
 }
 
 export const Row = styled.div<Props>`
@@ -20,4 +21,5 @@ export const Row = styled.div<Props>`
   }}
 
   ${({ $justifyContent }) => $justifyContent && `justify-content: ${$justifyContent};`}
+  ${({ $alignItems }) => $alignItems && `align-items: ${$alignItems};`}
 `;

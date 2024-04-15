@@ -13,6 +13,7 @@ export * from './Backdrop';
 export * from './EmptyContent';
 export * from './Description';
 export * from './Divider';
+export * from './EllipsisText';
 
 // Form UI
 export * from './Label';

@@ -4,23 +4,10 @@ import { Link } from 'react-router-dom';
 import { RiMoreLine } from '@remixicon/react';
 import Slider from '../../components/Slider';
 import * as S from '../../components/styles';
+import PostThumbnail from '../../components/PostThumbnail';
 
 const StyledSection = styled.section`
   padding: 6rem 0;
-`;
-
-const StyledThumb = styled(S.RoundBox)`
-  position: relative;
-  padding-top: 100%;
-
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 `;
 
 const StyledSlide = styled.div`
@@ -65,9 +52,9 @@ const SectionCarousel = ({ title, data, routerPath }: Props) => (
       {data?.results.map(({ id, imageUrl, title: dataTitle }) => (
         <StyledSlide key={id}>
           <Link to={`${routerPath}/${id}`}>
-            <StyledThumb>
+            <PostThumbnail>
               <img src={imageUrl} alt="" />
-            </StyledThumb>
+            </PostThumbnail>
 
             <p className="title">{dataTitle}</p>
           </Link>
