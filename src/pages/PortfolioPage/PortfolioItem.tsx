@@ -7,7 +7,7 @@ import { useRecoilValue } from 'recoil';
 
 import * as S from '../../components/styles';
 import Dialog from '../../components/Dialog';
-import Thumb from '../../components/Thumb';
+import PostThumbnail from '../../components/PostThumbnail';
 
 import { isLoginSelector } from '../../recoil/selectors/userSelectors';
 import { useAddRecruitsScrap, useDeleteRecruitsScrap } from '../../hooks/query/useRecruitsQuery';
@@ -138,7 +138,7 @@ const PortfolioItem = ({ data, userInfo }: Props) => {
 
   return (
     <StyledPortfolioItem onClick={goToPortfolioDetail}>
-      <Thumb>
+      <PostThumbnail>
         <img src={data?.imageUrl} alt={data?.title} />
 
         <div className="details">
@@ -170,7 +170,7 @@ const PortfolioItem = ({ data, userInfo }: Props) => {
             </div>
           </div>
         </div>
-      </Thumb>
+      </PostThumbnail>
     </StyledPortfolioItem>
   );
 };

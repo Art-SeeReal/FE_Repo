@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import * as S from './styles';
 
-const StyledThumb = styled(S.RoundBox)`
+const StyledPostThumbnail = styled(S.RoundBox)`
   position: relative;
   padding-top: 100%;
 
@@ -20,8 +20,8 @@ interface Props {
   children: ReactNode;
 }
 
-const Thumb = ({ children }: Props) => {
-  return <StyledThumb>{children}</StyledThumb>;
+const PostThumbnail = ({ children }: Props) => {
+  return <StyledPostThumbnail>{children}</StyledPostThumbnail>;
 };
 
-export default Thumb;
+export default PostThumbnail;
