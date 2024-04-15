@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import {
   login,
@@ -7,6 +7,10 @@ import {
   getExistUserId,
   getExistNickname,
   getExistEmail,
+  addLikeUser,
+  deleteLikeUser,
+  getLikeUsers,
+  getUserInfo,
   findUserId,
   findExistUser,
   certEmail,
@@ -19,6 +23,8 @@ import {
   GetExistUserIdRequest,
   GetExistNicknameRequest,
   GetExistEmailRequest,
+  GetLikeUsersResponse,
+  GetUserResponse,
   GetUserIdRequest,
   GetUserExistRequest,
   PostUserCertEmailRequest,
@@ -29,9 +35,11 @@ import { useSetUserToken } from '../customs/useUserState';
 
 const QUERY_KEY = {
   userTypes: 'userTypes',
+  user: 'user',
   existUserId: 'existUserId',
   existNickname: 'existNickname',
   existEmail: 'existEmail',
+  likeUser: 'likeUser',
   userId: 'userId',
   existUser: 'existUser',
 } as const;
@@ -133,5 +141,33 @@ export const useCertEmail = () => {
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: (data: PutUserPasswordRequest) => changePassword(data),
+  });
+};
+
+export const useFetchLikeUser: () => UseQueryResult<GetLikeUsersResponse> = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.likeUser],
+    queryFn: getLikeUsers,
+    select: (data) => data.data,
+  });
+};
+
+export const useAddLikeUser = () => {
+  return useMutation({
+    mutationFn: (userId: string) => addLikeUser(userId),
+  });
+};
+
+export const useDeleteLikeUser = () => {
+  return useMutation({
+    mutationFn: (userId: string) => deleteLikeUser(userId),
+  });
+};
+
+export const useFetchUserInfo: () => UseQueryResult<GetUserResponse> = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.user],
+    queryFn: getUserInfo,
+    select: (data) => data.data,
   });
 };

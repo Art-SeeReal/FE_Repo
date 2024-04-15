@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { RiStarFill, RiStarLine, RiHeartLine, RiHeartFill } from '@remixicon/react';
-import {
-  useAddPortfolioScrap,
-  useDeletePortfolio,
-  useDeletePortfolioScrap,
-  useFetchDetailPortfolio,
-} from '../../hooks/query/usePortfoliosQuery';
+import { useAddRecruitsScrap, useDeleteRecruits, useDeleteRecruitsScrap } from '../../hooks/query/useRecruitsQuery';
+import { useFetchDetailRecruits } from '../../hooks/query/useRecruitsQuery';
 import { useDialog } from '../../hooks/customs/useDialogState';
 import Dialog from '../../components/Dialog';
 import * as S from '../../components/styles';
@@ -16,7 +12,7 @@ import { useToast } from '../../hooks/customs/useToastState';
 import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser, useFetchUserInfo } from '../../hooks/query/useUserQuery';
 import { GetUserResponse } from '../../model/user';
 
-const PortfolioDetailPage = () => {
+const DetailRecruitsPage = () => {
   const [userInfo, setUserInfo] = useState<GetUserResponse>({
     name: '',
     nickname: '',
@@ -32,17 +28,17 @@ const PortfolioDetailPage = () => {
   const postId = Number(params.id);
   const isLogin = useRecoilValue(isLoginSelector);
   const navigate = useNavigate();
-  const { data: porfolioDetails } = useFetchDetailPortfolio(postId);
-  const { mutate: deletePorfolio } = useDeletePortfolio();
-  const { mutate: addScrap } = useAddPortfolioScrap();
-  const { mutate: deleteScrap } = useDeletePortfolioScrap();
   const { data: likeUser } = useFetchLikeUser();
+  const { data: recruitsDetails } = useFetchDetailRecruits(postId);
+  const { mutate: deleteRecruits } = useDeleteRecruits();
+  const { mutate: addScrap } = useAddRecruitsScrap();
+  const { mutate: deleteScrap } = useDeleteRecruitsScrap();
   const { mutate: addLikeUser } = useAddLikeUser();
   const { mutate: deleteLikeUser } = useDeleteLikeUser();
   const { data: userInfoData } = useFetchUserInfo();
 
   const goToModifyPage = () => {
-    navigate(`/porfolios/modify/${postId}`);
+    navigate(`/recruits/modify/${postId}`);
   };
 
   const { openDialog, closeDialog } = useDialog();
@@ -100,7 +96,7 @@ const PortfolioDetailPage = () => {
         삭제하시겠습니까?
       </Dialog>,
     );
-    deletePorfolio(Number(postId));
+    deleteRecruits(Number(postId));
   };
 
   useEffect(() => {
@@ -112,32 +108,38 @@ const PortfolioDetailPage = () => {
   return (
     <S.Container $width={800}>
       <S.Row>
-        <S.Title>{porfolioDetails?.artist}</S.Title>
+        <S.Title>{recruitsDetails?.name}</S.Title>
         {isLogin &&
-          (likeUser?.results.some((user) => user.userId === porfolioDetails?.id) ? (
+          (likeUser?.results.some((user) => user.userId === recruitsDetails?.id) ? (
             <RiHeartFill color="red" onClick={handleDeleteLikeUser} />
           ) : (
             <RiHeartLine color="red" onClick={handleAddLikeUser} />
           ))}
         {!isLogin && <RiHeartLine color="red" onClick={handleOpenDialog} />}
       </S.Row>
-      <S.Title>{porfolioDetails?.title}</S.Title>
+      <S.Row className="my-5" $justifyContent="space-between">
+        <S.Title>{recruitsDetails?.title}</S.Title>
+        <S.Button $size="small" onClick={goToModifyPage}>
+          지원하기
+        </S.Button>
+      </S.Row>
       <S.Row className="my-5">
-        <S.Col>{porfolioDetails?.RegDate}</S.Col>
-        <S.Col>{porfolioDetails?.fields.label}</S.Col>
+        <S.Col>{recruitsDetails?.RegDate}</S.Col>
+        <S.Col>{recruitsDetails?.regions.label}</S.Col>
+        <S.Col>{recruitsDetails?.fields.label}</S.Col>
         <S.Col>
           {isLogin &&
-            (porfolioDetails?.isScrap ? (
+            (recruitsDetails?.isScrap ? (
               <RiStarFill color="yellow" onClick={handleDeleteScrap} />
             ) : (
               <RiStarLine color="yellow" onClick={handleAddScrap} />
             ))}
           {!isLogin && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
         </S.Col>
-        <S.Col>{porfolioDetails?.view}</S.Col>
+        <S.Col>{recruitsDetails?.view}</S.Col>
       </S.Row>
       <S.Row className="my-5">
-        <p dangerouslySetInnerHTML={{ __html: porfolioDetails?.content ?? '' }} />
+        <p dangerouslySetInnerHTML={{ __html: recruitsDetails?.content ?? '' }} />
       </S.Row>
       <S.Row className="my-5" $justifyContent="space-between">
         <S.Button onClick={deleteContent}>삭제하기</S.Button>
@@ -147,4 +149,4 @@ const PortfolioDetailPage = () => {
   );
 };
 
-export default PortfolioDetailPage;
+export default DetailRecruitsPage;

@@ -1,45 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, ValidateFn, OnSubmitFn } from '../../hooks/customs/useFormState';
+import { titleErrorMessage, contentErrorMessage } from '../../utils/validation';
 import Form from '../../components/Form';
 import * as S from '../../components/styles';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useToast } from '../../hooks/customs/useToastState';
 import FormControl from '../../components/FormControl';
 import ReactQuillForm from '../../components/ReactQuillForm';
-import { contentErrorMessage, fieldErrorMessage, titleErrorMessage } from '../../utils/validation';
-import { useUpdatePortfolio, useFetchDetailPortfolio } from '../../hooks/query/usePortfoliosQuery';
-import { useFetchFields } from '../../hooks/query/useUtilQuery';
-import Upload from '../../components/Upload';
+import { useUpdateRecruits, useFetchDetailRecruits } from '../../hooks/query/useRecruitsQuery';
+import { useFetchRegions, useFetchFields } from '../../hooks/query/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 
-const ModifyPortfolioPage = () => {
+const ModifyRecruitsPage = () => {
   const params = useParams();
   const postId = Number(params.id);
-  const { data: portfolioDetail } = useFetchDetailPortfolio(Number(postId));
-  const { mutate: updatePortfolio, isSuccess } = useUpdatePortfolio();
-  const { data: fieldData } = useFetchFields();
-  const fieldsValue = portfolioDetail?.fields?.code || [];
+  const navigate = useNavigate();
+  const { data: recruitsDetail } = useFetchDetailRecruits(Number(postId));
+  const { mutate: updateRecruits, isSuccess } = useUpdateRecruits();
+  const { data: fieldsData } = useFetchFields();
+  const { data: regionsData } = useFetchRegions();
+  const fieldsValue = recruitsDetail?.fields?.code || [];
+  const regionsValue = recruitsDetail?.regions?.code || [];
   const [selectedField, setSelectedField] = useState<string[]>(
     Array.isArray(fieldsValue) ? fieldsValue : [fieldsValue],
   );
+  const [selectedRegions, setSelectedRegions] = useState<string[]>(
+    Array.isArray(regionsValue) ? regionsValue : [regionsValue],
+  );
   const [initialValue, setInitialValue] = useState({ title: '', content: '' });
-  const navigate = useNavigate();
 
   const validate: ValidateFn = (values) => {
     const errors = {
       title: titleErrorMessage(values.title),
       content: contentErrorMessage(values.content),
-      field: fieldErrorMessage(selectedField),
     };
     return errors;
   };
 
   const onSubmit: OnSubmitFn = ({ title, content }) => {
-    updatePortfolio({ id: postId, data: { title, content, fields: selectedField } });
+    updateRecruits({ id: postId, data: { title, content } });
   };
 
-  const { errors, touched, getFieldProps, getQuillProps, getUploadProps, handleSubmit } = useForm({
+  const { errors, touched, getFieldProps, getQuillProps, handleSubmit } = useForm({
     initialValue,
     validate,
     onSubmit,
@@ -47,15 +50,21 @@ const ModifyPortfolioPage = () => {
   const { appendToast } = useToast();
 
   useEffect(() => {
-    if (portfolioDetail) {
-      setInitialValue({ title: portfolioDetail.title, content: portfolioDetail.content });
+    if (recruitsDetail) {
+      setInitialValue({ title: recruitsDetail.title, content: recruitsDetail.content });
     }
-  }, [portfolioDetail]);
+  }, [recruitsDetail]);
+
+  useEffect(() => {
+    if (recruitsDetail) {
+      setInitialValue({ title: recruitsDetail.title, content: recruitsDetail.content });
+    }
+  }, [recruitsDetail]);
 
   useEffect(() => {
     if (!isSuccess) return;
     appendToast({ content: '작성 완료', type: 'success' });
-    navigate(`/portfolios/${postId}`);
+    navigate(`/Recruits/${postId}`);
   }, [isSuccess]);
 
   return (
@@ -71,18 +80,10 @@ const ModifyPortfolioPage = () => {
           <S.Field id="title" {...getFieldProps('title')} placeholder="제목을 입력하세요." />
         </FormControl>
         <FormControl
-          label="썸네일"
-          htmlFor="thumbUrl"
-          required
-          error={<ErrorMessage touched={touched.thumbUrl} message={errors.thumbUrl} />}
-        >
-          <Upload id="thumbUrl" {...getUploadProps('thubUrl')} thumbnailMode accept=".jpg, .jpeg, .png" />
-        </FormControl>
-        <FormControl
           label="분야"
-          htmlFor="field"
+          htmlFor="fields"
           required
-          error={<ErrorMessage touched={touched.field} message={errors.field} />}
+          error={<ErrorMessage touched={touched.fields} message={errors.fields} />}
         >
           <MultipleDropdownMenu
             values={selectedField}
@@ -90,8 +91,25 @@ const ModifyPortfolioPage = () => {
             defaultLabel="분야"
             checkboxGroup={{
               initialValues: selectedField,
-              data: fieldData?.results.map(({ code: value, label }) => ({ value, label })) || [],
-              name: 'field',
+              data: fieldsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'fields',
+            }}
+          />
+        </FormControl>
+        <FormControl
+          label="지역"
+          htmlFor="regions"
+          required
+          error={<ErrorMessage touched={touched.regions} message={errors.regions} />}
+        >
+          <MultipleDropdownMenu
+            values={selectedRegions}
+            setValues={(values) => setSelectedRegions(values)}
+            defaultLabel="지역"
+            checkboxGroup={{
+              initialValues: selectedRegions,
+              data: regionsData?.results.map(({ code: value, label }) => ({ value, label })) || [],
+              name: 'regions',
             }}
           />
         </FormControl>
@@ -111,4 +129,4 @@ const ModifyPortfolioPage = () => {
   );
 };
 
-export default ModifyPortfolioPage;
+export default ModifyRecruitsPage;

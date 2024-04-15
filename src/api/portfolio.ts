@@ -1,33 +1,38 @@
 import api from '../utils/api';
 import {
-  PostPortfolioRequest,
-  PostPortfolioResponse,
+  PostPortfoliosRequest,
   GetPortfoliosRequest,
-  PutPortfolioRequest,
+  PutPortfoliosRequest,
   GetPortfoliosResponse,
   GetDetailPortfoliosResponse,
-  PutPortfolioResponse,
-  DeletePortfolioResponse,
-} from '../model/apiTypes';
+} from '../model/portfolios';
 
 export const getPortfolios = (params: GetPortfoliosRequest) => {
   return api<GetPortfoliosResponse>({ url: '/portfolios', method: 'get', params });
 };
 
-export const addPortfolio = (data: PostPortfolioRequest) => {
-  return api<PostPortfolioResponse>({ url: '/portfolio', method: 'post', data });
+export const addPortfolio = (data: PostPortfoliosRequest) => {
+  return api({ url: '/portfolios', method: 'post', data });
 };
 
 export const getDetailPortfolio = (id: number) => {
   return api<GetDetailPortfoliosResponse>({ url: `/portfolios/${id}`, method: 'get' });
 };
 
-export const updatePortfolio = (data: PutPortfolioRequest) => {
-  return api<PutPortfolioResponse>({ url: `/portfolios/${data.id}`, method: 'put', data });
+export const updatePortfolio = (data: PutPortfoliosRequest) => {
+  return api({ url: `/portfolios/${data.id}`, method: 'put', data });
 };
 
 export const deletePortfolio = (id: number) => {
-  return api<DeletePortfolioResponse>({ url: `/portfolios/${id}`, method: 'delete' });
+  return api({ url: `/portfolios/${id}`, method: 'delete' });
+};
+
+export const addPortfolioScrap = (id: number) => {
+  return api({ url: `/portfolios/${id}/scrap`, method: 'post' });
+};
+
+export const deletePortfolioScrap = (id: number) => {
+  return api({ url: `/portfolios/${id}/scrap`, method: 'post' });
 };
 
 export const getLatestPortfolios = () => {
