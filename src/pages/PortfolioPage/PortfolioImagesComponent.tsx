@@ -75,7 +75,7 @@ const LikeAndView = styled.div`
   }
 `;
 
-const Title = styled.div<{ isVisible: boolean }>`
+const Title = styled.div`
   position: absolute;
   bottom: 10px;
   left: 10px;
@@ -83,7 +83,6 @@ const Title = styled.div<{ isVisible: boolean }>`
   font-weight: bold;
   color: white;
   z-index: 2;
-  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   transition: opacity 0.3s ease;
 
   @media (max-width: 1200px) {
@@ -103,14 +102,13 @@ const Title = styled.div<{ isVisible: boolean }>`
   }
 `;
 
-const LocationAndField = styled.div<{ isVisible: boolean }>`
+const LocationAndField = styled.div`
   position: absolute;
   bottom: 10px;
   right: 10px;
   font-size: 16px;
   color: white;
   z-index: 2;
-  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
   transition: opacity 0.3s ease;
 
   @media (max-width: 760px) {
@@ -230,10 +228,10 @@ const PortfolioImagesComponent = ({ portfolioProps, userInfo }: PortfolioProps) 
             ))}
           {!isLogin && <RiStarLine color="yellow" onClick={handleOpenDialog} />}
         </LikeAndView>
-        <Title isVisible={isHovered}>
+        <Title style={{ opacity: isHovered ? 1 : 0 }}>
           {portfolioProps?.title.length > 25 ? `${portfolioProps?.title.slice(0, 22)}...` : portfolioProps?.title}
         </Title>
-        <LocationAndField isVisible={isHovered}>{portfolioProps?.fields.label}</LocationAndField>
+        <LocationAndField style={{ opacity: isHovered ? 1 : 0 }}>{portfolioProps?.fields.label}</LocationAndField>
       </ImageContainer>
     </S.Container>
   );
