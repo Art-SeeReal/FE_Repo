@@ -25,11 +25,22 @@ const PortfolioDetailPage = () => {
 
   const deleteContent = () => {
     openDialog(
-      <Dialog header="알림" footer={<S.Button onClick={closeDialog}>확인</S.Button>}>
+      <Dialog
+        header="알림"
+        footer={
+          <S.Button
+            onClick={() => {
+              closeDialog();
+              deletePorfolio(postId);
+            }}
+          >
+            확인
+          </S.Button>
+        }
+      >
         삭제하시겠습니까?
       </Dialog>,
     );
-    deletePorfolio(Number(postId));
   };
 
   if (!porfolioDetails) {

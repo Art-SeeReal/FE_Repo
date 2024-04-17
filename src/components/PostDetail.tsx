@@ -101,9 +101,10 @@ interface Props {
   listRoute: string;
   onClickDelete?: () => void;
   onClickModify?: () => void;
+  onClickApply?: () => void;
 }
 
-const PostDetail = ({ type, data, onClickDelete, onClickModify, listRoute }: Props) => {
+const PostDetail = ({ type, data, onClickDelete, onClickModify, onClickApply, listRoute }: Props) => {
   return (
     <>
       <StyledPostHeader>
@@ -138,7 +139,7 @@ const PostDetail = ({ type, data, onClickDelete, onClickModify, listRoute }: Pro
 
       {type === TYPES.recruit && (
         <S.Row className="mt-5" $justifyContent="flex-end">
-          <S.Button>지원하기</S.Button>
+          <S.Button onClick={onClickApply}>지원하기</S.Button>
         </S.Row>
       )}
 

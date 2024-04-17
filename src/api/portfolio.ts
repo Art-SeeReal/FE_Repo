@@ -32,7 +32,7 @@ export const addPortfolioScrap = (id: number) => {
 };
 
 export const deletePortfolioScrap = (id: number) => {
-  return api({ url: `/portfolios/${id}/scrap`, method: 'post' });
+  return api({ url: `/portfolios/${id}/scrap`, method: 'delete' });
 };
 
 export const getLatestPortfolios = () => {
