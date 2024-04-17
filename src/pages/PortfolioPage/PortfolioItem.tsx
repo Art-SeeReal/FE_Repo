@@ -2,25 +2,16 @@ import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { RiBookmarkFill, RiBookmarkLine, RiHeartLine, RiHeartFill } from '@remixicon/react';
-import { useRecoilValue } from 'recoil';
 
 import * as S from '../../components/styles';
-import Dialog from '../../components/Dialog';
 import PostThumbnail from '../../components/PostThumbnail';
-
-import { isLoginSelector } from '../../recoil/selectors/userSelectors';
-import { useAddRecruitsScrap, useDeleteRecruitsScrap } from '../../hooks/query/useRecruitsQuery';
-import { useDialog } from '../../hooks/customs/useDialogState';
-import { useToast } from '../../hooks/customs/useToastState';
-import { useAddLikeUser, useDeleteLikeUser, useFetchLikeUser } from '../../hooks/query/useUserQuery';
-import { GetUserResponse } from '../../model/user';
+import ScrapPost from '../../components/ScrapPost';
+import LikeUser from '../../components/LikeUser';
 
 import { GetDetailPortfoliosResponse } from '../../model/portfolios';
 
 interface Props {
   data: GetDetailPortfoliosResponse;
-  userInfo: GetUserResponse;
 }
 
 const StyledPortfolioItem = styled.div`
@@ -74,66 +65,11 @@ const StyledPortfolioItem = styled.div`
   }
 `;
 
-const PortfolioItem = ({ data, userInfo }: Props) => {
-  const isLogin = useRecoilValue(isLoginSelector);
+const PortfolioItem = ({ data }: Props) => {
   const navigate = useNavigate();
-  const { mutate: addScrap } = useAddRecruitsScrap();
-  const { mutate: deleteScrap } = useDeleteRecruitsScrap();
-  const { data: likeUser } = useFetchLikeUser();
-  const { mutate: addLikeUser } = useAddLikeUser();
-  const { mutate: deleteLikeUser } = useDeleteLikeUser();
-
-  const { openDialog, closeDialog } = useDialog();
-  const { appendToast } = useToast();
 
   const goToPortfolioDetail = () => {
     navigate(`/portfolios/${data.id}`);
-  };
-
-  const handleAddScrap: React.MouseEventHandler<SVGSVGElement> = (event) => {
-    event.stopPropagation();
-    addScrap(data.id);
-    appendToast({ content: '스크랩 성공', type: 'success' });
-  };
-
-  const handleDeleteScrap: React.MouseEventHandler<SVGSVGElement> = (event) => {
-    event.stopPropagation();
-    deleteScrap(data.id);
-    appendToast({ content: '스크랩 취소', type: 'success' });
-  };
-
-  const goToLoginPage = () => {
-    closeDialog();
-    navigate('/login');
-  };
-
-  const handleAddLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
-    event.stopPropagation();
-    addLikeUser(userInfo.userId);
-    appendToast({ content: '좋아요 성공', type: 'success' });
-  };
-
-  const handleDeleteLikeUser: React.MouseEventHandler<SVGSVGElement> = (event) => {
-    event.stopPropagation();
-    deleteLikeUser(userInfo.userId);
-    appendToast({ content: '좋아요 취소', type: 'success' });
-  };
-
-  const handleOpenDialog: React.MouseEventHandler<SVGSVGElement> = (event) => {
-    event.stopPropagation();
-    openDialog(
-      <Dialog
-        header="알림"
-        footer={
-          <>
-            <S.Button onClick={goToLoginPage}>이동</S.Button>
-            <S.Button onClick={closeDialog}>닫기</S.Button>
-          </>
-        }
-      >
-        로그인이 필요한 서비스입니다.
-      </Dialog>,
-    );
   };
 
   return (
@@ -143,14 +79,8 @@ const PortfolioItem = ({ data, userInfo }: Props) => {
 
         <div className="details">
           <div className="writer-info">
-            <p>{data.artist}</p>
-            {isLogin &&
-              (likeUser?.results.some((user) => user.userId === data?.id) ? (
-                <RiHeartFill onClick={handleDeleteLikeUser} />
-              ) : (
-                <RiHeartLine onClick={handleAddLikeUser} />
-              ))}
-            {!isLogin && <RiHeartLine onClick={handleOpenDialog} />}
+            <p>{data.username}</p>
+            <LikeUser userId={data.userId} />
           </div>
 
           <div className="mt-auto">
@@ -159,14 +89,7 @@ const PortfolioItem = ({ data, userInfo }: Props) => {
             <div className="title-wrap">
               <S.EllipsisText className="title">{data?.title}</S.EllipsisText>
 
-              {isLogin &&
-                (data?.isScrap ? (
-                  <RiBookmarkFill onClick={handleDeleteScrap} />
-                ) : (
-                  <RiBookmarkLine onClick={handleAddScrap} />
-                ))}
-
-              {!isLogin && <RiBookmarkLine onClick={handleOpenDialog} />}
+              <ScrapPost type="portfolio" postId={data?.id} isScrap={data?.isScrap} />
             </div>
           </div>
         </div>

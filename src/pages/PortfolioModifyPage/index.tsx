@@ -60,7 +60,7 @@ const ModifyPortfolioPage = () => {
 
   return (
     <S.Container $width={800}>
-      <S.Title $center>수정</S.Title>
+      <S.Title $center>포트폴리오 수정</S.Title>
       <Form id="register-form" onSubmit={handleSubmit}>
         <FormControl
           label="제목"
