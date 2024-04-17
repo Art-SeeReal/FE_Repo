@@ -56,7 +56,7 @@ const RegisterPortfolioPage = () => {
 
   return (
     <S.Container $width={800}>
-      <S.Title $center>등록</S.Title>
+      <S.Title $center>포트폴리오 등록</S.Title>
       <Form id="register-form" onSubmit={handleSubmit}>
         <FormControl
           label="제목"
@@ -100,7 +100,7 @@ const RegisterPortfolioPage = () => {
           <ReactQuillForm {...getQuillProps('content')} />
         </FormControl>
         <S.Row $justifyContent="flex-end">
-          <S.Button type="submit">제출</S.Button>
+          <S.Button type="submit">등록하기</S.Button>
         </S.Row>
       </Form>
     </S.Container>

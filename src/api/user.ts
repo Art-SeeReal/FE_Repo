@@ -8,7 +8,9 @@ import {
   GetExistNicknameRequest,
   GetExistEmailRequest,
   GetExistReponse,
+  PostLikeUserRequest,
   PostLikeUserResponse,
+  DeleteLikeUserRequest,
   DeleteLikeUserResponse,
   GetLikeUsersResponse,
   GetUserResponse,
@@ -53,12 +55,12 @@ export const getLikeUsers = () => {
   return api<GetLikeUsersResponse>({ url: `/user/like/users`, method: 'get' });
 };
 
-export const addLikeUser = (userId: string) => {
-  return api<PostLikeUserResponse>({ url: `/user/like/${userId}`, method: 'post' });
+export const addLikeUser = (data: PostLikeUserRequest) => {
+  return api<PostLikeUserResponse>({ url: '/user/like', method: 'post', data });
 };
 
-export const deleteLikeUser = (userId: string) => {
-  return api<DeleteLikeUserResponse>({ url: `/user/like/${userId}`, method: 'delete' });
+export const deleteLikeUser = (data: DeleteLikeUserRequest) => {
+  return api<DeleteLikeUserResponse>({ url: '/user/like', method: 'delete', data });
 };
 
 export const findUserId = (params: GetUserIdRequest) => {

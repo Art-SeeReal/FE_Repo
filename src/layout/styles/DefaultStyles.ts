@@ -23,6 +23,7 @@ const DefaultStyles = css`
     --color-placeholder: #999;
     --color-border-1: #777;
     --color-border-2: #ccc;
+    --color-border-3: #e1e1e1;
     --color-success: #2ecc71;
     --color-error: #ff3838;
     --color-info: #747d8c;

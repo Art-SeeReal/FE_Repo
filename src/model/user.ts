@@ -49,8 +49,16 @@ export interface GetLikeUsersResponse {
   count: number;
 }
 
+export interface PostLikeUserRequest {
+  userId: string;
+}
+
 export interface PostLikeUserResponse {
   success: boolean;
+}
+
+export interface DeleteLikeUserRequest {
+  userId: string;
 }
 
 export interface DeleteLikeUserResponse {

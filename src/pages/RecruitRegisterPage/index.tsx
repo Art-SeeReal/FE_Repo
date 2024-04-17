@@ -59,7 +59,7 @@ const RegisterPortfolioPage = () => {
 
   return (
     <S.Container $width={800}>
-      <S.Title $center>등록</S.Title>
+      <S.Title $center>공고 등록</S.Title>
       <Form id="register-form" onSubmit={handleSubmit}>
         <FormControl
           label="제목"

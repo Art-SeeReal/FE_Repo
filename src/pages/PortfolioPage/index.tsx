@@ -11,7 +11,6 @@ import InfiniteList from '../../components/InfiniteList';
 import { useFetchPortfolios } from '../../hooks/query/usePortfoliosQuery';
 import { useFetchFields } from '../../hooks/query/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
-import { useFetchUserInfo } from '../../hooks/query/useUserQuery';
 
 const PortfolioList = styled.div`
   display: flex;
@@ -30,14 +29,12 @@ const PortfolioPage = () => {
     refetch,
     isLoading,
     isFetching,
-    isError,
   } = useFetchPortfolios({
     page,
     fields: selectedField,
     keyWords: searchKeywords,
   });
   const { data: fieldData } = useFetchFields();
-  const { data: userInfoData } = useFetchUserInfo();
 
   const goToRegisterPage = () => {
     navigate('/portfolios/register');
@@ -51,10 +48,6 @@ const PortfolioPage = () => {
     refetch();
     setPage(page + 20);
   };
-
-  if (isError) {
-    return <div>에러</div>;
-  }
 
   return (
     <>
@@ -77,10 +70,7 @@ const PortfolioPage = () => {
 
       <InfiniteList onLoadMore={onLoadMore} isLoading={isLoading} isFetching={isFetching}>
         <PortfolioList>
-          {userInfoData &&
-            portfolioData?.results.map((portfolio) => (
-              <PortfolioItem key={portfolio.id} data={portfolio} userInfo={userInfoData} />
-            ))}
+          {portfolioData?.results.map((portfolio) => <PortfolioItem key={portfolio.id} data={portfolio} />)}
         </PortfolioList>
       </InfiniteList>
     </>

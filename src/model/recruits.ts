@@ -9,7 +9,7 @@ export interface GetRecruitsRequest {
 export interface GetRecruitsResponse {
   results: {
     id: number;
-    name: string;
+    username: string;
     title: string;
     regions: {
       code: string;
@@ -20,6 +20,8 @@ export interface GetRecruitsResponse {
       label: string;
     };
     isScrap: boolean;
+    isLike: boolean;
+    userId: string;
     RegDate: string;
     view: number;
     content: string;
@@ -28,7 +30,7 @@ export interface GetRecruitsResponse {
 
 export interface GetDetailRecruitsResponse {
   id: number;
-  name: string;
+  username: string;
   title: string;
   regions: {
     code: string;
@@ -39,6 +41,8 @@ export interface GetDetailRecruitsResponse {
     label: string;
   };
   isScrap: boolean;
+  isLike: boolean;
+  userId: string;
   RegDate: string;
   view: number;
   content: string;
