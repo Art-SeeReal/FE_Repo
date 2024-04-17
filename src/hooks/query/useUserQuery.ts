@@ -29,6 +29,8 @@ import {
   GetUserExistRequest,
   PostUserCertEmailRequest,
   PutUserPasswordRequest,
+  PostLikeUserRequest,
+  DeleteLikeUserRequest,
 } from '../../model/user';
 import { setToken, removeToken } from '../../utils/auth';
 import { useSetUserToken } from '../customs/useUserState';
@@ -154,13 +156,13 @@ export const useFetchLikeUser: () => UseQueryResult<GetLikeUsersResponse> = () =
 
 export const useAddLikeUser = () => {
   return useMutation({
-    mutationFn: (userId: string) => addLikeUser(userId),
+    mutationFn: (data: PostLikeUserRequest) => addLikeUser(data),
   });
 };
 
 export const useDeleteLikeUser = () => {
   return useMutation({
-    mutationFn: (userId: string) => deleteLikeUser(userId),
+    mutationFn: (data: DeleteLikeUserRequest) => deleteLikeUser(data),
   });
 };
 
