@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as S from '../../components/styles';
 
 interface FieldProps {
-  fontSize?: string; // fontSize를 옵션으로 설정
+  fontSize?: string;
 }
 
 const Field = styled.div<FieldProps>`
@@ -21,34 +21,53 @@ const Label = styled.label`
 
 interface ShowListsProp {
   showList: {
-    id: number;
-    poster: string;
-    title: string;
-    regions: {
-      code: string;
-      label: string;
+    fcltynm: {
+      _text: string;
     };
-    fields: {
-      code: string;
-      label: string;
+    genrenm: {
+      _text: string;
     };
-    RegDate: string;
+    mt20id: {
+      _text: string;
+    };
+    openrun: {
+      _text: string;
+    };
+    poster?: {
+      _text?: string;
+    };
+    prfnm: {
+      _text: string;
+    };
+    prfpdfrom: {
+      _text: string;
+    };
+    prfpdto: {
+      _text: string;
+    };
+    prfstate: {
+      _text: string;
+    };
+    area: {
+      _text: string;
+    };
   };
 }
 
 const ShowInfoCard = ({ showList }: ShowListsProp) => {
-  console.log(showList);
   return (
-    <S.Container $width={350}>
+    <S.Container $width={350} style={{ margin: '10px' }}>
       <S.Row>
         <S.Col className="p-3" $col={4}>
-          <img src={showList.poster} alt={showList.title} />
+          <img src={showList.poster?._text} alt={showList?.prfnm._text} />
         </S.Col>
         <S.Col className="p-3" $col={8}>
-          <Label className="my-3">{showList.fields.label}</Label>
-          <Field fontSize="14px">{showList.title}</Field>
-          <Field>위치: {showList.regions.label}</Field>
-          <Field>기간: {showList.RegDate}</Field>
+          <Label className="my-3">{showList?.genrenm._text}</Label>
+          <Field fontSize="14px">{showList?.prfnm._text}</Field>
+          {showList?.area && <Field>위치: {showList?.area._text}</Field>}
+          <Field>
+            기간: {showList?.prfpdfrom._text} ~ {showList?.prfpdto._text}
+          </Field>
         </S.Col>
       </S.Row>
     </S.Container>

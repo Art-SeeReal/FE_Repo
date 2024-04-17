@@ -5,7 +5,7 @@ import { useToast } from '../hooks/customs/useToastState';
 
 const kopis = axios.create({
   baseURL: '/kopis',
-  headers: { 'Content-Type': 'application/xml' },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 const Interceptor = ({ children }: { children: ReactNode }) => {
