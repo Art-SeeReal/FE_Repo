@@ -7,6 +7,7 @@ import {
   deleteRecruit,
   addRecruitScrap,
   deleteRecruitScrap,
+  addRecruitsApply,
 } from '../../api/recruit';
 import {
   GetRecruitsRequest,
@@ -63,5 +64,11 @@ export const useAddRecruitsScrap = () => {
 export const useDeleteRecruitsScrap = () => {
   return useMutation({
     mutationFn: (id: number) => deleteRecruitScrap(id),
+  });
+};
+
+export const useAddRecruitsApply = () => {
+  return useMutation({
+    mutationFn: (id: number) => addRecruitsApply(id),
   });
 };
