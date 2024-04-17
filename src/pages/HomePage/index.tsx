@@ -14,7 +14,7 @@ const HomePage = () => {
       {latestPortfolios && (
         <SectionCarousel title="예술가 포트폴리오" data={latestPortfolios} routerPath="/portfolios" />
       )}
-      {latestRecruits && <SectionCarousel title="기획자 공고" data={latestRecruits} routerPath="/recruits" />}
+      {latestRecruits && <SectionCarousel title="공고" data={latestRecruits} routerPath="/recruits" />}
     </>
   );
 };
