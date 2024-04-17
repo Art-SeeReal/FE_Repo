@@ -10,12 +10,14 @@ export interface GetPortfoliosResponse {
     id: number;
     imageUrl: string;
     title: string;
-    artist: string;
+    username: string;
     fields: {
       code: string;
       label: string;
     };
     isScrap: boolean;
+    isLike: boolean;
+    userId: string;
     like: number;
     view: number;
     RegDate: string;
@@ -28,12 +30,14 @@ export interface GetDetailPortfoliosResponse {
   id: number;
   imageUrl: string;
   title: string;
-  artist: string;
+  username: string;
   fields: {
     code: string;
     label: string;
   };
   isScrap: boolean;
+  isLike: boolean;
+  userId: string;
   like: number;
   view: number;
   RegDate: string;
