@@ -36,7 +36,6 @@ export interface GetDetailPortfoliosResponse {
   isScrap: boolean;
   isLike: boolean;
   userId: string;
-  like: number;
   view: number;
   RegDate: string;
   content: string;
