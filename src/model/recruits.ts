@@ -19,7 +19,6 @@ export interface RecruitsTypes {
     label: string;
   };
   isScrap: boolean;
-  isLike: boolean;
   userId: string;
 }
 
@@ -41,7 +40,6 @@ export interface GetDetailRecruitsResponse {
     label: string;
   };
   isScrap: boolean;
-  isLike: boolean;
   userId: string;
   RegDate: string;
   view: number;
