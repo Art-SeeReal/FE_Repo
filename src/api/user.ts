@@ -21,6 +21,10 @@ import {
   PostUserCertEmailRequest,
   PostUserCertEmailResponse,
   PutUserPasswordRequest,
+  PostKakaoLoginRequest,
+  PostKakaoLoginResponse,
+  PostNaverLoginRequest,
+  PostNaverLoginResponse,
 } from '../model/user';
 
 export const login = (data: PostLoginRequest) => {
@@ -77,4 +81,12 @@ export const certEmail = (data: PostUserCertEmailRequest) => {
 
 export const changePassword = (data: PutUserPasswordRequest) => {
   return api({ url: '/user/password', method: 'put', data });
+};
+
+export const kakaoLogin = (data: PostKakaoLoginRequest) => {
+  return api<PostKakaoLoginResponse>({ url: '/oauth/kakao', method: 'post', data });
+};
+
+export const naverLogin = (data: PostNaverLoginRequest) => {
+  return api<PostNaverLoginResponse>({ url: '/oauth/naver', method: 'post', data });
 };

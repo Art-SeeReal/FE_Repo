@@ -111,3 +111,20 @@ export interface PutUserPasswordRequest {
   token: string;
   newPassword: string;
 }
+
+//Oauth
+export interface PostKakaoLoginRequest {
+  code: string;
+}
+
+export interface PostKakaoLoginResponse {
+  token: string;
+}
+
+export interface PostNaverLoginRequest {
+  code: string;
+}
+
+export interface PostNaverLoginResponse {
+  token: string;
+}
