@@ -5,24 +5,22 @@ export interface GetPortfoliosRequest {
   keyWords?: string;
 }
 
+export interface PortfoliosTypes {
+  id: number;
+  imageUrl: string;
+  title: string;
+  nickname: string;
+  fields: {
+    code: string;
+    label: string;
+  };
+  isScrap: boolean;
+  isLike: boolean;
+  userId: string;
+}
+
 export interface GetPortfoliosResponse {
-  results: {
-    id: number;
-    imageUrl: string;
-    title: string;
-    username: string;
-    fields: {
-      code: string;
-      label: string;
-    };
-    isScrap: boolean;
-    isLike: boolean;
-    userId: string;
-    like: number;
-    view: number;
-    RegDate: string;
-    content: string;
-  }[];
+  results: PortfoliosTypes[];
   count: number;
 }
 
@@ -30,7 +28,7 @@ export interface GetDetailPortfoliosResponse {
   id: number;
   imageUrl: string;
   title: string;
-  username: string;
+  nickname: string;
   fields: {
     code: string;
     label: string;

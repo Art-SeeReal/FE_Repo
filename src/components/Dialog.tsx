@@ -1,5 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
+import * as S from './styles';
+import { useDialog } from '../hooks/customs/useDialogState';
 
 interface Props {
   header?: string;
@@ -46,11 +48,20 @@ const StyledDialog = styled.div<{ $width?: number }>`
   }
 `;
 
+const CloseBox = styled.div`
+  padding: 20px;
+  cursor: pointer;
+`;
+
 const Dialog = ({ header, footer, children, width }: Props) => {
+  const { closeDialog } = useDialog();
   return (
     <StyledDialog $width={width}>
       <div className="inner">
-        {header && <footer className="header">{header}</footer>}
+        <S.Row $justifyContent="space-between">
+          {header && <footer className="header">{header}</footer>}
+          <CloseBox onClick={closeDialog}>X</CloseBox>
+        </S.Row>
         <article className="content">{children}</article>
         {footer && <footer className="footer">{footer}</footer>}
       </div>

@@ -8,10 +8,10 @@ import PostThumbnail from '../../components/PostThumbnail';
 import ScrapPost from '../../components/ScrapPost';
 import LikeUser from '../../components/LikeUser';
 
-import { GetDetailPortfoliosResponse } from '../../model/portfolios';
+import { PortfoliosTypes } from '../../model/portfolios';
 
 interface Props {
-  data: GetDetailPortfoliosResponse;
+  data: PortfoliosTypes;
 }
 
 const StyledPortfolioItem = styled.div`
@@ -79,8 +79,8 @@ const PortfolioItem = ({ data }: Props) => {
 
         <div className="details">
           <div className="writer-info">
-            <p>{data.username}</p>
-            <LikeUser userId={data.userId} />
+            <p>{data.nickname}</p>
+            <LikeUser userId={data.userId} isLike={data?.isLike} />
           </div>
 
           <div className="mt-auto">

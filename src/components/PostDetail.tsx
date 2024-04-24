@@ -1,11 +1,16 @@
 import React from 'react';
 import { RiDeleteBin6Line, RiEdit2Line, RiMenu2Line } from '@remixicon/react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import * as S from './styles';
 import LikeUser from './LikeUser';
 import ScrapPost from './ScrapPost';
 import { GetDetailPortfoliosResponse } from '../model/portfolios';
 import { GetDetailRecruitsResponse } from '../model/recruits';
+import { useDialog } from '../hooks/customs/useDialogState';
+import Dialog from './Dialog';
+import { isLoginSelector } from '../recoil/selectors/userSelectors';
 
 const StyledPostHeader = styled.header`
   margin-bottom: 4rem;
@@ -86,7 +91,9 @@ const StyledPostInfo = styled.dl`
 `;
 
 const StyledPostArticle = styled.article`
+  margin: 2rem 0;
   padding: 4rem 0;
+  border-top: 1px solid var(--color-border-3);
   border-bottom: 1px solid var(--color-border-3);
 `;
 
@@ -105,6 +112,34 @@ interface Props {
 }
 
 const PostDetail = ({ type, data, onClickDelete, onClickModify, onClickApply, listRoute }: Props) => {
+  const navigate = useNavigate();
+  const { openDialog, closeDialog } = useDialog();
+  const isLogin = useRecoilValue(isLoginSelector);
+
+  const goToLogin = () => {
+    navigate('/login');
+  };
+
+  const showLoginRequired = () => {
+    openDialog(
+      <Dialog
+        header="알림"
+        footer={
+          <S.Button
+            onClick={() => {
+              closeDialog();
+              goToLogin();
+            }}
+          >
+            확인
+          </S.Button>
+        }
+      >
+        <p>로그인이 필요한 서비스입니다.</p>
+        <p>이동하시겠습니까?</p>
+      </Dialog>,
+    );
+  };
   return (
     <>
       <StyledPostHeader>
@@ -124,7 +159,7 @@ const PostDetail = ({ type, data, onClickDelete, onClickModify, onClickApply, li
       <StyledPostInfo>
         <dt>작성자</dt>
         <dd>
-          {data?.username}
+          {data?.nickname}
           <S.Button $size="xsmall" $inline $style="link">
             {data?.userId && <LikeUser userId={data?.userId} />}
           </S.Button>
@@ -135,11 +170,13 @@ const PostDetail = ({ type, data, onClickDelete, onClickModify, onClickApply, li
         <dd>{data?.view}</dd>
       </StyledPostInfo>
 
-      <StyledPostArticle dangerouslySetInnerHTML={{ __html: data?.content ?? '' }} />
+      <S.Container $width={800}>
+        <StyledPostArticle dangerouslySetInnerHTML={{ __html: data?.content ?? '' }} />
+      </S.Container>
 
       {type === TYPES.recruit && (
         <S.Row className="mt-5" $justifyContent="flex-end">
-          <S.Button onClick={onClickApply}>지원하기</S.Button>
+          <S.Button onClick={isLogin ? onClickApply : showLoginRequired}>지원하기</S.Button>
         </S.Row>
       )}
 

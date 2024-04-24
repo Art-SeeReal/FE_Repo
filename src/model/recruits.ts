@@ -6,31 +6,31 @@ export interface GetRecruitsRequest {
   keyWords?: string;
 }
 
+export interface RecruitsTypes {
+  id: number;
+  nickname: string;
+  title: string;
+  regions: {
+    code: string;
+    label: string;
+  };
+  fields: {
+    code: string;
+    label: string;
+  };
+  isScrap: boolean;
+  isLike: boolean;
+  userId: string;
+}
+
 export interface GetRecruitsResponse {
-  results: {
-    id: number;
-    username: string;
-    title: string;
-    regions: {
-      code: string;
-      label: string;
-    };
-    fields: {
-      code: string;
-      label: string;
-    };
-    isScrap: boolean;
-    isLike: boolean;
-    userId: string;
-    RegDate: string;
-    view: number;
-    content: string;
-  }[];
+  results: RecruitsTypes[];
+  count: number;
 }
 
 export interface GetDetailRecruitsResponse {
   id: number;
-  username: string;
+  nickname: string;
   title: string;
   regions: {
     code: string;
