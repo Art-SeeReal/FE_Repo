@@ -1,12 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { GetDetailRecruitsResponse } from '../../model/recruits';
 import ScrapPost from '../../components/ScrapPost';
+import { RecruitsTypes } from '../../model/recruits';
 
 export interface RecruitsProps {
-  data: GetDetailRecruitsResponse;
+  data: RecruitsTypes;
 }
 
 const StyledRecruitItem = styled.div`
@@ -28,6 +27,7 @@ const StyledRecruitItem = styled.div`
 
   .title-wrap {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 0.4rem;
     margin-bottom: 2rem;
@@ -37,8 +37,16 @@ const StyledRecruitItem = styled.div`
     font-size: var(--sub-title-3);
   }
 
+  .writer-info {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+    gap: 0.6rem;
+  }
+
   .recruit-info {
     display: flex;
+    justify-content: center;
     align-items: center;
     color: var(--color-secondary);
     font-size: var(--text-body-2);
@@ -85,7 +93,7 @@ const RecruitsImagesComponent = ({ data }: RecruitsProps) => {
         <h2 className="title">{data.title}</h2>
         <ScrapPost type="recruit" postId={data.id} isScrap={data.isScrap} />
       </div>
-
+      <div className="writer-info">{data.nickname}</div>
       <dl className="recruit-info">
         <dt className="hidden">분야</dt>
         <dd>{data.fields?.label}</dd>
