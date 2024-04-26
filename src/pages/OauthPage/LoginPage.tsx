@@ -36,7 +36,7 @@ const LoginPage = ({ useLogin, isSuccessSelector }: LoginPageProps) => {
     if (isSuccess || isLogin) {
       navigate('/');
     }
-  }, [isSuccess, isLogin, navigate]);
+  }, [isSuccess, isLogin]);
 
   return (
     <>
