@@ -25,6 +25,8 @@ import RecruitsDetailPage from './pages/RecruitDetailPage';
 import RecruitsModifyPage from './pages/RecruitModifyPage';
 
 import UserHomePage from './pages/UserHomePage';
+import KakaoPage from './pages/OauthPage/KakaoPage';
+import NaverPage from './pages/OauthPage/NaverPage';
 
 export default () => {
   const { isAgreeForSignup } = useRecoilValue(userState);
@@ -36,6 +38,10 @@ export default () => {
         <Route index element={<HomePage />} />
 
         <Route path="/login" element={isLogin ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route path="/oauth">
+          <Route path="kakao" element={<KakaoPage />} />
+          <Route path="naver" element={<NaverPage />} />
+        </Route>
 
         <Route path="/signup">
           <Route index element={<Navigate to="agree" replace />} />
