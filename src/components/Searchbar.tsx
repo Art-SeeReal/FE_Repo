@@ -5,34 +5,25 @@ const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   border: 2px solid #e58ae6;
-  border-radius: 5px;
+  border-radius: 0.8rem;
+  font-size: var(--text-body-1);
 `;
 
 const SearchInput = styled.input`
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  outline: none;
   flex: 7;
+  padding: 0.75em 1em;
+  border-radius: 0.8rem;
+  outline: none;
   border: none;
-  &:focus {
-    border-color: #b249c6;
-  }
 `;
 
 const SearchButton = styled.button`
-  background-color: #e58ae6;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
   flex: 3;
-  margin-left: 10px;
-
-  &:hover {
-    background-color: #b249c6;
-  }
+  padding: 0.75em 1em;
+  border: none;
+  background-color: #e58ae6;
+  color: #fff;
+  font-size: var(--text-body-1);
 `;
 
 interface SearchBarProps {

@@ -141,7 +141,7 @@ const PostDetail = ({ type, data, onClickDelete, onClickModify, onClickApply, li
     );
   };
   return (
-    <>
+    <S.Container $width={800}>
       <StyledPostHeader>
         <div className="caption">
           <S.Description>{data?.fields.label}</S.Description>
@@ -170,9 +170,7 @@ const PostDetail = ({ type, data, onClickDelete, onClickModify, onClickApply, li
         <dd>{data?.view}</dd>
       </StyledPostInfo>
 
-      <S.Container $width={800}>
-        <StyledPostArticle dangerouslySetInnerHTML={{ __html: data?.content ?? '' }} />
-      </S.Container>
+      <StyledPostArticle dangerouslySetInnerHTML={{ __html: data?.content ?? '' }} />
 
       {type === TYPES.recruit && (
         <S.Row className="mt-5" $justifyContent="flex-end">
@@ -199,7 +197,7 @@ const PostDetail = ({ type, data, onClickDelete, onClickModify, onClickApply, li
           </S.ButtonRouter>
         </S.Col>
       </S.Row>
-    </>
+    </S.Container>
   );
 };
 

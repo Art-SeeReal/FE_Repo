@@ -13,6 +13,7 @@ const DefaultStyles = css`
     --sub-title-1: 3rem;
     --sub-title-2: 2.6rem;
     --sub-title-3: 2.2rem;
+    --sub-title-4: 1.8rem;
 
     --text-body-1: 1.6rem;
     --text-body-2: 1.4rem;

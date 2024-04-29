@@ -19,6 +19,11 @@ import {
   PostUserCertEmailRequest,
   PostUserCertEmailResponse,
   PutUserPasswordRequest,
+  GetUserTypeRequest,
+  GetUserTypeResponse,
+  GetUserProfileRequest,
+  GetUserProfileResponse,
+  PutUserIntroRequest,
   PostKakaoLoginRequest,
   PostKakaoLoginResponse,
   PostNaverLoginRequest,
@@ -79,6 +84,18 @@ export const certEmail = (data: PostUserCertEmailRequest) => {
 
 export const changePassword = (data: PutUserPasswordRequest) => {
   return api({ url: '/user/password', method: 'put', data });
+};
+
+export const getUserType = (params: GetUserTypeRequest) => {
+  return api<GetUserTypeResponse>({ url: `/users/${params.userId}/type`, method: 'get' });
+};
+
+export const getUserProfile = (params: GetUserProfileRequest) => {
+  return api<GetUserProfileResponse>({ url: `/users/${params.userId}/profile`, method: 'get' });
+};
+
+export const saveIntro = (data: PutUserIntroRequest) => {
+  return api<PutUserIntroRequest>({ url: '/user/intro', method: 'put', data });
 };
 
 export const kakaoLogin = (data: PostKakaoLoginRequest) => {

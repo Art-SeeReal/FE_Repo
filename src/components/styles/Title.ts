@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const SIZES = {
+  xsmall: 'xsmall',
   small: 'small',
   medium: 'medium',
   large: 'large',
@@ -19,6 +20,9 @@ export const Title = styled.h1<Props>`
   ${({ $bold }) => $bold && `font-weight: 700`};
 
   font-size: ${({ $size }) => {
+    if ($size === SIZES.xsmall) {
+      return `var(--sub-title-4)`;
+    }
     if ($size === SIZES.small) {
       return `var(--title-3)`;
     }
