@@ -24,6 +24,10 @@ import {
   GetUserProfileRequest,
   GetUserProfileResponse,
   PutUserIntroRequest,
+  PostKakaoLoginRequest,
+  PostKakaoLoginResponse,
+  PostNaverLoginRequest,
+  PostNaverLoginResponse,
 } from '../model/user';
 
 export const login = (data: PostLoginRequest) => {
@@ -92,4 +96,12 @@ export const getUserProfile = (params: GetUserProfileRequest) => {
 
 export const saveIntro = (data: PutUserIntroRequest) => {
   return api<PutUserIntroRequest>({ url: '/user/intro', method: 'put', data });
+};
+
+export const kakaoLogin = (data: PostKakaoLoginRequest) => {
+  return api<PostKakaoLoginResponse>({ url: '/oauth/kakao', method: 'post', data });
+};
+
+export const naverLogin = (data: PostNaverLoginRequest) => {
+  return api<PostNaverLoginResponse>({ url: '/oauth/naver', method: 'post', data });
 };

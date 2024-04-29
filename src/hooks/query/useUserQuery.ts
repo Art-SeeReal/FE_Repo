@@ -17,6 +17,8 @@ import {
   changePassword,
   getUserType,
   getUserProfile,
+  kakaoLogin,
+  naverLogin,
 } from '../../api/user';
 import {
   PostLoginRequest,
@@ -31,6 +33,10 @@ import {
   PutUserPasswordRequest,
   GetUserTypeRequest,
   GetUserProfileRequest,
+  PostKakaoLoginRequest,
+  PostKakaoLoginResponse,
+  PostNaverLoginRequest,
+  PostNaverLoginResponse,
 } from '../../model/user';
 import { setToken, removeToken } from '../../utils/auth';
 import { useSetUserToken } from '../customs/useUserState';
@@ -189,5 +195,26 @@ export const useFetchUserProfile = (params: GetUserProfileRequest) => {
     queryKey: [QUERY_KEY.userProfile],
     queryFn: () => getUserProfile(params),
     select: (data) => data.data,
+  });
+};
+export const useKakaoLogin = () => {
+  const setUserToken = useSetUserToken();
+  return useMutation({
+    mutationFn: (data: PostKakaoLoginRequest) => kakaoLogin(data),
+    onSuccess: (response: AxiosResponse<PostKakaoLoginResponse>) => {
+      setToken(response.data.token);
+      setUserToken(response.data.token);
+    },
+  });
+};
+
+export const useNaverLogin = () => {
+  const setUserToken = useSetUserToken();
+  return useMutation({
+    mutationFn: (data: PostNaverLoginRequest) => naverLogin(data),
+    onSuccess: (response: AxiosResponse<PostNaverLoginResponse>) => {
+      setToken(response.data.token);
+      setUserToken(response.data.token);
+    },
   });
 };

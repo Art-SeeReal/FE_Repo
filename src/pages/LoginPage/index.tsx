@@ -10,6 +10,9 @@ import { userIdErrorMessage, passwordErrorMessage } from '../../utils/validation
 import { useLogin } from '../../hooks/query/useUserQuery';
 import { isLoginSelector } from '../../recoil/selectors/userSelectors';
 
+import Kakao from '../../components/Kakao';
+import Naver from '../../components/Naver';
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const isLogin = useRecoilValue(isLoginSelector);
@@ -72,6 +75,10 @@ const LoginPage = () => {
         <S.Button type="submit" $block disabled={isPending}>
           로그인
         </S.Button>
+        <S.Row $justifyContent="space-around" className="my-5">
+          <Kakao />
+          <Naver />
+        </S.Row>
         <S.Row $justifyContent="space-around" className="mt-5">
           <S.ButtonRouter to="/find-account" $style="link" $size="xsmall">
             아이디/비밀번호 찾기
