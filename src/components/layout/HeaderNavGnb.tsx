@@ -11,7 +11,7 @@ const StyledMenu = styled.span`
   ${S.Media.mobile`
     font-size: var(--title-1);
 
-    a {
+    a, span {
      display: block; 
      padding: 2rem 4rem;
     }
@@ -43,7 +43,7 @@ const StyeldGnb = styled.ul`
     ${S.Media.mobile`
       margin-top: auto;
 
-      a {
+      a, span {
         font-size: var(--sub-title-1);
       }
     `}
@@ -66,7 +66,7 @@ const HeaderNavGnb = ({ data, membership }: Props) => {
                 {name}
               </NavLink>
             ) : (
-              name
+              <span>{name}</span>
             )}
           </StyledMenu>
         </li>
