@@ -21,7 +21,7 @@ export interface PostSignupRequest {
   userType: string;
 }
 
-// 회원 유형
+// 회원 유형 (enum)
 export interface GetUserTypesResponse {
   results: { code: string; label: string }[];
 }
@@ -102,4 +102,30 @@ export interface PostUserCertEmailResponse {
 export interface PutUserPasswordRequest {
   token: string;
   newPassword: string;
+}
+
+// 회원 타입 조회
+export interface GetUserTypeRequest {
+  userId: string;
+}
+
+export interface GetUserTypeResponse {
+  userType: string;
+}
+
+// 회원 프로필 조회
+export interface GetUserProfileRequest {
+  userId: string;
+}
+
+export interface GetUserProfileResponse {
+  nickname: string;
+  email: string | null;
+  phone: string | null;
+  intro: string;
+}
+
+// 내 소개글 생성 및 수정
+export interface PutUserIntroRequest {
+  intro: string;
 }

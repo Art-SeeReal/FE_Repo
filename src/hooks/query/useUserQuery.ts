@@ -1,4 +1,4 @@
-import { UseQueryResult, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import {
   login,
@@ -15,6 +15,8 @@ import {
   findExistUser,
   certEmail,
   changePassword,
+  getUserType,
+  getUserProfile,
 } from '../../api/user';
 import {
   PostLoginRequest,
@@ -23,12 +25,12 @@ import {
   GetExistUserIdRequest,
   GetExistNicknameRequest,
   GetExistEmailRequest,
-  GetLikeUsersResponse,
-  GetUserResponse,
   GetUserIdRequest,
   GetUserExistRequest,
   PostUserCertEmailRequest,
   PutUserPasswordRequest,
+  GetUserTypeRequest,
+  GetUserProfileRequest,
 } from '../../model/user';
 import { setToken, removeToken } from '../../utils/auth';
 import { useSetUserToken } from '../customs/useUserState';
@@ -42,6 +44,8 @@ const QUERY_KEY = {
   likeUser: 'likeUser',
   userId: 'userId',
   existUser: 'existUser',
+  userType: 'userType',
+  userProfile: 'userProfile',
 } as const;
 
 export const useLogin = () => {
@@ -144,7 +148,7 @@ export const useChangePassword = () => {
   });
 };
 
-export const useFetchLikeUser: () => UseQueryResult<GetLikeUsersResponse> = () => {
+export const useFetchLikeUser = () => {
   return useQuery({
     queryKey: [QUERY_KEY.likeUser],
     queryFn: getLikeUsers,
@@ -164,10 +168,26 @@ export const useDeleteLikeUser = () => {
   });
 };
 
-export const useFetchUserInfo: () => UseQueryResult<GetUserResponse> = () => {
+export const useFetchUserInfo = () => {
   return useQuery({
     queryKey: [QUERY_KEY.user],
     queryFn: getUserInfo,
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchUserType = (params: GetUserTypeRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userType],
+    queryFn: () => getUserType(params),
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchUserProfile = (params: GetUserProfileRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userProfile],
+    queryFn: () => getUserProfile(params),
     select: (data) => data.data,
   });
 };
