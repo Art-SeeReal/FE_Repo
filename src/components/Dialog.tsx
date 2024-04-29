@@ -1,5 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
+import { RiCloseLine } from '@remixicon/react';
 import * as S from './styles';
 import { useDialog } from '../hooks/customs/useDialogState';
 
@@ -48,8 +49,10 @@ const StyledDialog = styled.div<{ $width?: number }>`
   }
 `;
 
-const CloseBox = styled.div`
-  padding: 20px;
+const StyledCloseButton = styled.div`
+  display: inline-flex;
+  align-items: center;
+  padding: 2rem;
   cursor: pointer;
 `;
 
@@ -60,7 +63,9 @@ const Dialog = ({ header, footer, children, width }: Props) => {
       <div className="inner">
         <S.Row $justifyContent="space-between">
           {header && <footer className="header">{header}</footer>}
-          <CloseBox onClick={closeDialog}>X</CloseBox>
+          <StyledCloseButton onClick={closeDialog}>
+            <RiCloseLine />
+          </StyledCloseButton>
         </S.Row>
         <article className="content">{children}</article>
         {footer && <footer className="footer">{footer}</footer>}

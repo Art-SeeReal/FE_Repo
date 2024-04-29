@@ -53,6 +53,11 @@ const StyledDropdown = styled.div`
 const StyledDropdownFieldWrap = styled.div`
   position: relative;
   display: inline-block;
+
+  ${S.Media.tablet`
+    display: block;
+    width: 100%;
+  `}
 `;
 
 const StyledDropdownField = styled(S.Field)`
@@ -69,6 +74,10 @@ const StyledDropdownField = styled(S.Field)`
       color: var(--color-primary);
     }
   }
+
+  ${S.Media.tablet`
+    width: 100%;
+  `}
 `;
 
 interface DropdownProps {
