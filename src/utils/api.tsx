@@ -43,8 +43,8 @@ const Interceptor = ({ children }: { children: ReactNode }) => {
       (error: AxiosError<{ message: string }>) => {
         const statusCode = error.response?.status;
 
-        if (statusCode === 401) {
-          // 권한 에러
+        if (statusCode === 401 && !error.config?.url?.includes('/login')) {
+          // 로그인 인증이 안되어서 해당 요청 권한이 없을 경우
           openDialog(
             <Dialog
               header="알림"
