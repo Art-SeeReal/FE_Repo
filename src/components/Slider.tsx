@@ -20,7 +20,10 @@ interface SwiperOptions {
   pagination?: { el: string; type?: 'bullets'; clickable?: boolean } | boolean;
   effect?: 'slide' | 'fade';
   breakpoints?: {
-    [key: number]: { [key: string]: any };
+    [breakpoint: number]: {
+      slidesPerView?: number;
+      spaceBetween?: number;
+    };
   };
   onSlideChange?: () => void;
 }
