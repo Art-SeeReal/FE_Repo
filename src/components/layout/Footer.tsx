@@ -15,6 +15,12 @@ const StyledFooterContainer = styled(S.Container)`
   align-items: flex-start;
   gap: 4rem;
   width: 100%;
+
+  ${S.Media.mobile`
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  `}
 `;
 
 const StyledAddress = styled.address`

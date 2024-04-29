@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import ScrapPost from '../../components/ScrapPost';
 import { RecruitsTypes } from '../../model/recruits';
+import * as S from '../../components/styles';
 
 export interface RecruitsProps {
   data: RecruitsTypes;
@@ -19,6 +20,14 @@ const StyledRecruitItem = styled.div`
   transition:
     box-shadow 0.25s ease-in-out,
     transform 0.25s ease-in-out;
+
+  ${S.Media.tablet`
+    width: calc((100% / 2) - (((2 - 1) / 2) * 2rem));
+  `}
+
+  ${S.Media.mobile`
+    width: 100%;
+  `}
 
   &:hover {
     transform: translateY(-0.6rem);

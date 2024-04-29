@@ -42,11 +42,21 @@ const SectionCarousel = ({ title, data, routerPath }: Props) => (
     <S.Title $size="large">{title}</S.Title>
     <Slider
       options={{
-        slidesPerView: 3,
-        spaceBetween: 40,
+        slidesPerView: 1,
+        spaceBetween: 20,
         loopedSlides: data?.count,
         autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true },
         speed: 4000,
+        breakpoints: {
+          750: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+          },
+          1080: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        },
       }}
     >
       {data?.results.map(({ id, imageUrl, title: dataTitle }) => (

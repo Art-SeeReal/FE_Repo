@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import HeaderNavGnb from './HeaderNavGnb';
 import { useLogout } from '../../hooks/query/useUserQuery';
 import { isLoginSelector } from '../../recoil/selectors/userSelectors';
+import * as S from '../styles';
+import { useMobileNavState } from '../../hooks/customs/useMobileNavState';
 
 const GnbItems = [
   {
@@ -22,12 +24,39 @@ const GnbItems = [
 const StyledNav = styled.nav`
   display: flex;
   gap: 6rem;
+
+  ${S.Media.tablet`
+    gap: 3rem;
+  `}
+
+  ${S.Media.mobile`
+    flex-direction: column;
+    gap: 2rem;
+    padding: 9rem 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 90%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -.5rem -.5rem 1rem rgba(0, 0, 0, .15);
+    transform: translateX(120%);
+    transition: transform .4s ease-in-out;
+  `}
+
+  &.is-open {
+    ${S.Media.mobile`
+      transform: translateX(0);
+    `}
+  }
 `;
 
 const HeaderNav = () => {
   const isLogin = useRecoilValue(isLoginSelector);
   const logout = useLogout();
   const navigate = useNavigate();
+
+  const { isOpen } = useMobileNavState();
 
   const GnbItemsForMembership = useMemo(() => {
     return isLogin
@@ -61,7 +90,7 @@ const HeaderNav = () => {
   }, [isLogin]);
 
   return (
-    <StyledNav>
+    <StyledNav className={`${isOpen ? 'is-open' : ''}`}>
       <HeaderNavGnb data={GnbItems} />
       <HeaderNavGnb data={GnbItemsForMembership} membership />
     </StyledNav>

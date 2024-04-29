@@ -10,13 +10,38 @@ import InfiniteList from '../../components/InfiniteList';
 import { useFetchRecruits } from '../../hooks/query/useRecruitsQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 import { useFetchRegions, useFetchFields } from '../../hooks/query/useUtilQuery';
-import { useFetchUserInfo } from '../../hooks/query/useUserQuery';
 
-const RecruitList = styled.div`
+const StyledRecruitList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 4rem;
   margin-top: 10rem;
+
+  ${S.Media.tablet`
+    gap: 2rem;
+  `}
+
+  ${S.Media.mobile`
+    margin-top: 5rem;
+  `}
+`;
+
+const StyledSearchFilterBar = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-flow: wrap;
+
+  ${S.Media.tablet`
+    flex-direction: column;
+  `}
+
+  ${S.Button} {
+    margin-left: auto;
+
+    ${S.Media.tablet`
+      width: 100%;
+    `}
+  }
 `;
 
 const Recruits = () => {
@@ -37,7 +62,6 @@ const Recruits = () => {
   });
   const { data: regionsData } = useFetchRegions();
   const { data: fieldsData } = useFetchFields();
-  const { data: userInfoData } = useFetchUserInfo();
   const navigate = useNavigate();
 
   const goToRegisterPage = () => {
@@ -55,7 +79,7 @@ const Recruits = () => {
 
   return (
     <>
-      <S.Row $gap={20}>
+      <StyledSearchFilterBar>
         <MultipleDropdownMenu
           values={selectedRegions}
           setValues={(values) => setSelectedRegions(values)}
@@ -77,15 +101,13 @@ const Recruits = () => {
           }}
         />
         <SearchBar placeholder="검색어를 입력해주세요" onSearch={setSearchKeywords} />
-        <div className="ml-auto">
-          <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
-        </div>
-      </S.Row>
+        <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
+      </StyledSearchFilterBar>
 
       <InfiniteList onLoadMore={onLoadMore} isLoading={isLoading} isFetching={isFetching}>
-        <RecruitList>
-          {recruitsData?.results.map((recruit) => userInfoData && <RecruitItem key={recruit.id} data={recruit} />)}
-        </RecruitList>
+        <StyledRecruitList>
+          {recruitsData?.results.map((recruit) => <RecruitItem key={recruit.id} data={recruit} />)}
+        </StyledRecruitList>
       </InfiniteList>
     </>
   );

@@ -12,11 +12,34 @@ import { useFetchPortfolios } from '../../hooks/query/usePortfoliosQuery';
 import { useFetchFields } from '../../hooks/query/useUtilQuery';
 import { MultipleDropdownMenu } from '../../hooks/customs/useDropdown';
 
-const PortfolioList = styled.div`
+const StyledPortfolioList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8rem 4rem;
   margin-top: 10rem;
+
+  ${S.Media.mobile`
+    gap: 4rem;
+    margin-top: 5rem;
+  `}
+`;
+
+const StyledSearchFilterBar = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-flow: wrap;
+
+  ${S.Media.tablet`
+    flex-direction: column;
+  `}
+
+  ${S.Button} {
+    margin-left: auto;
+
+    ${S.Media.tablet`
+      width: 100%;
+    `}
+  }
 `;
 
 const PortfolioPage = () => {
@@ -51,7 +74,7 @@ const PortfolioPage = () => {
 
   return (
     <>
-      <S.Row $gap={20}>
+      <StyledSearchFilterBar>
         <MultipleDropdownMenu
           values={selectedField}
           setValues={(values) => setSelectedField(values)}
@@ -63,15 +86,13 @@ const PortfolioPage = () => {
           }}
         />
         <SearchBar placeholder="검색어를 입력해주세요" onSearch={setSearchKeywords} />
-        <div className="ml-auto">
-          <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
-        </div>
-      </S.Row>
+        <S.Button onClick={goToRegisterPage}>등록하기</S.Button>
+      </StyledSearchFilterBar>
 
       <InfiniteList onLoadMore={onLoadMore} isLoading={isLoading} isFetching={isFetching}>
-        <PortfolioList>
+        <StyledPortfolioList>
           {portfolioData?.results.map((portfolio) => <PortfolioItem key={portfolio.id} data={portfolio} />)}
-        </PortfolioList>
+        </StyledPortfolioList>
       </InfiniteList>
     </>
   );

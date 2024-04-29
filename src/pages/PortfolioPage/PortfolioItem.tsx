@@ -32,6 +32,14 @@ const StyledPortfolioItem = styled.div`
     }
   }
 
+  ${S.Media.tablet`
+  width: calc((100% / 2) - (((2 - 1) / 2) * 4rem));
+  `}
+
+  ${S.Media.mobile`
+    width: 100%;
+  `}
+
   .details {
     position: absolute;
     top: 0;
