@@ -8,6 +8,12 @@ const STATE_KEY = {
 interface UserState {
   token: string; // 로그인 후 서버에 응답 받은 유저 token값
   isAgreeForSignup: boolean; // 회원 가입 폼 진입 전 동의 폼의 체크 여부
+  profile: {
+    nickname: string;
+    email: string | null;
+    phone: string | null;
+    intro: string;
+  };
 }
 
 export const userState = atom<UserState>({
@@ -15,5 +21,11 @@ export const userState = atom<UserState>({
   default: {
     token: getToken(),
     isAgreeForSignup: false,
+    profile: {
+      nickname: '',
+      email: null,
+      phone: null,
+      intro: '',
+    },
   },
 });

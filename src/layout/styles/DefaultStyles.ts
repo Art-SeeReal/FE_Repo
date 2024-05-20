@@ -13,6 +13,7 @@ const DefaultStyles = css`
     --sub-title-1: 3rem;
     --sub-title-2: 2.6rem;
     --sub-title-3: 2.2rem;
+    --sub-title-4: 1.8rem;
 
     --text-body-1: 1.6rem;
     --text-body-2: 1.4rem;
@@ -23,6 +24,7 @@ const DefaultStyles = css`
     --color-placeholder: #999;
     --color-border-1: #777;
     --color-border-2: #ccc;
+    --color-border-3: #e1e1e1;
     --color-success: #2ecc71;
     --color-error: #ff3838;
     --color-info: #747d8c;

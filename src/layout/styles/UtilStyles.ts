@@ -145,6 +145,14 @@ const UtilStyles = css`
     margin-left: 3rem !important;
   }
 
+  .ml-auto {
+    margin-left: auto !important;
+  }
+
+  .mt-auto {
+    margin-top: auto !important;
+  }
+
   .p-0 {
     padding: 0 !important;
   }

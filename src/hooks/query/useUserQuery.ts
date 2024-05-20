@@ -9,12 +9,28 @@ import {
   getExistEmail,
   addLikeUser,
   deleteLikeUser,
-  getLikeUsers,
-  getUserInfo,
+  getLikeAuthor,
+  getUser,
   findUserId,
   findExistUser,
   certEmail,
   changePassword,
+  getUserType,
+  getUserProfile,
+  kakaoLogin,
+  naverLogin,
+  getProfile,
+  saveIntro,
+  changeInfo,
+  checkPassword,
+  getScrapPortfolios,
+  getScrapRecruits,
+  getUserPortfolios,
+  getUserRecruits,
+  getLikePlanner,
+  getAuthorApplyStatus,
+  getUserInfo,
+  getPlannerApplyStatus,
 } from '../../api/user';
 import {
   PostLoginRequest,
@@ -23,12 +39,27 @@ import {
   GetExistUserIdRequest,
   GetExistNicknameRequest,
   GetExistEmailRequest,
-  GetLikeUsersResponse,
-  GetUserResponse,
   GetUserIdRequest,
   GetUserExistRequest,
   PostUserCertEmailRequest,
   PutUserPasswordRequest,
+  GetUserTypeRequest,
+  GetUserProfileRequest,
+  PostKakaoLoginRequest,
+  PostKakaoLoginResponse,
+  PostNaverLoginRequest,
+  PostNaverLoginResponse,
+  PutUserIntroRequest,
+  PutUserInfoRequest,
+  PostCheckPasswordRequest,
+  GetScrapPortfoliosRequest,
+  GetScrapPortfoliosResponse,
+  GetScrapRecruitsRequest,
+  GetScrapRecruitsResponse,
+  GetUserRecruitsRequest,
+  GetUserRecruitsResponse,
+  GetUserPortfoliosRequest,
+  GetUserPortfoliosResponse,
 } from '../../model/user';
 import { setToken, removeToken } from '../../utils/auth';
 import { useSetUserToken } from '../customs/useUserState';
@@ -39,9 +70,17 @@ const QUERY_KEY = {
   existUserId: 'existUserId',
   existNickname: 'existNickname',
   existEmail: 'existEmail',
-  likeUser: 'likeUser',
+  likeAuthor: 'likeAuthor',
+  likePlanner: 'likePlanner',
   userId: 'userId',
   existUser: 'existUser',
+  userType: 'userType',
+  userProfile: 'userProfile',
+  scrapPortfolios: 'scrapPortfolios',
+  scrapRecruits: 'scrapRecruits',
+  applyAuthor: 'applyAuthor',
+  applyPlanner: 'applyPlanner',
+  userInfo: 'userInfo',
 } as const;
 
 export const useLogin = () => {
@@ -144,10 +183,18 @@ export const useChangePassword = () => {
   });
 };
 
-export const useFetchLikeUser: () => UseQueryResult<GetLikeUsersResponse> = () => {
+export const useFetchLikeAuthor = () => {
   return useQuery({
-    queryKey: [QUERY_KEY.likeUser],
-    queryFn: getLikeUsers,
+    queryKey: [QUERY_KEY.likeAuthor],
+    queryFn: getLikeAuthor,
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchLikePlanner = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.likePlanner],
+    queryFn: getLikePlanner,
     select: (data) => data.data,
   });
 };
@@ -164,10 +211,132 @@ export const useDeleteLikeUser = () => {
   });
 };
 
-export const useFetchUserInfo: () => UseQueryResult<GetUserResponse> = () => {
+export const useFetchUser = () => {
   return useQuery({
     queryKey: [QUERY_KEY.user],
+    queryFn: getUser,
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchUserType = (params: GetUserTypeRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userType],
+    queryFn: () => getUserType(params),
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchUserInfo = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userInfo],
     queryFn: getUserInfo,
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchUserProfile = (params: GetUserProfileRequest) => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userProfile],
+    queryFn: () => getUserProfile(params),
+    select: (data) => data.data,
+  });
+};
+
+export const useKakaoLogin = () => {
+  const setUserToken = useSetUserToken();
+  return useMutation({
+    mutationFn: (data: PostKakaoLoginRequest) => kakaoLogin(data),
+    onSuccess: (response: AxiosResponse<PostKakaoLoginResponse>) => {
+      setToken(response.data.token);
+      setUserToken(response.data.token);
+    },
+  });
+};
+
+export const useNaverLogin = () => {
+  const setUserToken = useSetUserToken();
+  return useMutation({
+    mutationFn: (data: PostNaverLoginRequest) => naverLogin(data),
+    onSuccess: (response: AxiosResponse<PostNaverLoginResponse>) => {
+      setToken(response.data.token);
+      setUserToken(response.data.token);
+    },
+  });
+};
+
+export const useFetchProfile = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.userProfile],
+    queryFn: getProfile,
+    select: (data) => data.data,
+  });
+};
+
+export const useUpdateIntro = () => {
+  return useMutation({
+    mutationFn: (data: PutUserIntroRequest) => saveIntro(data),
+  });
+};
+
+export const useChangeInfo = () => {
+  return useMutation({
+    mutationFn: (data: PutUserInfoRequest) => changeInfo(data),
+  });
+};
+
+export const useCheckPassword = () => {
+  return useMutation({
+    mutationFn: (data: PostCheckPasswordRequest) => checkPassword(data),
+  });
+};
+
+export const useFetchScrapPortfolios = (
+  params: GetScrapPortfoliosRequest,
+): UseQueryResult<GetScrapPortfoliosResponse> => {
+  return useQuery({
+    queryKey: [QUERY_KEY.scrapPortfolios],
+    queryFn: () => getScrapPortfolios(params),
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchScrapRecruits = (params: GetScrapRecruitsRequest): UseQueryResult<GetScrapRecruitsResponse> => {
+  return useQuery({
+    queryKey: [QUERY_KEY.scrapRecruits],
+    queryFn: () => getScrapRecruits(params),
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchUserPortfolios = (params: GetUserPortfoliosRequest): UseQueryResult<GetUserPortfoliosResponse> => {
+  return useQuery({
+    queryKey: [QUERY_KEY.scrapPortfolios],
+    queryFn: () => getUserPortfolios(params),
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchUserRecruits = (params: GetUserRecruitsRequest): UseQueryResult<GetUserRecruitsResponse> => {
+  return useQuery({
+    queryKey: [QUERY_KEY.scrapRecruits],
+    queryFn: () => getUserRecruits(params),
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchAuthorApplyStatus = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.applyAuthor],
+    queryFn: getAuthorApplyStatus,
+    select: (data) => data.data,
+  });
+};
+
+export const useFetchPlannerApplyStatus = () => {
+  return useQuery({
+    queryKey: [QUERY_KEY.applyPlanner],
+    queryFn: getPlannerApplyStatus,
     select: (data) => data.data,
   });
 };

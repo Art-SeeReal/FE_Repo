@@ -21,7 +21,6 @@ const StyledDropdown = styled.div`
   .content {
     position: absolute;
     z-index: 100;
-    width: 100%;
     margin-top: 1.6rem;
     padding: 1em;
     border-radius: 0.8rem;
@@ -54,6 +53,11 @@ const StyledDropdown = styled.div`
 const StyledDropdownFieldWrap = styled.div`
   position: relative;
   display: inline-block;
+
+  ${S.Media.tablet`
+    display: block;
+    width: 100%;
+  `}
 `;
 
 const StyledDropdownField = styled(S.Field)`
@@ -70,6 +74,10 @@ const StyledDropdownField = styled(S.Field)`
       color: var(--color-primary);
     }
   }
+
+  ${S.Media.tablet`
+    width: 100%;
+  `}
 `;
 
 interface DropdownProps {

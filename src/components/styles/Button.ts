@@ -25,6 +25,7 @@ export interface Props {
   $style?: STYLES;
   $border?: boolean;
   $block?: boolean;
+  $inline?: boolean;
 }
 
 export const Button = styled.button<Props>`
@@ -91,6 +92,12 @@ export const Button = styled.button<Props>`
     $block &&
     `
     width: 100%;
+    min-width: auto;
+  `}
+
+  ${({ $inline }) =>
+    $inline &&
+    `
     min-width: auto;
   `}
 

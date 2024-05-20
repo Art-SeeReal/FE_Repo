@@ -4,7 +4,7 @@ import LayoutWrapper from './LayoutWrapper';
 import ErrorCode from '../components/ErrorCode';
 
 interface Props {
-  errorCode?: number;
+  errorCode: number;
 }
 
 const ErrorLayout = ({ errorCode = 404 }: Props) => {

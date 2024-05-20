@@ -6,29 +6,9 @@ export interface GetRecruitsRequest {
   keyWords?: string;
 }
 
-export interface GetRecruitsResponse {
-  results: {
-    id: number;
-    name: string;
-    title: string;
-    regions: {
-      code: string;
-      label: string;
-    };
-    fields: {
-      code: string;
-      label: string;
-    };
-    isScrap: boolean;
-    RegDate: string;
-    view: number;
-    content: string;
-  }[];
-}
-
-export interface GetDetailRecruitsResponse {
+export interface RecruitsTypes {
   id: number;
-  name: string;
+  nickname: string;
   title: string;
   regions: {
     code: string;
@@ -39,6 +19,29 @@ export interface GetDetailRecruitsResponse {
     label: string;
   };
   isScrap: boolean;
+  isLike: boolean;
+  userId: string;
+}
+
+export interface GetRecruitsResponse {
+  results: RecruitsTypes[];
+  count: number;
+}
+
+export interface GetDetailRecruitsResponse {
+  id: number;
+  nickname: string;
+  title: string;
+  regions: {
+    code: string;
+    label: string;
+  };
+  fields: {
+    code: string;
+    label: string;
+  };
+  isScrap: boolean;
+  userId: string;
   RegDate: string;
   view: number;
   content: string;
@@ -54,4 +57,57 @@ export interface PostRecruitsRequest {
 export interface PutRecruitsRequest {
   id: number;
   data: { title: string; content: string };
+}
+
+export interface AuthorApplyTypes {
+  id: number;
+  nickname: string;
+  title: string;
+  regions: {
+    code: string;
+    label: string;
+  };
+  fields: {
+    code: string;
+    label: string;
+  };
+  isScrap: boolean;
+  isLike: boolean;
+  isApply: boolean;
+  userId: string;
+}
+
+export interface GetAuthorApplyStatusResponse {
+  results: AuthorApplyTypes[];
+  count: number;
+}
+
+export interface PlannerApplyTypes {
+  id: number;
+  nickname: string;
+  title: string;
+  regions: {
+    code: string;
+    label: string;
+  };
+  fields: {
+    code: string;
+    label: string;
+  };
+  isScrap: boolean;
+  isLike: boolean;
+  userId: string;
+  totalApplyCount: number;
+  applyUser: {
+    name: string;
+    nickname: string;
+    phone: string;
+    email: string;
+    userId: string;
+  }[];
+}
+
+export interface GetPlannerApplyStatusResponse {
+  results: PlannerApplyTypes[];
+  count: number;
 }

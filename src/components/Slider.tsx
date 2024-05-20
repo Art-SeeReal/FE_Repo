@@ -19,6 +19,12 @@ interface SwiperOptions {
   navigation?: { prevEl: string; nextEl: string } | boolean;
   pagination?: { el: string; type?: 'bullets'; clickable?: boolean } | boolean;
   effect?: 'slide' | 'fade';
+  breakpoints?: {
+    [breakpoint: number]: {
+      slidesPerView?: number;
+      spaceBetween?: number;
+    };
+  };
   onSlideChange?: () => void;
 }
 

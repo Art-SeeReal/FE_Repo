@@ -36,5 +36,9 @@ export const addRecruitScrap = (id: number) => {
 };
 
 export const deleteRecruitScrap = (id: number) => {
-  return api({ url: `/recruits/${id}/scrap`, method: 'post' });
+  return api({ url: `/recruits/${id}/scrap`, method: 'delete' });
+};
+
+export const addRecruitsApply = (id: number) => {
+  return api({ url: `/recruits/${id}/apply`, method: 'post' });
 };
