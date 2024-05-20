@@ -3,12 +3,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import * as S from '../../components/styles';
-import PostThumbnail from '../../components/PostThumbnail';
-import ScrapPost from '../../components/ScrapPost';
-import LikeUser from '../../components/LikeUser';
+import * as S from './styles';
+import PostThumbnail from './PostThumbnail';
+import ScrapPost from './ScrapPost';
+import LikeUser from './LikeUser';
 
-import { PortfoliosTypes } from '../../model/portfolios';
+import { PortfoliosTypes } from '../model/portfolios';
 
 interface Props {
   data: PortfoliosTypes;

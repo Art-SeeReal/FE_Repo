@@ -8,7 +8,10 @@ import Dialog from '../components/Dialog';
 import * as S from '../components/styles';
 
 const api = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '',
+  baseURL:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3001'
+      : 'http://ec2-3-38-210-81.ap-northeast-2.compute.amazonaws.com',
   headers: { 'Content-Type': 'application/json' },
 });
 
