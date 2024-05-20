@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import ScrapPost from '../../components/ScrapPost';
-import { RecruitsTypes } from '../../model/recruits';
-import * as S from '../../components/styles';
+import ScrapPost from '../../../components/ScrapPost';
+import { AuthorApplyTypes } from '../../../model/recruits';
+import * as S from '../../../components/styles';
+import LikeUser from '../../../components/LikeUser';
 
-export interface RecruitsProps {
-  data: RecruitsTypes;
+export interface ApplyProps {
+  data: AuthorApplyTypes;
 }
 
 const StyledRecruitItem = styled.div`
@@ -89,7 +90,12 @@ const StyledRecruitItem = styled.div`
   }
 `;
 
-const RecruitsImagesComponent = ({ data }: RecruitsProps) => {
+const ApplyStatusText = styled.p`
+  color: #e58ae6;
+  font-weight: bold;
+`;
+
+const AuthorApplyStatus = ({ data }: ApplyProps) => {
   const navigate = useNavigate();
 
   const handleImageClick = () => {
@@ -102,15 +108,19 @@ const RecruitsImagesComponent = ({ data }: RecruitsProps) => {
         <h2 className="title">{data.title}</h2>
         <ScrapPost type="recruit" postId={data.id} isScrap={data.isScrap} />
       </div>
-      <div className="writer-info">{data.nickname}</div>
+      <div className="writer-info">
+        {data.nickname}
+        <LikeUser userId={data.userId} isLike={data?.isLike} />
+      </div>
       <dl className="recruit-info">
         <dt className="hidden">분야</dt>
         <dd>{data.fields?.label}</dd>
         <dt className="hidden">지역</dt>
         <dd>{data.regions?.label}</dd>
       </dl>
+      <S.Row $justifyContent="flex-end">{data.isApply && <ApplyStatusText>지원완료</ApplyStatusText>}</S.Row>
     </StyledRecruitItem>
   );
 };
 
-export default RecruitsImagesComponent;
+export default AuthorApplyStatus;

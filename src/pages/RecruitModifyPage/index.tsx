@@ -56,12 +56,6 @@ const ModifyRecruitsPage = () => {
   }, [recruitsDetail]);
 
   useEffect(() => {
-    if (recruitsDetail) {
-      setInitialValue({ title: recruitsDetail.title, content: recruitsDetail.content });
-    }
-  }, [recruitsDetail]);
-
-  useEffect(() => {
     if (!isSuccess) return;
     appendToast({ content: '작성 완료', type: 'success' });
     navigate(`/Recruits/${postId}`);

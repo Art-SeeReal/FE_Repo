@@ -71,7 +71,7 @@ const HeaderNav = () => {
           },
           {
             id: 2,
-            to: '/mypage',
+            to: '/users/mypage/home',
             name: '마이페이지',
           },
         ]

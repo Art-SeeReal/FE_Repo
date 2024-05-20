@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from '../../components/styles';
-import RecruitItem from './RecruitItem';
+import RecruitItem from '../../components/RecruitItem';
 import SearchBar from '../../components/Searchbar';
 import InfiniteList from '../../components/InfiniteList';
 

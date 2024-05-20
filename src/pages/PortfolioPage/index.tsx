@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import * as S from '../../components/styles';
-import PortfolioItem from './PortfolioItem';
+import PortfolioItem from '../../components/PortfolioItem';
 import SearchBar from '../../components/Searchbar';
 import InfiniteList from '../../components/InfiniteList';
 

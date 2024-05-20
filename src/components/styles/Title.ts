@@ -15,7 +15,6 @@ interface Props {
 
 export const Title = styled.h1<Props>`
   margin-bottom: 1em;
-
   ${({ $center }) => $center && `text-align: center`};
   ${({ $bold }) => $bold && `font-weight: 700`};
 

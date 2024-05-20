@@ -25,6 +25,7 @@ import RecruitsDetailPage from './pages/RecruitDetailPage';
 import RecruitsModifyPage from './pages/RecruitModifyPage';
 
 import UserHomePage from './pages/UserHomePage';
+import MyHomePage from './pages/MyHomePage';
 import KakaoPage from './pages/OauthPage/KakaoPage';
 import NaverPage from './pages/OauthPage/NaverPage';
 
@@ -71,6 +72,7 @@ export default () => {
 
       <Route path="/users" element={isLogin ? <AppLayout /> : <ErrorLayout errorCode={401} />}>
         <Route index element={<Navigate to="/" replace />} />
+        <Route path="mypage/home" element={<MyHomePage />} />
         <Route path=":userId/home" element={<UserHomePage />} />
       </Route>
 
