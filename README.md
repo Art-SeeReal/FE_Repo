@@ -1,4 +1,12 @@
-# 예술인들과 기획자들을 위한 웹사이트
+# 예술인들과 기획자들을 위한 웹사이트 - 아트씨리얼
+![logo192](https://github.com/Art-SeeReal/FE_Repo/assets/117624370/16c7aea5-5d28-476c-be68-d3654faa991b)
+
+![2024-06-056 22 02-ezgif com-video-to-gif-converter](https://github.com/Art-SeeReal/FE_Repo/assets/117624370/30dd1cfd-927b-447d-9713-bc95a1a681cf)
+
+![2024-06-056 23 09-ezgif com-video-to-gif-converter](https://github.com/Art-SeeReal/FE_Repo/assets/117624370/74331a89-507a-4017-b01d-2938d0ea97c9)
+
+![2024-06-056 22 46-ezgif com-video-to-gif-converter](https://github.com/Art-SeeReal/FE_Repo/assets/117624370/01cb9a2b-4ac9-4b92-9f30-aea7c54716ca)
+
 
 ## 목적
 예술인들과 기획자들을 연결하여 창작과 기획을 촉진하는 플랫폼입니다.
@@ -14,8 +22,28 @@
   - 새로운 프로젝트나 행사에 대한 기획 공고를 올릴 수 있습니다.
   - 예술인들에게 협업 제안을 하거나, 프로젝트 팀을 구성할 수 있습니다.
   - 공고에 대한 지원서를 관리하고, 예술인들과 직접 소통할 수 있습니다.
+ 
+## 프로젝트 팀원
+
+## 프론트엔드
+
+### 소담
+- GitHub: [ezyleeso](https://github.com/ezyleeso)
+
+### 규범
+- GitHub: [laon2019](https://github.com/laon2019)
+
+## 백엔드
+
+### 승민
+- GitHub: [yu-teacher](https://github.com/yu-teacher)
+
+### 효영
+- GitHub: [HyoYoungJung](https://github.com/HyoYoungJung)
   
 ## 기술 스택
+Front-End
+
 <div style="display: flex; align-items: center;">
   <img src="https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white" height="30"/>
   <img src="https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css3&logoColor=white" height="30"/>
@@ -24,6 +52,27 @@
   <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white" height="30"/>
   <img src="https://img.shields.io/badge/React_Query-FF4154?style=flat-square&logo=react-query&logoColor=white" height="30"/>
   <img src="https://img.shields.io/badge/Recoil-3578E5?style=flat-square&logo=recoil&logoColor=white" height="30"/>
+</div>
+
+Back-End
+
+<div style="display: flex; align-items: center; gap: 10px;">
+  <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=openjdk&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/Lombok-FF6C37?style=flat-square&logo=lombok&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=flat-square&logo=spring&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=flat-square&logo=spring&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black" height="30"/>
+</div>
+
+기타
+
+<div style="display: flex; align-items: center; gap: 10px;">
+  <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazon-aws&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/IntelliJ%20IDEA-000000?style=flat-square&logo=intellij-idea&logoColor=white" height="30"/>
+  <img src="https://img.shields.io/badge/VSCode-007ACC?style=flat-square&logo=visual-studio-code&logoColor=white" height="30"/>
 </div>
 
 ## 커밋 규칙
